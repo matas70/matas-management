@@ -11,3 +11,7 @@ export class Aircraft {
     this.path = path;
   }
 }
+
+export class TableAircraft extends Aircraft {
+  time: string;
+}

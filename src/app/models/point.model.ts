@@ -1,3 +1,5 @@
+import {Aircraft, TableAircraft} from "./aircraft.model";
+
 export class Point {
   pointId: number;
   E: number;
@@ -14,4 +16,9 @@ export class Point {
     this.hidden = hidden;
     this.hideAircrafts = hideAircrafts;
   }
+}
+
+export class TablePoint extends Point {
+  aircrafts: TableAircraft[];
+
 }
