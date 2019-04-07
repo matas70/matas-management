@@ -6,10 +6,14 @@ import {DataService} from "./data.service";
 export class DataResolver implements Resolver<any> {
 
   constructor(private data: DataService) {
+
   }
 
   resolve(type: Type<any>): any | null {
+
+    //this.data.getData();
     return this.data.loadData();
+
   }
 
 }

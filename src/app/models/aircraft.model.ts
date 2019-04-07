@@ -5,11 +5,22 @@ export class Aircraft {
   aircraftTypeId: number;
   path: {pointId: number, time: string}[];
 
-  constructor(aircraftId: number, aircraftTypeId: number, path: { pointId: number; time: string }[]) {
-    this.aircraftId = aircraftId;
-    this.aircraftTypeId = aircraftTypeId;
-    this.path = path;
+  constructor(json:string){
+    let obj = JSON.parse(json);
+    this.aircraftId = obj.aircraftId;
+    this.aircraftTypeId = obj.aircraftTypeId;
+    this.pathParser(obj.path);
   }
+
+  pathParser(path: JSON)
+  {
+    for(let tuple in path)
+      //fix
+      null;
+     // this.path.push(tuple.pointId,tuple.time);
+  }
+
+
 }
 
 export class TableAircraft extends Aircraft {

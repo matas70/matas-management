@@ -2,8 +2,17 @@ import {Injectable} from '@angular/core';
 import {forkJoin, from, Observable, Subject} from "rxjs";
 import {AircraftType} from "../models/aircraft-type.model";
 import {Point} from "../models/point.model";
+import {Route} from "../models/route.model";
 import {Aircraft} from "../models/aircraft.model";
 import {HttpClient} from "@angular/common/http";
+import {forEach} from "@angular/router/src/utils/collection";
+
+
+
+const AIRCRAFTS_INFO = "https://matasisrael.blob.core.windows.net/matas/aircrafts-info.json";
+const AIRCRAFTS      = "https://matasisrael.blob.core.windows.net/matas/aircrafts.json";
+const CATEGORIES     = "https://matasisrael.blob.core.windows.net/matas/categories.json";
+const ROUTES         = "https://matasisrael.blob.core.windows.net/matas/categories.json";
 
 @Injectable({
   providedIn: 'root'
@@ -11,19 +20,36 @@ import {HttpClient} from "@angular/common/http";
 export class DataService {
 
   public aircrafts: Aircraft[];
+  public aircraftsTypes:AircraftType[];
   public points: Point[];
+  public routes: Route[];
 
   constructor(private http: HttpClient) {
   }
 
-  loadData(): Promise<any> {
-    return new Promise((resolve, reject) => {
-      let obs = this.http.get("ss");
-      let obs2 = this.http.get("ss");
 
-      forkJoin(obs, obs2).subscribe((data : any[]) => {
-        let aircrafts = data[0];
-        let points = data[1];
+  public loadData(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      let obs1 = this.http.get(AIRCRAFTS_INFO);
+      let obs2 = this.http.get(AIRCRAFTS);
+      let obs3 = this.http.get(CATEGORIES);
+      let obs4 = this.http.get(ROUTES);
+      forkJoin(obs1, obs2, obs3, obs4).subscribe((response : any[]) => {
+        let aircraftsinfoJSON  = JSON.parse(response[0]).aircraftTypes;
+        let aircraftsJSON      = JSON.parse(response[1]).aircrafts;
+        //need this?
+        let categoriesJSON     = JSON.parse(response[2]);
+        let routesJSON         = JSON.parse(response[3]);
+
+        for ( let tuple in aircraftsinfoJSON) {
+          this.aircraftsTypes.push(new AircraftType(tuple))
+        }
+        for (let tuple in aircraftsJSON){
+          this.aircrafts.push(new Aircraft(tuple))
+        }
+        for (let tuple in routesJSON){
+          this.routes.push(new Route(tuple))
+        }
 
         resolve();
       });
@@ -37,16 +63,7 @@ export class DataService {
   public getPoints(): Point[] {
     return this.points;
   }
-
-  public getAircraftTypes(): Observable<AircraftType[]> {
-    return;
-  }
-
-  public getPointById(id: number): Point {
-    return;
-  }
-
-  public getAircraftById(id: number): Aircraft {
-    return;
+  public getRoutes(): Route[]{
+    return this.routes;
   }
 }
