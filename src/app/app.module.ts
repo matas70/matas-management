@@ -4,6 +4,8 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { ManagementTableComponent } from './management-table/management-table.component';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {MatTableModule} from "@angular/material";
+import {InputEditorModule} from "angular-inline-editors";
 
 @NgModule({
   declarations: [
@@ -12,7 +14,9 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
   ],
   imports: [
     BrowserModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MatTableModule,
+    InputEditorModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]
