@@ -19,7 +19,7 @@ const ROUTES         = "https://matasisrael.blob.core.windows.net/matas/categori
 })
 export class DataService {
 
-  public aircrafts: Aircraft[];
+  public aircrafts =new Aircraft[];
   public aircraftsTypes:AircraftType[];
   public points: Point[];
   public routes: Route[];
@@ -30,17 +30,19 @@ export class DataService {
 
   public loadData(): Promise<any> {
     return new Promise((resolve, reject) => {
+
       let obs1 = this.http.get(AIRCRAFTS_INFO);
       let obs2 = this.http.get(AIRCRAFTS);
       let obs3 = this.http.get(CATEGORIES);
       let obs4 = this.http.get(ROUTES);
       forkJoin(obs1, obs2, obs3, obs4).subscribe((response : any[]) => {
-        let aircraftsinfoJSON  = JSON.parse(response[0]).aircraftTypes;
-        let aircraftsJSON      = JSON.parse(response[1]).aircrafts;
+        let aircraftsinfoJSON  = response[0].aircraftTypes;
+        let aircraftsJSON      = response[1].aircrafts;
         //need this?
-        let categoriesJSON     = JSON.parse(response[2]);
-        let routesJSON         = JSON.parse(response[3]);
+        let categoriesJSON     = response[2];
+        let routesJSON         = response[3].routes;
 
+        console.log(this.aircraftsTypes)
         for ( let tuple in aircraftsinfoJSON) {
           this.aircraftsTypes.push(new AircraftType(tuple))
         }
