@@ -1,5 +1,3 @@
-import {Point} from "./point.model";
-
 export class Aircraft {
   aircraftId: number;
   aircraftTypeId: number;
