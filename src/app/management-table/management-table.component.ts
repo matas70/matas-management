@@ -108,13 +108,15 @@ export class ManagementTableComponent implements OnInit {
   }
 
   addColumn() {
-    this.aircrafts.push({id: this.aircrafts.length + 1, name: "מטוס חדש"});
-    let addColumn: string = this.displayedColumns.pop();
-    this.displayedColumns.push("time-" + this.aircrafts.length);
-    this.displayedColumns.push(addColumn);
+    // Do we need this?
+    // this.aircrafts.push({id: this.aircrafts.length + 1, name: "מטוס חדש"});
+    // let addColumn: string = this.displayedColumns.pop();
+    // this.displayedColumns.push("time-" + this.aircrafts.length);
+    // this.displayedColumns.push(addColumn);
   }
 
   aircraftTimeOnPointChanged(aircraft, location, newTime) {
+    // TODO: do something when time changes
     console.log(newTime);
   }
 
