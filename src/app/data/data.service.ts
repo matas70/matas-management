@@ -12,17 +12,17 @@ import {forEach} from "@angular/router/src/utils/collection";
 const AIRCRAFTS_INFO = "https://matasisrael.blob.core.windows.net/matas/aircrafts-info.json";
 const AIRCRAFTS      = "https://matasisrael.blob.core.windows.net/matas/aircrafts.json";
 const CATEGORIES     = "https://matasisrael.blob.core.windows.net/matas/categories.json";
-const ROUTES         = "https://matasisrael.blob.core.windows.net/matas/categories.json";
+const ROUTES         = "https://matasisrael.blob.core.windows.net/matas/routes.json";
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
 
-  public aircrafts =new Aircraft[];
-  public aircraftsTypes:AircraftType[];
-  public points: Point[];
-  public routes: Route[];
+  public aircrafts : Aircraft[] = [];
+  public aircraftsTypes:AircraftType[]=[];
+  public points: Point[]=[];
+  public routes: Route[]=[];
 
   constructor(private http: HttpClient) {
   }
@@ -42,14 +42,17 @@ export class DataService {
         let categoriesJSON     = response[2];
         let routesJSON         = response[3].routes;
 
-        console.log(this.aircraftsTypes)
-        for ( let tuple in aircraftsinfoJSON) {
+
+
+        for ( let tuple of aircraftsinfoJSON) {
           this.aircraftsTypes.push(new AircraftType(tuple))
         }
-        for (let tuple in aircraftsJSON){
+
+        for (let tuple of aircraftsJSON){
           this.aircrafts.push(new Aircraft(tuple))
         }
-        for (let tuple in routesJSON){
+
+        for (let tuple of routesJSON){
           this.routes.push(new Route(tuple))
         }
 

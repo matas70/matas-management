@@ -13,9 +13,10 @@ export class AircraftType {
   weight: string;
   engine: string;
 
-  constructor(json: string)
+
+  //Should be a json obj
+  constructor(obj: any)
   {
-    let obj = JSON.parse(json)
     this.aircraftTypeId = obj.aircraftTypeId;
     this.name = obj.name;
     this.category = obj.category;

@@ -7,17 +7,17 @@ export class Route {
   primaryTextColor: string;
   secondaryTextColor: string;
   visible: boolean;
-  points: Point[];
+  points: Point[]=[];
 
-  constructor(json: string) {
-    let obj = JSON.parse(json);
+  //should be a json object
+  constructor(obj: any) {
     this.routeId = obj.routeId;
     this.name = obj.name;
     this.color = obj.color;
     this.primaryTextColor = obj.primaryTextColor;
     this.secondaryTextColor = obj.secondaryTextColor;
     this.visible = obj.visible;
-    for( let tuple in obj.points){
+    for( let tuple of obj.points){
       this.points.push(new Point(tuple))
     }
   }
