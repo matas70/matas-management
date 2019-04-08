@@ -11,7 +11,7 @@ export class AppComponent {
   title = 'matas-management';
 
   constructor(private store: Store<any>, data: DataService) {
-    
+    data.loadData();
     store.select("aircraft").subscribe(aircraft => {
       console.log(aircraft);
     });
