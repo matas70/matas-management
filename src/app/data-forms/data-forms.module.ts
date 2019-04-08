@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { MatDialogModule, MatFormFieldModule } from '@angular/material';
 
 import { DataFormsComponent } from './data-forms.component';
 import { DataFormsAircraftComponent } from './data-forms-aircraft/data-forms-aircraft.component'
@@ -12,6 +13,8 @@ import { DataFormsAircraftComponent } from './data-forms-aircraft/data-forms-air
   ],
   imports: [
     BrowserModule,
+    MatDialogModule,
+    MatFormFieldModule,
     FormsModule
   ],
   exports: [DataFormsComponent]

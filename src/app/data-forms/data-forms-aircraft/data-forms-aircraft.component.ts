@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {MatDialogRef} from '@angular/material';
 
 import { Aircraft } from '../../models/aircraft.model';
 
@@ -10,7 +11,11 @@ export class DataFormsAircraftComponent implements OnInit {
 
     aircraftInput: Aircraft;
 
-    constructor() { }
+    onNoClick(): void {
+        this.dialogRef.close();
+      }
+
+    constructor(public dialogRef: MatDialogRef<DataFormsAircraftComponent>) { }
 
     ngOnInit() {
     }

@@ -1,30 +1,15 @@
-<h1>Insert new Aircraft</h1>
-
-<div>
-
-  <table style = "margin-right:auto; margin-left:auto;">
-    <tr>
-      <td>
-          Aircraft ID:
-      </td>
-      <td>
-          <input type = "number" name = "id" 
-          [(ngModel)] = "aircraftInput.aircraftId">
-      </td>
-    </tr>
-    <tr>
-      <td>
-        Aircraft Type ID:
-      </td>
-      <td>
-          <input type = "number" name = "type-id" 
-          [(ngModel)] = "aircraftInput.aircraftTypeId">
-      </td>
-    </tr>
-  </table>
-
-  <br>
-
-  <button style = "display: block; margin: 0 auto;">Submit new Aircraft</button><br>
-
+<h1 mat-dialog-title>Enter new Aircraft</h1>
+<div mat-dialog-content>
+  <p>Aircraft ID:</p>
+  <mat-form-field>
+    <input matInput [(ngModel)]="aircraftInput.aircraftId">
+  </mat-form-field>
+  <p>Aircraft Type ID:</p>
+  <mat-form-field>
+    <input matInput [(ngModel)]="aircraftInput.aircraftTypeId">
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">No Thanks</button>
+  <button mat-button (click)="onNoClick()">Ok</button>
 </div>
