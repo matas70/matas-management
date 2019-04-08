@@ -13,7 +13,28 @@ export class AircraftType {
   weight: string;
   engine: string;
 
-  constructor(aircraftTypeId: number, name: string, category: string, type: string, icon: string, image: string, classification: string, description: string, manufactured: string, dimensions: string, performance: string, weight: string, engine: string) {
+  //Should be a json obj
+  setJson(obj: any) {
+    this.aircraftTypeId = obj.aircraftTypeId;
+    this.name = obj.name;
+    this.category = obj.category;
+    this.type = obj.type;
+    this.icon = obj.icon;
+    this.image = obj.image;
+    this.classification = obj.classification;
+    this.description = obj.description;
+    this.manufactured = obj.manufactured;
+    this.dimensions = obj.dimensions;
+    this.performance = obj.performance;
+    this.weight = obj.weight;
+    this.engine = obj.engine;
+
+    return this;
+  }
+
+  constructor(aircraftTypeId?: number, name?: string, category?: string, type?: string, icon?: string,
+              image?: string, classification?: string, description?: string,
+              manufactured?: string, dimensions?: string, performance?: string, weight?: string, engine?: string) {
     this.aircraftTypeId = aircraftTypeId;
     this.name = name;
     this.category = category;
@@ -28,4 +49,5 @@ export class AircraftType {
     this.weight = weight;
     this.engine = engine;
   }
+
 }
