@@ -1,0 +1,59 @@
+<h1 mat-dialog-title>Enter new Aircraft Type</h1>
+<div mat-dialog-content>
+  <p>Aircraft Type ID:</p>
+  <mat-form-field>
+    <input matInput [(ngModel)]="aircraftTypeInput.aircraftTypeId">
+  </mat-form-field>
+  <p>Aircraft Type Name:</p>
+  <mat-form-field>
+    <input matInput [(ngModel)]="aircraftTypeInput.name">
+  </mat-form-field>
+  <p>Aircraft Type Category:</p>
+  <mat-form-field>
+    <input matInput [(ngModel)]="aircraftTypeInput.category">
+  </mat-form-field>
+  <p>Aircraft Type:</p>
+  <mat-form-field>
+    <input matInput [(ngModel)]="aircraftTypeInput.type">
+  </mat-form-field>
+  <p>Aircraft Type Icon:</p>
+  <mat-form-field>
+    <input matInput [(ngModel)]="aircraftTypeInput.icon">
+  </mat-form-field>
+  <p>Aircraft Type Image:</p>
+  <mat-form-field>
+    <input matInput [(ngModel)]="aircraftTypeInput.image">
+  </mat-form-field>
+  <p>Aircraft Type Classification:</p>
+  <mat-form-field>
+    <input matInput [(ngModel)]="aircraftTypeInput.classification">
+  </mat-form-field>
+  <p>Aircraft Type Description:</p>
+  <mat-form-field>
+    <input matInput [(ngModel)]="aircraftTypeInput.description">
+  </mat-form-field>
+  <p>Aircraft Type Manufacture Country:</p>
+  <mat-form-field>
+    <input matInput [(ngModel)]="aircraftTypeInput.manufactured">
+  </mat-form-field>
+  <p>Aircraft Type Dimensions:</p>
+  <mat-form-field>
+    <input matInput [(ngModel)]="aircraftTypeInput.dimensions">
+  </mat-form-field>
+  <p>Aircraft Type Performance:</p>
+  <mat-form-field>
+    <input matInput [(ngModel)]="aircraftTypeInput.performance">
+  </mat-form-field>
+  <p>Aircraft Type Weight:</p>
+  <mat-form-field>
+    <input matInput [(ngModel)]="aircraftTypeInput.weight">
+  </mat-form-field>
+  <p>Aircraft Type Engine:</p>
+  <mat-form-field>
+    <input matInput [(ngModel)]="aircraftTypeInput.engine">
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">No Thanks</button>
+  <button mat-button (click)="onNoClick()">Ok</button>
+</div>
