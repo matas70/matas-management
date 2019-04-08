@@ -1,0 +1,25 @@
+<h1 mat-dialog-title>Enter new Point</h1>
+<div mat-dialog-content>
+  <p>Point ID:</p>
+  <mat-form-field>
+    <input matInput [(ngModel)]="pointInput.pointId">
+  </mat-form-field>
+  <p>Point Latitude:</p>
+  <mat-form-field>
+    <input matInput [(ngModel)]="pointInput.E">
+  </mat-form-field>
+  <p>Point Longitude:</p>
+  <mat-form-field>
+    <input matInput [(ngModel)]="pointInput.N">
+  </mat-form-field>
+  <p>Point Name:</p>
+  <mat-form-field>
+    <input matInput [(ngModel)]="pointInput.Name">
+  </mat-form-field>
+  <mat-checkbox [(ngModel)]="pointInput.hidden">Hide Point</mat-checkbox>
+  <mat-checkbox [(ngModel)]="pointInput.hideAircrafts">Hide Aircrafts</mat-checkbox>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">No Thanks</button>
+  <button mat-button (click)="onNoClick()">Ok</button>
+</div>
