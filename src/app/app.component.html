@@ -3,6 +3,27 @@
   <!--<app-data-forms></app-data-forms>-->
 <!--</div>-->
 
+<mat-toolbar>
+      <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button (click)="openDialog('aircraft')" mat-menu-item>
+          <span>Add new Aircraft</span>
+        </button>
+        <button (click)="openDialog('aircrafttype')" mat-menu-item>
+          <span>Add new Aircraft Type</span>
+        </button>
+        <button (click)="openDialog('point')" mat-menu-item>
+          <span>Add new Point</span>
+        </button>
+        <button mat-menu-item>
+          <span>Save Table</span>
+        </button>
+      </mat-menu>
+    <span style="margin: 0 auto;">טבלת מטסים</span>
+  </mat-toolbar>
+
 <app-management-table></app-management-table>
 
 

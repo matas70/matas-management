@@ -4,7 +4,7 @@ import {DataFormsModule} from './data-forms/data-forms.module';
 import { AppComponent } from './app.component';
 import { ManagementTableComponent } from './management-table/management-table.component';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import {MatTableModule} from "@angular/material";
+import {MatTableModule, MatToolbarModule, MatIconModule, MatMenuModule} from "@angular/material";
 import {StoreModule} from '@ngrx/store';
 import { reducers, metaReducers } from './reducers';
 import {DataService} from "./data/data.service";
@@ -27,7 +27,10 @@ import {CdkTableModule} from "@angular/cdk/table";
     HttpClientModule,
     BrowserAnimationsModule,
     StoreModule.forRoot(reducers, { metaReducers }),
-    MatTableModule
+    MatTableModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatMenuModule
   ],
   providers: [DataService],
   bootstrap: [AppComponent]
