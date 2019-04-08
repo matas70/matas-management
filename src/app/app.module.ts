@@ -1,6 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { MatDialogModule, MatFormFieldModule } from '@angular/material';
 
 import {DataFormsModule} from './data-forms/data-forms.module';
 import { AppComponent } from './app.component';

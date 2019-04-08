@@ -15,9 +15,14 @@ export class DataFormsAircraftComponent implements OnInit {
         this.dialogRef.close();
       }
 
-    constructor(public dialogRef: MatDialogRef<DataFormsAircraftComponent>) { }
+    constructor(public dialogRef: MatDialogRef<DataFormsAircraftComponent>) {
+     }
 
     ngOnInit() {
+      this.aircraftInput = new Aircraft();
+      this.aircraftInput.aircraftId = 0;
+      this.aircraftInput.aircraftTypeId = 0;
+      this.aircraftInput.path = [];
     }
 
 }
