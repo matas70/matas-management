@@ -1,4 +1,4 @@
-export enum ActionType {
+export const enum ActionType {
   SET_AIRCRAFT = "setAircraft",
   SET_POINTS = "setPoints",
   ADD_AIRCRAFT = "addAircraft",

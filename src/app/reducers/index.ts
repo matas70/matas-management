@@ -8,6 +8,7 @@ import {
 import { environment } from '../../environments/environment';
 import {pointsReducer} from "./points.reducer";
 import {aircraftReducer} from "./aircraft.reducer";
+import {aircraftTypesReducer} from "./aircraft-type.reducer";
 
 export interface State {
 
@@ -15,7 +16,8 @@ export interface State {
 
 export const reducers: ActionReducerMap<State> = {
   points: pointsReducer,
-  aircraft: aircraftReducer
+  aircraft: aircraftReducer,
+  aircraftTypes: aircraftTypesReducer
 };
 
 

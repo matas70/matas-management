@@ -4,8 +4,12 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { ManagementTableComponent } from './management-table/management-table.component';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import { StoreModule } from '@ngrx/store';
+import {select, Store, StoreModule} from '@ngrx/store';
 import { reducers, metaReducers } from './reducers';
+import {RouterModule} from "@angular/router";
+import {DataResolver} from "./data/data.resolver";
+import {DataService} from "./data/data.service";
+import {HttpClientModule} from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -14,10 +18,13 @@ import { reducers, metaReducers } from './reducers';
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     BrowserAnimationsModule,
     StoreModule.forRoot(reducers, { metaReducers })
   ],
-  providers: [],
+  providers: [DataService],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+
+}
