@@ -31,7 +31,9 @@ export class Route {
     this.primaryTextColor = primaryTextColor;
     this.secondaryTextColor = secondaryTextColor;
     this.visible = visible;
-    this.points = points;
+    if (points) {
+      this.points = points;
+    }
   }
 
   /*constructor(routeId: number, name: string, color: string, primaryTextColor: string, secondaryTextColor: string, visible: boolean, points: Point[]) {

@@ -1,5 +1,3 @@
-import {Point} from "./point.model";
-
 export class Aircraft {
   aircraftId: number;
   aircraftTypeId: number;
@@ -18,7 +16,7 @@ export class Aircraft {
     this.aircraftId = aircraftId;
     this.aircraftTypeId = aircraftTypeId;
     // for some reason the path is undefined...
-    if (path){
+    if (path) {
       this.path = path;
     }
   }

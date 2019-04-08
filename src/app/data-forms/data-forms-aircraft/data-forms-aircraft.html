@@ -1,0 +1,15 @@
+<h1 mat-dialog-title>Enter new Aircraft</h1>
+<div mat-dialog-content>
+  <p>Aircraft ID:</p>
+  <mat-form-field>
+    <input matInput [(ngModel)]="aircraftInput.aircraftId">
+  </mat-form-field>
+  <p>Aircraft Type ID:</p>
+  <mat-form-field>
+    <input matInput [(ngModel)]="aircraftInput.aircraftTypeId">
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">No Thanks</button>
+  <button mat-button (click)="onNoClick()">Ok</button>
+</div>
