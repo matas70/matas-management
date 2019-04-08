@@ -7,9 +7,36 @@ export class Route {
   primaryTextColor: string;
   secondaryTextColor: string;
   visible: boolean;
-  points: Point[];
+  points: Point[]=[];
 
-  constructor(routeId: number, name: string, color: string, primaryTextColor: string, secondaryTextColor: string, visible: boolean, points: Point[]) {
+  //should be a json object
+  setJson(obj: any) {
+    this.routeId = obj.routeId;
+    this.name = obj.name;
+    this.color = obj.color;
+    this.primaryTextColor = obj.primaryTextColor;
+    this.secondaryTextColor = obj.secondaryTextColor;
+    this.visible = obj.visible;
+    for( let tuple of obj.points){
+      this.points.push(new Point().setJson(tuple))
+    }
+
+    return this;
+  }
+
+  constructor(routeId?: number, name?: string, color?: string, primaryTextColor?: string, secondaryTextColor?: string, visible?: boolean, points?: Point[]) {
+    this.routeId = routeId;
+    this.name = name;
+    this.color = color;
+    this.primaryTextColor = primaryTextColor;
+    this.secondaryTextColor = secondaryTextColor;
+    this.visible = visible;
+    if (points) {
+      this.points = points;
+    }
+  }
+
+  /*constructor(routeId: number, name: string, color: string, primaryTextColor: string, secondaryTextColor: string, visible: boolean, points: Point[]) {
     this.routeId = routeId;
     this.name = name;
     this.color = color;
@@ -17,5 +44,5 @@ export class Route {
     this.secondaryTextColor = secondaryTextColor;
     this.visible = visible;
     this.points = points;
-  }
+  }*/
 }
