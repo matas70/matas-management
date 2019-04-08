@@ -9,8 +9,8 @@ export function aircraftReducer(state = [], action: any) {
       return action.payload.aircraft;
     case (ActionType.ADD_AIRCRAFT):
       return [].concat(state).push(action.payload.aircraft);
-    case(ActionType.DELETE_AIRCRAFT):
-      return [].concat(state).splice(state.indexOf())
+    //case(ActionType.DELETE_AIRCRAFT):
+    //  return [].concat(state).splice(state.indexOf())
     default:
       return state;
   }

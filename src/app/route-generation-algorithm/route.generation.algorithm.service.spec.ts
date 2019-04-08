@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { RouteGenerationAlgorithmService } from './route.generation.algorithm.service';
 
-describe('DataService', () => {
+describe('RouteGenerationAlgorithmService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {

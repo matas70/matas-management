@@ -17,7 +17,10 @@ export class Aircraft {
   constructor(aircraftId?: number, aircraftTypeId?: number, path?: { pointId: number; time: string }[]) {
     this.aircraftId = aircraftId;
     this.aircraftTypeId = aircraftTypeId;
-    this.path = path;
+    // for some reason the path is undefined...
+    if (path){
+      this.path = path;
+    }
   }
 
   pathParser(path: any)
