@@ -5,7 +5,7 @@ import {Aircraft} from "../models/aircraft.model";
 export class SetAircraft implements Action {
   type: ActionType = ActionType.SET_AIRCRAFT;
 
-  constructor(public payload: {aircraft: Aircraft[]}) {}
+  constructor(public payload: {aircraft: Map<number, Aircraft>}) {}
 }
 
 export class AddAircraft implements Action {

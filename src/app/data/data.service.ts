@@ -9,6 +9,7 @@ import {forEach} from "@angular/router/src/utils/collection";
 import {Store} from "@ngrx/store";
 import {AddAircraftType, SetAircraftTypes} from "../reducers/aircraft-type.actions";
 import {AddAircraft, SetAircraft} from "../reducers/aircraft.actions";
+import {AddPoint, SetPoints} from "../reducers/points.actions";
 
 
 const AIRCRAFTS_INFO = "https://matasisrael.blob.core.windows.net/matas/aircrafts-info.json";
@@ -44,22 +45,32 @@ export class DataService {
       let categoriesJSON = response[2];
       let routesJSON = response[3].routes;
 
-      let aircraftTypes: AircraftType[] = [];
+      let aircraftTypes: Map<number, AircraftType> = new Map();
       for (let tuple of aircraftsinfoJSON) {
-        aircraftTypes.push(new AircraftType().setJson(tuple));
+        aircraftTypes.set(tuple.aircraftTypeId, new AircraftType().setJson(tuple));
       }
       let action = new SetAircraftTypes({aircraftTypes: aircraftTypes});
       this.store.dispatch(action);
 
-      let aircrafts: Aircraft[] = [];
+      let aircrafts: Map<number,Aircraft> = new Map();
       for (let tuple of aircraftsJSON) {
-        aircrafts.push(new Aircraft().setJson(tuple));
+        aircrafts.set(tuple.aircraftId, new Aircraft().setJson(tuple));
       }
       this.store.dispatch(new SetAircraft({aircraft: aircrafts}));
 
+      let routes: Route[] = [];
       for (let tuple of routesJSON) {
-        this.routes.push(new Route(tuple))
+        routes.push(new Route().setJson(tuple));
       }
+
+      let pointsMap: Map<number, Point> = new Map();
+      routes.forEach((route) => {
+        route.points.forEach((point) => {
+          pointsMap.set(point.pointId, point);
+        });
+      });
+
+      this.store.dispatch(new SetPoints({points: pointsMap}));
     });
   }
 

@@ -1,3 +1,26 @@
-<p>
-  management-table works!
-</p>
+<div class="example-container">
+  <mat-table [dataSource]="_tableModel">
+    <ng-container matColumnDef="name" [sticky]="true">
+      <mat-header-cell *matHeaderCellDef>עיר</mat-header-cell>
+      <mat-cell *matCellDef="let model">{{model.point.pointName}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="coords">
+      <mat-header-cell *matHeaderCellDef>נקודות ציון</mat-header-cell>
+      <mat-cell *matCellDef="let model">{{model.point.E}}</mat-cell>
+    </ng-container>
+    <ng-container *ngFor="let aircraft of aircraft.values()" matColumnDef="time-{{aircraft.aircraftId}}">
+      <mat-header-cell *matHeaderCellDef>{{ 'מטוס' + aircraft.aircraftId}}</mat-header-cell>
+      <mat-cell *matCellDef="let model">
+        <label contenteditable="true" [contenteditableModel]="getTimeOfAircraftOnPoint(aircraft, model.point)"
+               (contenteditableModelChange)="aircraftTimeOnPointChanged(aircraft, model.point, $event)">
+        </label>
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="add-aircraft">
+      <mat-header-cell *matHeaderCellDef (click)="addColumn()">+</mat-header-cell>
+      <mat-cell *matCellDef></mat-cell>
+    </ng-container>
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let model; columns: displayedColumns;"></mat-row>
+  </mat-table>
+</div>
