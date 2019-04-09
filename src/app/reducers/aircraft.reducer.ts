@@ -12,7 +12,8 @@ export function aircraftReducer(state = [], action: any) {
       let newMap = new Map(state);
       newMap.set(action.payload.aircraft.aircraftId, action.payload.aircraft);
       return newMap;
-      default:
+
+    default:
       return state;
   }
 }

@@ -1,9 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {DataService} from "../data/data.service";
 import {Store} from "@ngrx/store";
 import {combineLatest, forkJoin} from "rxjs";
 import {Aircraft} from "../models/aircraft.model";
 import {Point} from "../models/point.model";
+import {MatSort, MatTableDataSource} from "@angular/material";
+import iziToast from "izitoast";
+import {AddUpdateAircraft} from "../reducers/aircraft.actions";
+import {AircraftType} from "../models/aircraft-type.model";
 
 @Component({
   selector: 'app-management-table',
@@ -11,52 +15,18 @@ import {Point} from "../models/point.model";
   styleUrls: ['./management-table.component.less']
 })
 export class ManagementTableComponent implements OnInit {
-  private _tableModel: {point: Point, aircrafts: {aircraft: Aircraft, time: string}[]}[] = [];
+  @ViewChild(MatSort) sort: MatSort;
+  private timeRegexp: RegExp = new RegExp("(?:[01]\\d|2[0123]):(?:[012345]\\d):(?:[012345]\\d)");
+  private table = new MatTableDataSource();
+  private _tableModel: { point: Point, aircrafts: { aircraft: Aircraft, time: string }[] }[] = [];
   private aircraft: Map<number, Aircraft>;
   private points: Map<number, Point>;
-  // private _aircrafts : any[] = [
-  //   {
-  //     id: 1,
-  //     name: "מטוס 1"
-  //   },
-  //   {
-  //     id: 2,
-  //     name: "מטוס 2"
-  //   }
-  // ];
-  // private points: any[] = [
-  //   {
-  //     id: 1,
-  //     name: "מיקום 1",
-  //     coords: "111",
-  //     aircrafts: [
-  //       {
-  //         id: 1,
-  //         time: "12:23"
-  //       },
-  //       {
-  //         id: 2,
-  //         time: "15:10"
-  //       }
-  //     ]
-  //   },
-  //   {
-  //     id: 2,
-  //     name: "מיקום 2",
-  //     coords: "222",
-  //     aircrafts: [
-  //       {
-  //         id: 2,
-  //         time: "17:15"
-  //       }
-  //     ]
-  //   }
-  // ];
-
+  public aircraftArray: Aircraft[];
+  public aircraftTypes: Map<number, AircraftType>;
   public displayedColumns: any[] = [
     "name",
-    "coords",
-    "add-aircraft"
+    "N",
+    "E"
   ]
 
 
@@ -71,6 +41,10 @@ export class ManagementTableComponent implements OnInit {
       this.points = data[1];
       this.initTable()
     });
+
+    store.select("aircraftTypes").subscribe((types: Map<number, AircraftType>) => {
+      this.aircraftTypes = types;
+    });
   }
 
   initTable() {
@@ -79,8 +53,8 @@ export class ManagementTableComponent implements OnInit {
         (ac: Aircraft) => {
           return ac.path.find((pointInPath) => pointInPath.pointId === point.pointId) !== undefined;
         }).map((foundAc) => {
-          return {aircraft: foundAc, time: foundAc.path.find((pointInPath) => pointInPath.pointId === point.pointId).time}
-        });
+        return {aircraft: foundAc, time: foundAc.path.find((pointInPath) => pointInPath.pointId === point.pointId).time}
+      });
 
       let currModel = {
         point: point,
@@ -90,10 +64,16 @@ export class ManagementTableComponent implements OnInit {
       this._tableModel.push(currModel);
     });
 
-    let addColumn: string = this.displayedColumns.pop();
-    Array.from(this.aircraft.values()).forEach((ac) =>
-      this.displayedColumns.push("time-" + ac.aircraftId));
-    this.displayedColumns.push(addColumn);
+    Array.from(this.aircraft.values()).forEach((ac) => {
+      if (!this.displayedColumns.includes("time-" + ac.aircraftId)) {
+        this.displayedColumns.push("time-" + ac.aircraftId);
+      }
+    });
+
+    this.aircraftArray = Array.from(this.aircraft.values());
+    setTimeout(() => {
+      this.table.data = this._tableModel;
+    }, 1000);
   }
 
   getTimeOfAircraftOnPoint(aircraft: Aircraft, point: Point) {
@@ -101,10 +81,11 @@ export class ManagementTableComponent implements OnInit {
     // let foundAircraftFromLoc = this._tableModel.
     // return foundAircraftFromLoc ? foundAircraftFromLoc.time : "";
 
-    let foundAc = this._tableModel.find(model => model.point.pointId === point.pointId).aircrafts
-      .find((ac) => ac.aircraft.aircraftId === aircraft.aircraftId);
+    // let foundAc = this.table.data.find(model => model.point.pointId === point.pointId).aircrafts
+    //   .find((ac) => ac.aircraft.aircraftId === aircraft.aircraftId);
+    let foundAc = aircraft.path.find(pathPoint => pathPoint.pointId === point.pointId);
 
-    return foundAc ? foundAc.time : "";
+    return foundAc ? foundAc.time : "--";
   }
 
   addColumn() {
@@ -115,12 +96,78 @@ export class ManagementTableComponent implements OnInit {
     // this.displayedColumns.push(addColumn);
   }
 
-  aircraftTimeOnPointChanged(aircraft, location, newTime) {
-    // TODO: do something when time changes
-    console.log(newTime);
+  aircraftTimeOnPointChanged(aircraft: Aircraft, point: Point, newTime: string) {
+    if (this.timeRegexp.test(newTime)) {
+      let foundTime = aircraft.path.find((pathPoint) => pathPoint.pointId === point.pointId);
+      if (foundTime) {
+        if (foundTime.time !== newTime) {
+          foundTime.time = newTime;
+          this.store.dispatch(new AddUpdateAircraft({aircraft: aircraft}));
+          iziToast.success({
+            message: "הזמן עודכן בהצלחה!"
+          });
+        }
+      } else {
+        aircraft.path.push({pointId: point.pointId, time: newTime});
+        this.store.dispatch(new AddUpdateAircraft({aircraft: aircraft}));
+        iziToast.success({
+          message: "הזמן עודכן בהצלחה!"
+        });
+      }
+    } else {
+
+    }
+  }
+
+  labelClicked(lbl) {
+    if (lbl.innerText == "--") {
+      lbl.innerText = "";
+    }
+  }
+
+  labelKeyDown(event: KeyboardEvent, aircraft: Aircraft, point: Point) {
+    if (event.key === "Enter") {
+      let currentTarget: any = event.currentTarget;
+      if (currentTarget.innerText == "" || !this.timeRegexp.test(currentTarget.innerText)) {
+        currentTarget.blur();
+      } else {
+        console.log("Should send that shit to whatever lol")
+        event.preventDefault();
+        currentTarget.blur();
+      }
+    }
+  }
+
+  labelBlurred(lbl, aircraft: Aircraft, point: Point) {
+    if (lbl.innerText == "" || !this.timeRegexp.test(lbl.innerText) ) {
+      lbl.innerText = this.getTimeOfAircraftOnPoint(aircraft, point);
+      iziToast.error({
+        title: "שגיאה",
+        message: "אנא הזן זמן בפורמט HH:MM:SS",
+        backgroundColor: "#FF502E"
+      });
+    } else {
+      console.log("Should send that shit to whatever lol")
+    }
   }
 
   ngOnInit() {
+    this.table.sortingDataAccessor = (item: { point: Point, aircrafts }, property) => {
+      if (property === 'name')
+        return item.point.pointName;
+      else if (property === 'N')
+        return item.point.N;
+      else if (property === 'E')
+        return item.point.E;
+      else if (property.startsWith('time'))
+        return this.getTimeByColumnNameAndPoint(property, item);
+    };
+    this.table.sort = this.sort;
   }
 
+  getTimeByColumnNameAndPoint(columnName: string, item: { point: Point, aircrafts: { aircraft: Aircraft, time: string }[] }) {
+    let acId = columnName.split("-")[1];
+    let obj = item.aircrafts.find((ac) => Number(acId) === ac.aircraft.aircraftId);
+    return obj ? obj.time : "";
+  }
 }
