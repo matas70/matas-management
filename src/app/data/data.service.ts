@@ -8,7 +8,7 @@ import {HttpClient} from "@angular/common/http";
 import {forEach} from "@angular/router/src/utils/collection";
 import {Store} from "@ngrx/store";
 import {AddAircraftType, SetAircraftTypes} from "../reducers/aircraft-type.actions";
-import {AddAircraft, SetAircraft} from "../reducers/aircraft.actions";
+import {AddUpdateAircraft, SetAircraft} from "../reducers/aircraft.actions";
 import {AddPoint, SetPoints} from "../reducers/points.actions";
 
 
