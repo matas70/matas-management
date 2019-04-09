@@ -21,6 +21,7 @@ export class RouteGenerationAlgorithmService {
   private things: number[][];
   private graph: number[][];
 
+  private routes: IRoute[] = [];
   private aircrafts: Aircraft[];
 
   constructor(private dataService: DataService, private store: Store<any>) {
@@ -49,12 +50,16 @@ export class RouteGenerationAlgorithmService {
       // don't ask why i use the temp value but its not work
       // if i send the function, like: this.findSrc(this.findMaxEdge());
       let [x, y, z] = this.findMaxEdge();
+      if(z == 0){
+        break;
+      }
       let src = this.findSrc([x, y, z]);
       let dest = this.findDest([x, y, z]);
-      let maximalRoute = this.findMaximalRoute(this.graph, src, dest);
+      let maximalRoute = this.findMaximalRoute1(this.graph, src, dest);
+      this.routes.push(maximalRoute);
       this.removeMaximalRoute(this.graph, maximalRoute.routeNodes);
-      //this.buildGraph();
     }
+    let x = 5;
   }
 
   private buildMapPointToIndex() {
@@ -73,7 +78,7 @@ export class RouteGenerationAlgorithmService {
 
   private buildGraph() {
     // iterate over all aircrafts
-    for (let i = 0; i < this.aircrafts.length; i++) {
+    for (let i = 0; i < this.aircrafts.length - 1; i++) {
       let currentAircraft = this.aircrafts[i];
       let points = currentAircraft.path;
       for (let j = 0; j < points.length - 1; j++) {
@@ -82,26 +87,6 @@ export class RouteGenerationAlgorithmService {
         let destPoint = points[j + 1];
         let destPointIndex = this.mapPointToIndex.get(destPoint.pointId);
         this.graph[sourcePointIndex][destPointIndex]++;
-        //let x = new Array(points.length);
-        /*if (this.graph){
-          if (this.graph[sourcePointIndex]){
-
-          }
-          else{
-            this.graph.push()
-          }
-        }
-        else{
-          this.graph=[]
-          
-        }
-        if (this.graph[sourcePointIndex][destPointIndex]) {
-          let temp = this.graph[sourcePointIndex][destPointIndex];
-          temp = temp++;
-          this.graph[sourcePointIndex].push(temp)
-        } else {
-          this.graph[sourcePointIndex].push(1)
-        }*/
       }
     }
   }
@@ -124,7 +109,6 @@ export class RouteGenerationAlgorithmService {
    */
   private findSrc([srcMaxEdge, destMaxEdge, maxWeight]): number {
     let candidateSrc = srcMaxEdge;
-    //assume this.graph[srcMaxEdge] bring the column
     for (let i = 0; i < this.graph[srcMaxEdge].length; i++) {
       let currentColumn = this.getColumn(this.graph, srcMaxEdge);
       if (i != destMaxEdge && maxWeight == currentColumn[i]) {
@@ -176,8 +160,7 @@ export class RouteGenerationAlgorithmService {
 
   // src its the row index and the dest is the column index
   private findMaximalRoute(graph: number[][],
-                           src: number, dest: number): IRoute {
-
+                           src: number, dest: number, routeHavePassed: number[] = []): IRoute {
     let maxWeightCurrent = 0;       // The current maximal route's total
     let maxWeightCurrentNodes = []; // The nodes for maxWeightCurrent
     let maxRoute: IRoute;           // The maximal route to return
@@ -191,11 +174,17 @@ export class RouteGenerationAlgorithmService {
 
       /* In both cases maxRoute.weight contains the weight from src to
          i, dest NOT included.                                        */
-      if (i == src) {
+      if (routeHavePassed.includes(i)) {
         maxRoute = {weight: 0, routeNodes: [src]};
       } else {
-        maxRoute = this.findMaximalRoute(graph, src, i);
+        routeHavePassed.push(i);
+        if (i == src) {
+          maxRoute = {weight: 0, routeNodes: [src]};
+        } else {
+          maxRoute = this.findMaximalRoute(graph, src, i, routeHavePassed);
+        }
       }
+
 
       /* Add the weight of i-dest to the weight up to i, and see
          whether the total weight is bigger than the current max value */
@@ -212,6 +201,34 @@ export class RouteGenerationAlgorithmService {
 
     return maxRoute;
   }
+
+  private findMaximalRoute1(graph: number[][],
+                            src: number, dest: number): IRoute {
+    let maxWeightCurrent = 0;       // The current maximal route's total
+    let maxWeightCurrentNodes = []; // The nodes for maxWeightCurrent
+    let maxRoute: IRoute;           // The maximal route to return
+    if (!maxRoute) {
+      maxRoute = {weight: 0, routeNodes: [src]};
+    }
+
+    while (src != dest) {
+      let currentRow = graph[src];
+      let maxRowWeight = 0;
+      let maxIndex = 0;
+
+      for (let i = 0; i < currentRow.length; i++) {
+        if (currentRow[i] > maxRowWeight) {
+          maxIndex = i;
+          maxRowWeight = currentRow[i];
+        }
+      }
+      maxRoute.weight = maxRoute.weight + maxRowWeight;
+      maxRoute.routeNodes.push(maxIndex);
+      src = maxIndex;
+    }
+    return maxRoute;
+  }
+
 
   private removeMaximalRoute(graph: number[][], maxRoute: number[]) {
     for (let i = 1; i < maxRoute.length; i++) {
@@ -230,5 +247,13 @@ export class RouteGenerationAlgorithmService {
       }
     }
     return haveEdge;
+  }
+
+  private writeRouteToJson(route: IRoute) {
+
+  }
+
+  private writeRoutesToJson(routes: IRoute[]) {
+
   }
 }
