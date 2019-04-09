@@ -1,59 +1,59 @@
-<h1 mat-dialog-title>Enter new Aircraft Type</h1>
-<div mat-dialog-content>
-  <p>Aircraft Type ID:</p>
-  <mat-form-field>
-    <input matInput [(ngModel)]="aircraftTypeInput.aircraftTypeId">
-  </mat-form-field>
-  <p>Aircraft Type Name:</p>
+<h1 mat-dialog-title dir="rtl">הכנס סוג כלי טיס חדש</h1>
+<div mat-dialog-content dir="rtl">
+  <p>שם:</p>
   <mat-form-field>
     <input matInput [(ngModel)]="aircraftTypeInput.name">
   </mat-form-field>
-  <p>Aircraft Type Category:</p>
+  <p>קטגוריה:</p>
   <mat-form-field>
     <input matInput [(ngModel)]="aircraftTypeInput.category">
   </mat-form-field>
-  <p>Aircraft Type:</p>
+  <p>טיפוס:</p>
   <mat-form-field>
     <input matInput [(ngModel)]="aircraftTypeInput.type">
   </mat-form-field>
-  <p>Aircraft Type Icon:</p>
+  <p>אייקון:</p>
   <mat-form-field>
     <input matInput [(ngModel)]="aircraftTypeInput.icon">
   </mat-form-field>
-  <p>Aircraft Type Image:</p>
+  <p>מדינה:</p>
+  <mat-form-field>
+    <input matInput [(ngModel)]="aircraftTypeInput.country">
+  </mat-form-field>
+  <p>תמונה:</p>
   <mat-form-field>
     <input matInput [(ngModel)]="aircraftTypeInput.image">
   </mat-form-field>
-  <p>Aircraft Type Classification:</p>
+  <p>סיווג:</p>
   <mat-form-field>
     <input matInput [(ngModel)]="aircraftTypeInput.classification">
   </mat-form-field>
-  <p>Aircraft Type Description:</p>
+  <p>תיאור:</p>
   <mat-form-field>
     <input matInput [(ngModel)]="aircraftTypeInput.description">
   </mat-form-field>
-  <p>Aircraft Type Manufacture Country:</p>
+  <p>מקום יצור:</p>
   <mat-form-field>
     <input matInput [(ngModel)]="aircraftTypeInput.manufactured">
   </mat-form-field>
-  <p>Aircraft Type Dimensions:</p>
+  <p>מימדים:</p>
   <mat-form-field>
     <input matInput [(ngModel)]="aircraftTypeInput.dimensions">
   </mat-form-field>
-  <p>Aircraft Type Performance:</p>
+  <p>תפקוד:</p>
   <mat-form-field>
     <input matInput [(ngModel)]="aircraftTypeInput.performance">
   </mat-form-field>
-  <p>Aircraft Type Weight:</p>
+  <p>משקל:</p>
   <mat-form-field>
     <input matInput [(ngModel)]="aircraftTypeInput.weight">
   </mat-form-field>
-  <p>Aircraft Type Engine:</p>
+  <p>מנוע:</p>
   <mat-form-field>
     <input matInput [(ngModel)]="aircraftTypeInput.engine">
   </mat-form-field>
 </div>
 <div mat-dialog-actions>
-  <button mat-button (click)="onNoClick()">No Thanks</button>
-  <button mat-button (click)="onNoClick()">Ok</button>
+  <button mat-button (click)="onOkClick()">הוסף</button>
+  <button mat-button (click)="onNoClick()">בטל</button>
 </div>

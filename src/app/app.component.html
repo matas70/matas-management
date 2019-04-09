@@ -3,22 +3,22 @@
   <!--<app-data-forms></app-data-forms>-->
 <!--</div>-->
 
-<mat-toolbar>
+<mat-toolbar dir="rtl">
       <button mat-icon-button [matMenuTriggerFor]="menu">
         <mat-icon>menu</mat-icon>
       </button>
       <mat-menu #menu="matMenu">
         <button (click)="openDialog('aircraft')" mat-menu-item>
-          <span>Add new Aircraft</span>
+          <span>הוסף כלי טיס חדש</span>
         </button>
         <button (click)="openDialog('aircrafttype')" mat-menu-item>
-          <span>Add new Aircraft Type</span>
+          <span>הוסף סוג כלי טיס חדש</span>
         </button>
         <button (click)="openDialog('point')" mat-menu-item>
-          <span>Add new Point</span>
+          <span>הוסף עיר חדשה</span>
         </button>
         <button mat-menu-item>
-          <span>Save Table</span>
+          <span>שמור טבלה</span>
         </button>
       </mat-menu>
     <span style="margin: 0 auto;">טבלת מטסים</span>
