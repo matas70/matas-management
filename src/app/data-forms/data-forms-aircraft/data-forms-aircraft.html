@@ -4,7 +4,7 @@
   <mat-form-field>
   <mat-label>לחץ כדי לבחור</mat-label>
   <mat-select>
-      <mat-option *ngFor="let aircraftType of this.aircraftTypes" 
+      <mat-option *ngFor="let aircraftType of this.aircraftTypesSorted" 
       (click)="setAircraftTypeInput(aircraftType.name)" [value] = "aircraftType.name">
         {{aircraftType.name}}
       </mat-option>

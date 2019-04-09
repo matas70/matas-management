@@ -3,7 +3,7 @@ import {MatDialogRef} from '@angular/material';
 import {Store} from '@ngrx/store';
 
 import { Point } from '../../models/point.model';
-import { AddPoint } from 'src/app/reducers/points.actions';
+import { AddUpdatePoint } from 'src/app/reducers/points.actions';
 
 @Component({
   selector: 'app-data-forms-point',
@@ -14,7 +14,7 @@ export class DataFormsPointComponent implements OnInit {
     pointInput: Point;
 
     onOkClick() {
-      this.store.dispatch(new AddPoint({point: this.pointInput}));
+      this.store.dispatch(new AddUpdatePoint({point: this.pointInput}));
 
       this.dialogRef.close();
     }
