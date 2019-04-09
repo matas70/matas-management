@@ -2,18 +2,30 @@
 <div mat-dialog-content dir="rtl">
   <p>שם:</p>
   <mat-form-field>
-    <input matInput [(ngModel)]="pointInput.pointName">
+    <input matInput [(ngModel)]="pointData.pointName">
+  </mat-form-field>
+  <p>תת מיקום:</p>
+  <mat-form-field>
+    <input matInput [(ngModel)]="pointData.pointLocation">
   </mat-form-field>
   <p>מיקום על קו האורך:</p>
   <mat-form-field>
-    <input matInput [(ngModel)]="pointInput.E">
+    <input matInput [(ngModel)]="pointData.E">
   </mat-form-field>
   <p>מיקום על קו הרוחב:</p>
   <mat-form-field>
-    <input matInput [(ngModel)]="pointInput.N">
+    <input matInput [(ngModel)]="pointData.N">
   </mat-form-field>
-  <mat-checkbox [(ngModel)]="pointInput.hidden">הסתר עיר</mat-checkbox>
-  <mat-checkbox [(ngModel)]="pointInput.hideAircrafts">הסתר מטוסים מעל העיר</mat-checkbox>
+  <p>זמני פעילות:</p>
+  <mat-form-field>
+    <input matInput [(ngModel)]="pointData.activeTimes">
+  </mat-form-field>
+  <p>קישור לWAZE:</p>
+  <mat-form-field>
+    <input matInput [(ngModel)]="pointData.wazeLink">
+  </mat-form-field>
+  <mat-checkbox [(ngModel)]="pointData.hidden">הסתר עיר</mat-checkbox>
+  <mat-checkbox [(ngModel)]="pointData.hideAircrafts">הסתר מטוסים מעל העיר</mat-checkbox>
 </div>
 <div mat-dialog-actions>
   <button mat-button (click)="onNoClick()">הוסף</button>
