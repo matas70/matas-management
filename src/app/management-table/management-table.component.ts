@@ -17,7 +17,7 @@ import {AircraftType} from "../models/aircraft-type.model";
 export class ManagementTableComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   private timeRegexp: RegExp = new RegExp("(?:[01]\\d|2[0123]):(?:[012345]\\d):(?:[012345]\\d)");
-  private table = new MatTableDataSource();
+  public table = new MatTableDataSource();
   private _tableModel: { point: Point, aircrafts: { aircraft: Aircraft, time: string }[] }[] = [];
   private aircraft: Map<number, Aircraft>;
   private points: Map<number, Point>;
