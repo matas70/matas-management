@@ -62,14 +62,9 @@ export class DataFormsAircraftComponent implements OnInit {
                   return 0;
                 });
 
-                if (aircraftData.aircraftTypeId != undefined) {
-                  this.aircraftTypeInput = this.aircraftTypes[aircraftData.aircraftTypeId];
-                  this.newValue = false;
-                }
-                else {
-                  this.aircraftTypeInput = new AircraftType();
-                  this.newValue = true;
-                }
+                this.aircraftTypeInput = new AircraftType();
+
+                this.newValue = (aircraftData.aircraftTypeId == 0);
      }
 
     ngOnInit() {
