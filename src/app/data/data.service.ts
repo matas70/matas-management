@@ -9,7 +9,7 @@ import {forEach} from "@angular/router/src/utils/collection";
 import {Store} from "@ngrx/store";
 import {AddAircraftType, SetAircraftTypes} from "../reducers/aircraft-type.actions";
 import {AddUpdateAircraft, SetAircraft} from "../reducers/aircraft.actions";
-import {AddPoint, SetPoints} from "../reducers/points.actions";
+import {AddUpdatePoint, SetPoints} from "../reducers/points.actions";
 import {MatasMetadata} from "../models/matas-metadata.model";
 import {AddUpdateMatasMetadata} from "../reducers/matas-metadata.actions";
 
