@@ -19,6 +19,7 @@ import { MatasMetadata } from './models/matas-metadata.model';
 })
 export class AppComponent {
   title = 'matas-management';
+  matasMetadata: MatasMetadata;
 
   constructor(private store: Store<any>, data: DataService, public dialog: MatDialog) {
     data.loadData();
@@ -26,7 +27,10 @@ export class AppComponent {
       console.log(aircraft);
     });
 
-    store.select("matasMetadata").subscribe((data) => console.log(data));
+    store.select("matasMetadata").subscribe((data) => {
+      console.log(data);
+      this.matasMetadata = data;
+    });
   }
 
   openDialog(dataType: string): void {
@@ -49,7 +53,7 @@ export class AppComponent {
     else {
         dialogRefInput = this.dialog.open(DataFormsMetadataComponent, {
           width: '250px',
-          data: new MatasMetadata()
+          data: this.matasMetadata
         });
     }
 
