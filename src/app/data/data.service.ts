@@ -102,14 +102,6 @@ export class DataService {
     return this.routes;
   }
 
-  public getAircraftTypes() {
-    let aircraftTypesArray: any[];
-    this.store.select("aircraftTypes").subscribe(aircraftTypes=> {
-      aircraftTypesArray = Array.from(aircraftTypes.values());
-    });
-    return aircraftTypesArray;
-  }
-
   public uploadData()
   {
     this.uploadSingleData("aircrafts.json",JSON.stringify(this.aircrafts));

@@ -1,11 +1,11 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import {Store} from '@ngrx/store';
 
-import { Aircraft } from '../../models/aircraft.model';
-import { AircraftType } from '../../models/aircraft-type.model';
-import { AddUpdateAircraft, SetAircraft } from 'src/app/reducers/aircraft.actions';
-import { DataService } from 'src/app/data/data.service';
+import {Aircraft} from '../../models/aircraft.model';
+import {AircraftType} from '../../models/aircraft-type.model';
+import {AddUpdateAircraft, SetAircraft} from 'src/app/reducers/aircraft.actions';
+import {DataService} from 'src/app/data/data.service';
 
 @Component({
   selector: 'app-data-forms-aircraft',
@@ -13,61 +13,69 @@ import { DataService } from 'src/app/data/data.service';
 })
 export class DataFormsAircraftComponent implements OnInit {
 
-    aircraftTypeInput: AircraftType;
-    aircraftTypes: any[];
-    aircraftTypesSorted: any[];
-    newValue: boolean;
+  aircraftTypeInput: AircraftType;
+  aircraftTypes: AircraftType[];
+  aircrafts: Aircraft[];
+  aircraftTypesSorted: any[];
+  newValue: boolean;
+  currentType: AircraftType;
 
-    onNoClick(): void {
-        this.dialogRef.close();
-      }
+  constructor(public dialogRef: MatDialogRef<DataFormsAircraftComponent>,
+              @Inject(MAT_DIALOG_DATA) public aircraftData: Aircraft,
+              public store: Store<any>, private dataService: DataService) {
+    // this.aircraftTypes = dataService.getAircraftTypes();
 
-    setAircraftTypeInput(name: any) {
-      this.aircraftTypeInput.name = name;
-    }
-
-    onOkClick():void {
-      let aircraftIDs: number[];
-      let lastId: number;
-
-      if (this.newValue) {
-        this.store.select("aircraft").subscribe(aircraft => {
-          aircraftIDs = Array.from(aircraft.keys());
-          lastId = aircraftIDs[aircraftIDs.length - 1];
-        })
-
-        this.aircraftData.aircraftId = lastId + 1;
-        this.aircraftData.path = [];
-      }
-
-      for (let i = 0; i < this.aircraftTypes.length; i++) {
-        if (this.aircraftTypes[i].name == this.aircraftTypeInput.name) {
-          this.aircraftData.aircraftTypeId = i + 1;
+    store.select("aircraftTypes").subscribe((types: Map<number, AircraftType>) => {
+      this.aircraftTypes = Array.from(types.values()).sort(function (type1, type2) {
+        if (type1.name < type2.name) {
+          return -1;
         }
-      }
+        if (type1.name > type2.name) {
+          return 1;
+        }
+        return 0;
+      });
+      this.currentType = this.aircraftTypes[0];
+    });
+    store.select("aircraft").subscribe((aircraft: Map<number, Aircraft>) => {
+      this.aircrafts = Array.from(aircraft.values());
+    });
+    this.aircraftTypeInput = new AircraftType();
 
-      this.store.dispatch(new AddUpdateAircraft({aircraft: this.aircraftData}));
+    this.newValue = (aircraftData.aircraftTypeId === undefined);
+  }
 
-      this.dialogRef.close();
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+
+  // setAircraftTypeInput(name: any) {
+  //   this.aircraftTypeInput.name = name;
+  // }
+
+  onOkClick(): void {
+    let lastId: number;
+
+    if (this.newValue) {
+      lastId = this.aircrafts[this.aircrafts.length - 1].aircraftId + 1;
+
+      this.aircraftData.aircraftId = lastId;
+      this.aircraftData.path = [];
     }
 
-    constructor(public dialogRef: MatDialogRef<DataFormsAircraftComponent>,
-                @Inject(MAT_DIALOG_DATA) public aircraftData: Aircraft,
-                public store: Store<any>, private dataService: DataService) {
-                this.aircraftTypes = dataService.getAircraftTypes();
-                this.aircraftTypesSorted = 
-                  dataService.getAircraftTypes().sort(function(type1, type2){
-                  if(type1.name < type2.name) { return -1; }
-                  if(type1.name > type2.name) { return 1; }
-                  return 0;
-                });
+    // for (let i = 0; i < this.aircraftTypes.length; i++) {
+    //   if (this.aircraftTypes[i].name == this.aircraftTypeInput.name) {
+    //     this.aircraftData.aircraftTypeId = i + 1;
+    //   }
+    // }
 
-                this.aircraftTypeInput = new AircraftType();
+    this.aircraftData.aircraftTypeId = this.currentType.aircraftTypeId;
 
-                this.newValue = (aircraftData.aircraftTypeId == 0);
-     }
+    this.store.dispatch(new AddUpdateAircraft({aircraft: this.aircraftData}));
+    this.dialogRef.close();
+  }
 
-    ngOnInit() {
-    }
+  ngOnInit() {
+  }
 
 }

@@ -14,6 +14,12 @@
       <th mat-header-cell *matHeaderCellDef>מזרח</th>
       <td mat-cell *matCellDef="let model">{{model.point.E}}</td>
     </ng-container>
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef>פעולות</th>
+      <td mat-cell *matCellDef="let model">
+        <img src="/assets/edit.png" style="width: 15px; height: 15px; cursor: pointer;" (click)="editPoint(model)">
+      </td>
+    </ng-container>
     <ng-container *ngFor="let aircraft of aircraftArray" matColumnDef="time-{{aircraft.aircraftId}}">
       <th mat-header-cell *matHeaderCellDef mat-sort-header="">
         {{aircraftTypes.get(aircraft.aircraftTypeId).name + ' ' + aircraft.aircraftId}}

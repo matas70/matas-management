@@ -11,9 +11,13 @@ import { AddUpdatePoint } from 'src/app/reducers/points.actions';
 })
 export class DataFormsPointComponent implements OnInit {
 
+    constructor(public dialogRef: MatDialogRef<DataFormsPointComponent>,
+                @Inject(MAT_DIALOG_DATA) public pointData: Point,
+                public store: Store<any>) {
+     }
+
     onOkClick() {
       this.store.dispatch(new AddUpdatePoint({point: this.pointData}));
-
       this.dialogRef.close();
     }
 
@@ -32,11 +36,6 @@ export class DataFormsPointComponent implements OnInit {
           return Math.max(a, b);
       }) + 1;
     }
-
-    constructor(public dialogRef: MatDialogRef<DataFormsPointComponent>,
-                @Inject(MAT_DIALOG_DATA) public pointData: Point,
-                public store: Store<any>) {
-     }
 
     ngOnInit() {
         if (this.pointData.pointName == undefined) {

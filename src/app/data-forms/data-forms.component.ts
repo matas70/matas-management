@@ -18,15 +18,15 @@ export class DataFormsComponent implements OnInit {
     let dialogRefInput;
     if (dataType == 'aircraft')
           dialogRefInput = this.dialog.open(DataFormsAircraftComponent, {
-          width: '250px'
+          width: '300px'
         });
     else if (dataType == 'aircrafttype')
         dialogRefInput = this.dialog.open(DataFormsAircraftTypeComponent, {
-          width: '250px'
+          width: '300px'
         });
     else 
         dialogRefInput = this.dialog.open(DataFormsPointComponent, {
-          width: '250px'
+          width: '300px'
         });
     
     const dialogRef = dialogRefInput;
