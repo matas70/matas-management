@@ -8,10 +8,10 @@ export class SetAircraft implements Action {
   constructor(public payload: {aircraft: Map<number, Aircraft>}) {}
 }
 
-export class AddAircraft implements Action {
-  type: ActionType = ActionType.ADD_AIRCRAFT;
+export class AddUpdateAircraft implements Action {
+  type: ActionType = ActionType.ADD_UPDATE_AIRCRAFT;
 
   constructor(public payload: {aircraft: Aircraft}) {}
 }
 
-export type AircraftActionsUnion = SetAircraft | AddAircraft;
+export type AircraftActionsUnion = SetAircraft | AddUpdateAircraft;

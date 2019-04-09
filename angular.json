@@ -27,9 +27,12 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.less"
+              "src/styles.less",
+              "./node_modules/izitoast/dist/css/iziToast.min.css"
             ],
-            "scripts": [],
+            "scripts": [
+              "./node_modules/izitoast/dist/js/iziToast.min.js"
+            ],
             "es5BrowserSupport": true
           },
           "configurations": {
