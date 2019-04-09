@@ -27,7 +27,7 @@ export class AppComponent {
 
   openDialog(dataType: string): void {
     let dialogRefInput;
-    let aircraftInput = new AircraftType();
+    /*let aircraftInput = new Aircraft();
     aircraftInput.setJson({
       "aircraftId": 1,
       "aircraftTypeId" : 1,
@@ -86,11 +86,11 @@ export class AppComponent {
         { "pointId": 156, "time": "13:16:00" },
         { "pointId": 86, "time": "13:17:00" }
       ]
-    });
+    });*/
     if (dataType == 'aircraft')
           dialogRefInput = this.dialog.open(DataFormsAircraftComponent, {
           width: '250px',
-          data: aircraftInput
+          data: new Aircraft() //aircraftInput
         });
     else if (dataType == 'aircrafttype')
         dialogRefInput = this.dialog.open(DataFormsAircraftTypeComponent, {
