@@ -10,7 +10,7 @@ import {forEach} from "@angular/router/src/utils/collection";
 // @ts-ignore
 import {Store} from "@ngrx/store";
 import {AddAircraftType, SetAircraftTypes} from "../reducers/aircraft-type.actions";
-import {AddAircraft, SetAircraft} from "../reducers/aircraft.actions";
+import {AddUpdateAircraft, SetAircraft} from "../reducers/aircraft.actions";
 import {AddPoint, SetPoints} from "../reducers/points.actions";
 import { BlobService, UploadConfig, UploadParams } from 'angular-azure-blob-service';
 import {ActionType} from "../reducers/action-types.enum";

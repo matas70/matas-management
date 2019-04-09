@@ -26,6 +26,7 @@
     "angular-azure-blob-service": "^1.1.0",
     "angular-inline-editors": "^2.0.4",
     "core-js": "^2.5.4",
+    "izitoast": "^1.4.0",
     "rxjs": "~6.3.3",
     "tslib": "^1.9.0",
     "zone.js": "~0.8.26"

@@ -1,26 +1,36 @@
-<div class="example-container">
-  <mat-table [dataSource]="_tableModel">
-    <ng-container matColumnDef="name" [sticky]="true">
-      <mat-header-cell *matHeaderCellDef>עיר</mat-header-cell>
-      <mat-cell *matCellDef="let model">{{model.point.pointName}}</mat-cell>
+<div class="example-container mat-elevation-z8">
+  <table mat-table [dataSource]="table" matSort>
+    <ng-container matColumnDef="name" sticky>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header="">עיר</th>
+      <td mat-cell *matCellDef="let model">
+        <label style="font-weight: bold;"> {{model.point.pointName}} </label>
+      </td>
     </ng-container>
-    <ng-container matColumnDef="coords">
-      <mat-header-cell *matHeaderCellDef>נקודות ציון</mat-header-cell>
-      <mat-cell *matCellDef="let model">{{model.point.E}}</mat-cell>
+    <ng-container matColumnDef="N">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header="">צפון</th>
+      <td mat-cell *matCellDef="let model">{{model.point.N}}</td>
     </ng-container>
-    <ng-container *ngFor="let aircraft of aircraft.values()" matColumnDef="time-{{aircraft.aircraftId}}">
-      <mat-header-cell *matHeaderCellDef>{{ 'מטוס' + aircraft.aircraftId}}</mat-header-cell>
-      <mat-cell *matCellDef="let model">
-        <label contenteditable="true" [contenteditableModel]="getTimeOfAircraftOnPoint(aircraft, model.point)"
+    <ng-container matColumnDef="E">
+      <th mat-header-cell *matHeaderCellDef>מזרח</th>
+      <td mat-cell *matCellDef="let model">{{model.point.E}}</td>
+    </ng-container>
+    <ng-container *ngFor="let aircraft of aircraftArray" matColumnDef="time-{{aircraft.aircraftId}}">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header="">
+        {{aircraftTypes.get(aircraft.aircraftTypeId).name + ' ' + aircraft.aircraftId}}
+      </th>
+      <td mat-cell *matCellDef="let model">
+        <label (keydown)="labelKeyDown($event, aircraft, model.point)" #lbl contenteditable="true"
+               (focus)="labelClicked(lbl, aircraft, model.point)" (click)="labelClicked(lbl)" (blur)="labelBlurred(lbl, aircraft, model.point)"
+               [contenteditableModel]="getTimeOfAircraftOnPoint(aircraft, model.point)"
                (contenteditableModelChange)="aircraftTimeOnPointChanged(aircraft, model.point, $event)">
         </label>
-      </mat-cell>
+      </td>
     </ng-container>
-    <ng-container matColumnDef="add-aircraft">
-      <mat-header-cell *matHeaderCellDef (click)="addColumn()">+</mat-header-cell>
-      <mat-cell *matCellDef></mat-cell>
-    </ng-container>
-    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let model; columns: displayedColumns;"></mat-row>
-  </mat-table>
+    <!--<ng-container matColumnDef="add-aircraft">-->
+      <!--<th mat-header-cell *matHeaderCellDef (click)="addColumn()">+</th>-->
+      <!--<td mat-cell *matCellDef></td>-->
+    <!--</ng-container>-->
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+    <tr mat-row *matRowDef="let model; columns: displayedColumns;"></tr>
+  </table>
 </div>
