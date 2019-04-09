@@ -4,6 +4,7 @@ import {DataService} from "../data/data.service";
 import {Aircraft} from "../models/aircraft.model";
 import {Store} from '@ngrx/store';
 import {main} from "@angular/compiler-cli/src/main";
+import {el} from "@angular/platform-browser/testing/src/browser_util";
 
 interface IRoute {
   weight: number;
@@ -17,14 +18,18 @@ export class RouteGenerationAlgorithmService {
 
   private mapPointToIndex = new Map();
 
+  private things: number[][];
   private graph: number[][];
 
   private aircrafts: Aircraft[];
 
   constructor(private dataService: DataService, private store: Store<any>) {
-    store.select("aircraft").subscribe(aircraft => {
-      this.aircrafts = aircraft;
-      this.main1()
+    this.graph = [[], []];
+    store.select("aircraft").subscribe((aircraft: Map<number, Aircraft>) => {
+      this.aircrafts = Array.from(aircraft.values());
+      if (this.aircrafts.length > 2) {
+        this.main1()
+      }
     });
   }
 
@@ -37,6 +42,8 @@ export class RouteGenerationAlgorithmService {
   // 3. write result to file
   private main1() {
     this.buildMapPointToIndex();
+    let numberOfPoint: number = this.mapPointToIndex.size;
+    this.graph = new Array(numberOfPoint).fill(0).map(() => new Array(numberOfPoint).fill(0));
     this.buildGraph();
     while (this.haveEdge(this.graph)) {
       // don't ask why i use the temp value but its not work
@@ -57,8 +64,8 @@ export class RouteGenerationAlgorithmService {
       let points = currentAircraft.path;
       // iterate over all points to build map
       for (let j = 0; j < points.length; j++) {
-        if (!this.mapPointToIndex.has(points[i])) {
-          this.mapPointToIndex.set(points[i], i)
+        if (!this.mapPointToIndex.has(points[j].pointId)) {
+          this.mapPointToIndex.set(points[j].pointId, j)
         }
       }
     }
@@ -71,10 +78,30 @@ export class RouteGenerationAlgorithmService {
       let points = currentAircraft.path;
       for (let j = 0; j < points.length - 1; j++) {
         let sourcePoint = points[j];
-        let sourcePointIndex = this.mapPointToIndex.get(sourcePoint);
+        let sourcePointIndex = this.mapPointToIndex.get(sourcePoint.pointId);
         let destPoint = points[j + 1];
-        let destPointIndex = this.mapPointToIndex.get(destPoint);
-        (this.graph[sourcePointIndex][destPointIndex])++
+        let destPointIndex = this.mapPointToIndex.get(destPoint.pointId);
+        this.graph[sourcePointIndex][destPointIndex]++;
+        //let x = new Array(points.length);
+        /*if (this.graph){
+          if (this.graph[sourcePointIndex]){
+
+          }
+          else{
+            this.graph.push()
+          }
+        }
+        else{
+          this.graph=[]
+          
+        }
+        if (this.graph[sourcePointIndex][destPointIndex]) {
+          let temp = this.graph[sourcePointIndex][destPointIndex];
+          temp = temp++;
+          this.graph[sourcePointIndex].push(temp)
+        } else {
+          this.graph[sourcePointIndex].push(1)
+        }*/
       }
     }
   }
@@ -131,16 +158,20 @@ export class RouteGenerationAlgorithmService {
   // return the source, dest and the maxWeight of the max edge
   private findMaxEdge(): any[] {
     let maxWeight = 0;
+    let maxI = 0;
+    let maxJ = 0;
     let i = 0;
     let j = 0;
     for (; i < this.graph.length; i++) {
       for (j = 0; j < this.graph[i].length; j++) {
         if (this.graph[i][j] > maxWeight) {
           maxWeight = this.graph[i][j];
+          maxI = i;
+          maxJ = j
         }
       }
     }
-    return [i, j, maxWeight];
+    return [maxI, maxJ, maxWeight];
   }
 
   // src its the row index and the dest is the column index
@@ -191,10 +222,10 @@ export class RouteGenerationAlgorithmService {
   private haveEdge(graph: number[][]): boolean {
     let haveEdge: boolean;
     haveEdge = false;
-    for (let i = 0; i < graph.length; i++){
-      for (let j = 0; j< graph[i].length; j++){
-        if (graph[i][j] && graph[i][j] >0){
-          return  true;
+    for (let i = 0; i < graph.length; i++) {
+      for (let j = 0; j < graph[i].length; j++) {
+        if (graph[i][j] && graph[i][j] > 0) {
+          return true;
         }
       }
     }
