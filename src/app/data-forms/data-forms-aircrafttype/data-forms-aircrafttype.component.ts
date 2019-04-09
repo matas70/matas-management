@@ -30,19 +30,19 @@ export class DataFormsAircraftTypeComponent implements OnInit {
     ngOnInit() {
       if (this.aircraftTypeData.name == undefined) {
         this.aircraftTypeData = new AircraftType();
-        this.aircraftTypeData.aircraftTypeId = this.dataService.getAircraftTypes().length + 1;
-        this.aircraftTypeData.name = "---";
-        this.aircraftTypeData.category = "---";
-        this.aircraftTypeData.type = "---";
-        this.aircraftTypeData.icon = "---";
-        this.aircraftTypeData.image = "---";
-        this.aircraftTypeData.classification = "---";
-        this.aircraftTypeData.description = "---";
-        this.aircraftTypeData.manufactured = "---";
-        this.aircraftTypeData.dimensions = "---";
-        this.aircraftTypeData.performance = "---";
-        this.aircraftTypeData.weight = "---";
-        this.aircraftTypeData.engine = "---";
+        this.aircraftTypeData.aircraftTypeId = 1;
+        this.aircraftTypeData.name = "";
+        this.aircraftTypeData.category = "";
+        this.aircraftTypeData.type = "";
+        this.aircraftTypeData.icon = "";
+        this.aircraftTypeData.image = "";
+        this.aircraftTypeData.classification = "";
+        this.aircraftTypeData.description = "";
+        this.aircraftTypeData.manufactured = "";
+        this.aircraftTypeData.dimensions = "";
+        this.aircraftTypeData.performance = "";
+        this.aircraftTypeData.weight = "";
+        this.aircraftTypeData.engine = "";
       }
     }
 

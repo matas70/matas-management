@@ -1,32 +1,22 @@
 <h1 mat-dialog-title dir="rtl">הכנס עיר חדשה</h1>
 <div mat-dialog-content dir="rtl">
-  <p>שם:</p>
   <mat-form-field>
-    <input matInput [(ngModel)]="pointData.pointName">
+    <input matInput placeholder="שם" [(ngModel)]="pointData.pointName">
   </mat-form-field>
-  <p>תת מיקום:</p>
   <mat-form-field>
-    <input matInput [(ngModel)]="pointData.pointLocation">
+    <input matInput placeholder="תת מיקום" [(ngModel)]="pointData.pointLocation">
   </mat-form-field>
-  <p>מיקום על קו האורך:</p>
   <mat-form-field>
-    <input matInput [(ngModel)]="pointData.E">
+    <input matInput placeholder="E" [(ngModel)]="pointData.E">
   </mat-form-field>
-  <p>מיקום על קו הרוחב:</p>
   <mat-form-field>
-    <input matInput [(ngModel)]="pointData.N">
+    <input matInput placeholder="N" [(ngModel)]="pointData.N">
   </mat-form-field>
-  <p>תת מיקום:</p>
   <mat-form-field>
-    <input matInput [(ngModel)]="pointData.pointName">
+    <input matInput placeholder="זמני פעילות" [(ngModel)]="pointData.activeTimes">
   </mat-form-field>
-  <p>זמני פעילות:</p>
   <mat-form-field>
-    <input matInput [(ngModel)]="pointData.activeTimes">
-  </mat-form-field>
-  <p>קישור לWAZE:</p>
-  <mat-form-field>
-    <input matInput [(ngModel)]="pointData.wazeLink">
+    <input matInput placeholder="קישור לWaze" [(ngModel)]="pointData.wazeLink">
   </mat-form-field>
   <mat-checkbox [(ngModel)]="pointData.hidden">הסתר עיר</mat-checkbox>
   <mat-checkbox [(ngModel)]="pointData.hideAircrafts">הסתר מטוסים מעל העיר</mat-checkbox>

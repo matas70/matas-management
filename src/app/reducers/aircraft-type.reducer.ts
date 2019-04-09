@@ -1,8 +1,7 @@
-import {AircraftActionsUnion} from "./aircraft.actions";
 import {ActionType} from "./action-types.enum";
-import {AircraftTypesActionUnion} from "./aircraft-type.actions";
+import {AircraftType} from "../models/aircraft-type.model";
 
-export function aircraftTypesReducer(state = [], action: any) {
+export function aircraftTypesReducer(state: Map<number, AircraftType> = new Map(), action: any) {
   switch (action.type) {
     case (ActionType.SET_AIRCRAFT_TYPES):
       return action.payload.aircraftTypes;

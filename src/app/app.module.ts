@@ -4,8 +4,10 @@ import {DataFormsModule} from './data-forms/data-forms.module';
 import { AppComponent } from './app.component';
 import { ManagementTableComponent } from './management-table/management-table.component';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import {MatTableModule, MatToolbarModule, MatIconModule, 
-        MatMenuModule, MatSortModule} from "@angular/material";
+import {
+  MatTableModule, MatToolbarModule, MatIconModule,
+  MatMenuModule, MatSortModule, MatButtonModule
+} from "@angular/material";
 import {StoreModule} from '@ngrx/store';
 import { reducers, metaReducers } from './reducers';
 import {DataService} from "./data/data.service";
@@ -34,7 +36,8 @@ import {BlobModule} from "angular-azure-blob-service";
     MatToolbarModule,
     MatIconModule,
     MatMenuModule,
-    MatSortModule
+    MatSortModule,
+    MatButtonModule
   ],
   providers: [DataService],
   bootstrap: [AppComponent]

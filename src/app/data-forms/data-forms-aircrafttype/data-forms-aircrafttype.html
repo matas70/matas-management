@@ -1,52 +1,40 @@
 <h1 mat-dialog-title dir="rtl">הכנס סוג כלי טיס חדש</h1>
 <div mat-dialog-content dir="rtl">
-  <p>שם:</p>
   <mat-form-field>
-    <input matInput [(ngModel)]="aircraftTypeData.name">
+    <input matInput placeholder="שם" [(ngModel)]="aircraftTypeData.name">
   </mat-form-field>
-  <p>קטגוריה:</p>
   <mat-form-field>
-    <input matInput [(ngModel)]="aircraftTypeData.category">
+    <input matInput placeholder="קטגוריה" [(ngModel)]="aircraftTypeData.category">
   </mat-form-field>
-  <p>קבוצה:</p>
   <mat-form-field>
-    <input matInput [(ngModel)]="aircraftTypeData.type">
+    <input matInput placeholder="קבוצה" [(ngModel)]="aircraftTypeData.type">
   </mat-form-field>
-  <p>אייקון:</p>
   <mat-form-field>
-    <input matInput [(ngModel)]="aircraftTypeData.icon">
+    <input matInput placeholder="שם קובץ אייקון" [(ngModel)]="aircraftTypeData.icon">
   </mat-form-field>
-  <p>תמונה:</p>
   <mat-form-field>
-    <input matInput [(ngModel)]="aircraftTypeData.image">
+    <input matInput placeholder="שם קובץ תמונה" [(ngModel)]="aircraftTypeData.image">
   </mat-form-field>
-  <p>סיווג:</p>
   <mat-form-field>
-    <input matInput [(ngModel)]="aircraftTypeData.classification">
+    <input matInput placeholder="סיווג" [(ngModel)]="aircraftTypeData.classification">
   </mat-form-field>
-  <p>תיאור:</p>
   <mat-form-field>
-    <input matInput [(ngModel)]="aircraftTypeData.description">
+    <textarea  matInput placeholder="תיאור" [(ngModel)]="aircraftTypeData.description"></textarea>
   </mat-form-field>
-  <p>מקום יצור:</p>
   <mat-form-field>
-    <input matInput [(ngModel)]="aircraftTypeData.manufactured">
+    <input matInput placeholder="ארץ ייצור" [(ngModel)]="aircraftTypeData.manufactured">
   </mat-form-field>
-  <p>מימדים:</p>
   <mat-form-field>
-    <input matInput [(ngModel)]="aircraftTypeData.dimensions">
+    <textarea  matInput placeholder="מימדים" [(ngModel)]="aircraftTypeData.dimensions"></textarea>
   </mat-form-field>
-  <p>תפקוד:</p>
   <mat-form-field>
-    <input matInput [(ngModel)]="aircraftTypeData.performance">
+    <textarea  matInput placeholder="ביצועים" [(ngModel)]="aircraftTypeData.performance"></textarea>
   </mat-form-field>
-  <p>משקל:</p>
   <mat-form-field>
-    <input matInput [(ngModel)]="aircraftTypeData.weight">
+    <textarea  matInput placeholder="משקל" [(ngModel)]="aircraftTypeData.weight"></textarea>
   </mat-form-field>
-  <p>מנוע:</p>
   <mat-form-field>
-    <input matInput [(ngModel)]="aircraftTypeData.engine">
+    <textarea  matInput placeholder="מנוע" [(ngModel)]="aircraftTypeData.engine"></textarea>
   </mat-form-field>
 </div>
 <div mat-dialog-actions>

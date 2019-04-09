@@ -4,10 +4,11 @@ import {Store} from "@ngrx/store";
 import {combineLatest, forkJoin} from "rxjs";
 import {Aircraft} from "../models/aircraft.model";
 import {Point} from "../models/point.model";
-import {MatSort, MatTableDataSource} from "@angular/material";
+import {MatDialog, MatSort, MatTableDataSource} from "@angular/material";
 import iziToast from "izitoast";
 import {AddUpdateAircraft} from "../reducers/aircraft.actions";
 import {AircraftType} from "../models/aircraft-type.model";
+import {DataFormsPointComponent} from "../data-forms/data-forms-point/data-forms-point.component";
 
 @Component({
   selector: 'app-management-table',
@@ -25,12 +26,12 @@ export class ManagementTableComponent implements OnInit {
   public aircraftTypes: Map<number, AircraftType>;
   public displayedColumns: any[] = [
     "name",
+    "actions",
     "N",
     "E"
   ]
 
-
-  constructor(private store: Store<any>) {
+  constructor(private store: Store<any>, private dialog: MatDialog) {
     let aircraftObservable = this.store.select("aircraft");
     aircraftObservable.subscribe(data => console.log(data));
     let pointsObservable = this.store.select("points");
@@ -48,6 +49,7 @@ export class ManagementTableComponent implements OnInit {
   }
 
   initTable() {
+    this._tableModel = [];
     Array.from(this.points.values()).forEach((point) => {
       let matchingAircrafts = Array.from(this.aircraft.values()).filter(
         (ac: Aircraft) => {
@@ -74,6 +76,13 @@ export class ManagementTableComponent implements OnInit {
     setTimeout(() => {
       this.table.data = this._tableModel;
     }, 1000);
+  }
+
+  editPoint(point: { point: Point, aircrafts: { aircraft: Aircraft, time: string }[] }) {
+    this.dialog.open(DataFormsPointComponent, {
+      width: "300px",
+      data: {...point.point}
+    })
   }
 
   getTimeOfAircraftOnPoint(aircraft: Aircraft, point: Point) {
