@@ -1,15 +1,20 @@
-<h1 mat-dialog-title>Enter new Aircraft</h1>
-<div mat-dialog-content>
-  <p>Aircraft ID:</p>
+<h1 mat-dialog-title dir="rtl">הוסף כלי טיס חדש</h1>
+<div mat-dialog-content dir="rtl">
+  <p>סוג כלי הטיס החדש:</p>
   <mat-form-field>
-    <input matInput [(ngModel)]="aircraftInput.aircraftId">
-  </mat-form-field>
-  <p>Aircraft Type ID:</p>
-  <mat-form-field>
-    <input matInput [(ngModel)]="aircraftInput.aircraftTypeId">
+  <mat-label *ngIf="aircraftData.aircraftTypeId == 0">לחץ כדי לבחור</mat-label>
+  <mat-label *ngIf="aircraftData.aircraftTypeId != 0">
+    {{this.aircraftTypes[aircraftData.aircraftTypeId - 1].name}}
+  </mat-label>
+  <mat-select>
+      <mat-option *ngFor="let aircraftType of this.aircraftTypesSorted" 
+      (click)="setAircraftTypeInput(aircraftType.name)" [value] = "aircraftType.name">
+        {{aircraftType.name}}
+      </mat-option>
+    </mat-select>
   </mat-form-field>
 </div>
 <div mat-dialog-actions>
-  <button mat-button (click)="onNoClick()">No Thanks</button>
-  <button mat-button (click)="onNoClick()">Ok</button>
+  <button mat-button (click)="onOkClick()">הוסף</button>
+  <button mat-button (click)="onNoClick()">בטל</button>
 </div>
