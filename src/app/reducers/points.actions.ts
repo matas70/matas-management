@@ -9,10 +9,10 @@ export class SetPoints implements Action {
   constructor(public payload: {points: Map<number, Point>}) {}
 }
 
-export class AddPoint implements Action {
-  type: ActionType = ActionType.ADD_POINT;
+export class AddUpdatePoint implements Action {
+  type: ActionType = ActionType.ADD_UPDATE_POINT;
 
   constructor(public payload: {point: Point}) {}
 }
 
-export type PointsActionsUnion = SetPoints | AddPoint;
+export type PointsActionsUnion = SetPoints | AddUpdatePoint;

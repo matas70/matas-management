@@ -7,13 +7,15 @@ import {Aircraft} from "../models/aircraft.model";
 import {HttpClient} from "@angular/common/http";
 import {HttpHeaders} from "@angular/common/http";
 import {forEach} from "@angular/router/src/utils/collection";
-// @ts-ignore
 import {Store} from "@ngrx/store";
 import {AddAircraftType, SetAircraftTypes} from "../reducers/aircraft-type.actions";
 import {AddUpdateAircraft, SetAircraft} from "../reducers/aircraft.actions";
-import {AddPoint, SetPoints} from "../reducers/points.actions";
+//import {AddPoint} from "../reducers/points.actions";
 import { BlobService, UploadConfig, UploadParams } from 'angular-azure-blob-service';
 import {ActionType} from "../reducers/action-types.enum";
+import {AddUpdatePoint, SetPoints} from "../reducers/points.actions";
+import {MatasMetadata} from "../models/matas-metadata.model";
+import {AddUpdateMatasMetadata} from "../reducers/matas-metadata.actions";
 
 
 const AIRCRAFTS_INFO = "https://matasisrael.blob.core.windows.net/matas/aircrafts-info.json";
@@ -51,7 +53,7 @@ export class DataService {
     let obs4 = this.http.get(ROUTES);
     forkJoin(obs1, obs2, obs3, obs4).subscribe((response: any[]) => {
       let aircraftsinfoJSON = response[0].aircraftTypes;
-      let aircraftsJSON = response[1].aircrafts;
+      let aircraftsJSON = response[1];
       //need this?
       let categoriesJSON = response[2];
       let routesJSON = response[3].routes;
@@ -63,9 +65,8 @@ export class DataService {
       let action = new SetAircraftTypes({aircraftTypes: aircraftTypes});
       this.store.dispatch(action);
 
-
-      let aircrafts: Map<number, Aircraft> = new Map();
-      for (let tuple of aircraftsJSON) {
+      let aircrafts: Map<number,Aircraft> = new Map();
+      for (let tuple of aircraftsJSON.aircrafts) {
         aircrafts.set(tuple.aircraftId, new Aircraft().setJson(tuple));
       }
       this.store.dispatch(new SetAircraft({aircraft: aircrafts}));
@@ -83,6 +84,9 @@ export class DataService {
       });
 
       this.store.dispatch(new SetPoints({points: pointsMap}));
+
+      let metadata = new MatasMetadata().setJson(aircraftsJSON);
+      this.store.dispatch(new AddUpdateMatasMetadata({matasMetadata: metadata}));
     });
   }
 
@@ -96,6 +100,14 @@ export class DataService {
 
   public getRoutes(): Route[] {
     return this.routes;
+  }
+
+  public getAircraftTypes() {
+    let aircraftTypesArray: any[];
+    this.store.select("aircraftTypes").subscribe(aircraftTypes=> {
+      aircraftTypesArray = Array.from(aircraftTypes.values());
+    });
+    return aircraftTypesArray;
   }
 
   public uploadData()
