@@ -1,8 +1,8 @@
 export class MatasMetadata {
-  private _startDate: string;
-  private _plannedStartTime: string;
-  private _actualStartTime: string;
-  private _plannedEndTime: string;
+  _startDate: string;
+  _plannedStartTime: string;
+  _actualStartTime: string;
+  _plannedEndTime: string;
 
   constructor(startTime?: string, plannedStartTime?: string, actualStartTime?: string, plannedEndTime?: string) {
     this._startDate = startTime;

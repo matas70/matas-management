@@ -9,6 +9,8 @@ import { DataFormsPointComponent } from './data-forms/data-forms-point/data-form
 import { Aircraft } from './models/aircraft.model';
 import { AircraftType } from './models/aircraft-type.model';
 import { Point } from './models/point.model';
+import { DataFormsMetadataComponent } from './data-forms/data-forms-metadata/data-forms-metadada.component';
+import { MatasMetadata } from './models/matas-metadata.model';
 
 @Component({
   selector: 'app-root',
@@ -39,11 +41,17 @@ export class AppComponent {
           width: '250px',
           data: new AircraftType()
         });
-    else
+    else if (dataType == 'point')
         dialogRefInput = this.dialog.open(DataFormsPointComponent, {
           width: '250px',
           data: new Point()
         });
+    else {
+        dialogRefInput = this.dialog.open(DataFormsMetadataComponent, {
+          width: '250px',
+          data: new MatasMetadata()
+        });
+    }
 
     const dialogRef = dialogRefInput;
   }
