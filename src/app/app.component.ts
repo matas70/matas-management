@@ -15,6 +15,6 @@ export class AppComponent {
     store.select("aircraft").subscribe(aircraft => {
       console.log(aircraft);
     });
-
+    store.select("matasMetadata").subscribe((data) => console.log(data));
   }
 }
