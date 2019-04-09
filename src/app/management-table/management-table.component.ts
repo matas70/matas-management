@@ -5,7 +5,6 @@ import {combineLatest, forkJoin} from "rxjs";
 import {Aircraft} from "../models/aircraft.model";
 import {Point} from "../models/point.model";
 import {MatSort, MatTableDataSource} from "@angular/material";
-import {Ng2IzitoastService} from "ng2-izitoast";
 import iziToast from "izitoast";
 import {AddUpdateAircraft} from "../reducers/aircraft.actions";
 import {AircraftType} from "../models/aircraft-type.model";

@@ -13,7 +13,6 @@ import {HttpClientModule} from "@angular/common/http";
 import {ContenteditableModel} from "./management-table/content-editable.directive";
 import {FormsModule} from "@angular/forms";
 import {CdkTableModule} from "@angular/cdk/table";
-import {Ng2IziToastModule} from "ng2-izitoast";
 
 @NgModule({
   declarations: [
