@@ -4,6 +4,7 @@ import {Store} from '@ngrx/store';
 
 import { Point } from '../../models/point.model';
 import { AddUpdatePoint } from 'src/app/reducers/points.actions';
+import { pointsReducer } from 'src/app/reducers/points.reducer';
 
 @Component({
   selector: 'app-data-forms-point',
