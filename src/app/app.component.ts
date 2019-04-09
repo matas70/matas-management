@@ -23,6 +23,8 @@ export class AppComponent {
     store.select("aircraft").subscribe(aircraft => {
       console.log(aircraft);
     });
+
+    store.select("matasMetadata").subscribe((data) => console.log(data));
   }
 
   openDialog(dataType: string): void {
@@ -97,12 +99,12 @@ export class AppComponent {
           width: '250px',
           data: new AircraftType()
         });
-    else 
+    else
         dialogRefInput = this.dialog.open(DataFormsPointComponent, {
           width: '250px',
           data: new Point()
         });
-    
+
     const dialogRef = dialogRefInput;
   }
 }
