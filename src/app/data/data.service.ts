@@ -90,4 +90,12 @@ export class DataService {
   public getRoutes(): Route[] {
     return this.routes;
   }
+
+  public getAircraftTypes() {
+    let aircraftTypesArray: any[];
+    this.store.select("aircraftTypes").subscribe(aircraftTypes=> {
+      aircraftTypesArray = Array.from(aircraftTypes.values());
+    });
+    return aircraftTypesArray;
+  }
 }

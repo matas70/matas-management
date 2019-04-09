@@ -7,7 +7,7 @@ export function pointsReducer(state = new Map<number, Point>(), action: any) {
     case (ActionType.SET_POINTS):
       return action.payload.points;
 
-    case (ActionType.ADD_POINT):
+    case (ActionType.ADD_UPDATE_POINT):
       let newMap = new Map(state);
       newMap.set(action.payload.point.pointId, action.payload.point);
       return newMap;
