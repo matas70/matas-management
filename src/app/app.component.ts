@@ -27,9 +27,9 @@ export class AppComponent {
       console.log(aircraft);
     });
 
-    store.select("matasMetadata").subscribe((data) => {
-      console.log(data);
-      this.matasMetadata = data;
+    store.select("matasMetadata").subscribe((metaData) => {
+      console.log(metaData);
+      this.matasMetadata = metaData;
     });
   }
 

@@ -30,7 +30,9 @@ export class DataFormsAircraftTypeComponent implements OnInit {
     ngOnInit() {
       if (this.aircraftTypeData.name == undefined) {
         this.aircraftTypeData = new AircraftType();
-        this.aircraftTypeData.aircraftTypeId = 1;
+        this.store.select("aircraftTypes").subscribe((types: Map<number, AircraftType>) => {
+          this.aircraftTypeData.aircraftTypeId = Array.from(types.values()).length + 1;
+        });
         this.aircraftTypeData.name = "";
         this.aircraftTypeData.category = "";
         this.aircraftTypeData.type = "";
