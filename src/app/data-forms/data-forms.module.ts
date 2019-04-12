@@ -31,7 +31,6 @@ import { DataFormsMetadataComponent } from './data-forms-metadata/data-forms-met
     DataFormsAircraftTypeComponent,
     DataFormsPointComponent,
     DataFormsMetadataComponent
-  ],
-  exports: [DataFormsComponent]
+  ]
 })
 export class DataFormsModule { }

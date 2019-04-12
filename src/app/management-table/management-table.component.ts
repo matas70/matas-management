@@ -45,6 +45,7 @@ export class ManagementTableComponent implements OnInit {
 
     store.select("aircraftTypes").subscribe((types: Map<number, AircraftType>) => {
       this.aircraftTypes = types;
+      console.log(types);
     });
   }
 

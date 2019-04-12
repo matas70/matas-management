@@ -12,7 +12,10 @@ import { DataService } from 'src/app/data/data.service';
 })
 export class DataFormsAircraftTypeComponent implements OnInit {
 
+  newAircraftTypeId: number;
+
     onOkClick() {
+      this.aircraftTypeData.aircraftTypeId = this.newAircraftTypeId;
       this.store.dispatch(new AddAircraftType({aircraftType: this.aircraftTypeData}));
 
       this.dialogRef.close();
@@ -25,13 +28,12 @@ export class DataFormsAircraftTypeComponent implements OnInit {
     constructor(public dialogRef: MatDialogRef<DataFormsAircraftTypeComponent>,
                 @Inject(MAT_DIALOG_DATA) public aircraftTypeData: AircraftType,
                 public store: Store<any>, private dataService: DataService) {
-     }
-
-    ngOnInit() {
       if (this.aircraftTypeData.name == undefined) {
         this.aircraftTypeData = new AircraftType();
         this.store.select("aircraftTypes").subscribe((types: Map<number, AircraftType>) => {
-          this.aircraftTypeData.aircraftTypeId = Array.from(types.values()).length + 1;
+          let acTypes = Array.from(types.values());
+          this.newAircraftTypeId = 
+                            acTypes[acTypes.length - 1].aircraftTypeId + 1;
         });
         this.aircraftTypeData.name = "";
         this.aircraftTypeData.category = "";
@@ -46,6 +48,8 @@ export class DataFormsAircraftTypeComponent implements OnInit {
         this.aircraftTypeData.weight = "";
         this.aircraftTypeData.engine = "";
       }
-    }
+     }
+
+    ngOnInit() {}
 
 }
