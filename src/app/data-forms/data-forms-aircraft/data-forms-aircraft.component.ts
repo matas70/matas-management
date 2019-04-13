@@ -37,12 +37,17 @@ export class DataFormsAircraftComponent implements OnInit {
       });
       this.currentType = this.aircraftTypes[0];
     });
+
+
     store.select("aircraft").subscribe((aircraft: Map<number, Aircraft>) => {
       this.aircrafts = Array.from(aircraft.values());
     });
     this.aircraftTypeInput = new AircraftType();
 
     this.newValue = (aircraftData.aircraftTypeId === undefined);
+    if (!this.newValue) {
+      this.currentType = this.aircraftTypes.find((type) => this.aircraftData.aircraftTypeId === type.aircraftTypeId);
+    }
   }
 
   onNoClick(): void {
@@ -58,7 +63,6 @@ export class DataFormsAircraftComponent implements OnInit {
 
     if (this.newValue) {
       lastId = this.aircrafts[this.aircrafts.length - 1].aircraftId + 1;
-
       this.aircraftData.aircraftId = lastId;
       this.aircraftData.path = [];
     }

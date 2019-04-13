@@ -40,8 +40,16 @@ export class DataService {
   private blob: BlobService;
   private config: UploadConfig;
 
-  constructor(private http: HttpClient, private store: Store<any>) {
+  private currentAircrafts: Aircraft[];
+  private currentPoints: Point[];
+  private currentTypes: AircraftType[];
+  private currentMeta: MatasMetadata;
 
+  constructor(private http: HttpClient, private store: Store<any>) {
+    this.store.select("aircraft").subscribe((acs) => this.currentAircrafts = Array.from(acs.values()));
+    this.store.select("points").subscribe((points: Map<number, Point>) => this.currentPoints = Array.from(points.values()));
+    this.store.select("aircraftTypes").subscribe((types: Map<number, AircraftType>) => this.currentTypes = Array.from(types.values()));
+    this.store.select("matasMetadata").subscribe((mets) => this.currentMeta = mets);
   }
 
 
@@ -102,6 +110,11 @@ export class DataService {
     return this.routes;
   }
 
+  public tempSave() {
+    this.currentMeta["aircrafts"] = this.currentAircrafts;
+    this.uploadSingleData("nir.json", JSON.stringify(this.currentMeta))
+  }
+
   public uploadData()
   {
     this.uploadSingleData("aircrafts.json",JSON.stringify(this.aircrafts));
@@ -110,8 +123,8 @@ export class DataService {
 
   }
   public uploadSingleData(name:string,content:string) {
-    let sasToken="?sv=2018-03-28&ss=bfqt&srt=sco&sp=rwdlacup&se=2019-04-10T19:36:12Z&st=2019-04-08T11:36:12Z&spr=https,http&sig=PCagW7Rpan7QdfH5plBfCYeFHUPb4bmUi3J7%2Fg4wKSI%3D"
-    let url = "https://matasisrael.blob.core.windows.net/matas/routesss.json" + sasToken;
+    let sasToken="?sp=rw&st=2019-04-12T23:40:37Z&se=2019-04-28T07:40:37Z&spr=https&sv=2018-03-28&sig=Bu3Lk7%2BlCcgqRLdjggGQNv%2BqMUn97I82b5k40vyH5lA%3D&sr=b"
+    let url = "https://matasisrael.blob.core.windows.net/matas/" + name + sasToken;
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json; charset=UTF-8',
@@ -121,9 +134,7 @@ export class DataService {
     };
     this.http.put(url, content, httpOptions).subscribe(data=> {
       console.log("BIGUS DICKUS")
-    })
-
-
+    });
   }
 
 }

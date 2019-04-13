@@ -18,14 +18,18 @@
       <th mat-header-cell *matHeaderCellDef>פעולות</th>
       <td mat-cell *matCellDef="let model">
         <img src="/assets/edit.png" style="width: 15px; height: 15px; cursor: pointer;" (click)="editPoint(model)">
+        <img src="/assets/Delete.png" style="width: 15px; height: 15px; cursor: pointer;" (click)="deletePoint(model)">
       </td>
     </ng-container>
-    <ng-container *ngFor="let aircraft of aircraftArray" matColumnDef="time-{{aircraft.aircraftId}}">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header="">
-        {{aircraftTypes.get(aircraft.aircraftTypeId).name + ' ' + aircraft.aircraftId}}
+    <ng-container *ngFor="let aircraft of aircraftArray; trackBy: trackByIndex" matColumnDef="time-{{aircraft.aircraftId}}">
+      <th mat-header-cell *matHeaderCellDef >
+        <img src="/assets/edit.png" style="width: 15px; height: 15px; cursor: pointer;" (click)="editAircraft(aircraft)">
+        <img src="/assets/Delete.png" style="width: 15px; height: 15px; cursor: pointer;" (click)="deleteAircraft(aircraft)">
+        <label mat-sort-header="">{{getAircraftTypeName(aircraft) + ' ' + aircraft.aircraftId}}</label>
       </th>
       <td mat-cell *matCellDef="let model">
-        <label (keydown)="labelKeyDown($event, aircraft, model.point)" #lbl contenteditable="true"
+        <label [class.updated-time]="isAircraftPointUpdated(aircraft, model.point)"
+          (keydown)="labelKeyDown($event, aircraft, model.point)" #lbl contenteditable="true"
                (focus)="labelClicked(lbl, aircraft, model.point)" (click)="labelClicked(lbl)" (blur)="labelBlurred(lbl, aircraft, model.point)"
                [contenteditableModel]="getTimeOfAircraftOnPoint(aircraft, model.point)"
                (contenteditableModelChange)="aircraftTimeOnPointChanged(aircraft, model.point, $event)">

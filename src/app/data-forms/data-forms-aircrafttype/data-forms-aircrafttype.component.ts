@@ -14,7 +14,6 @@ export class DataFormsAircraftTypeComponent implements OnInit {
 
     onOkClick() {
       this.store.dispatch(new AddAircraftType({aircraftType: this.aircraftTypeData}));
-
       this.dialogRef.close();
     }
 
