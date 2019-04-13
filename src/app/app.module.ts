@@ -15,7 +15,6 @@ import {HttpClientModule} from "@angular/common/http";
 import {ContenteditableModel} from "./management-table/content-editable.directive";
 import {FormsModule} from "@angular/forms";
 import {CdkTableModule} from "@angular/cdk/table";
-import {BlobModule} from "angular-azure-blob-service";
 
 @NgModule({
   declarations: [
@@ -30,7 +29,6 @@ import {BlobModule} from "angular-azure-blob-service";
     BrowserModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    BlobModule.forRoot(),
     StoreModule.forRoot(reducers, { metaReducers }),
     MatTableModule,
     MatToolbarModule,
