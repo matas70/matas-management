@@ -11,6 +11,10 @@ export function aircraftReducer(state = [], action: any) {
       let newMap = new Map(state);
       newMap.set(action.payload.aircraft.aircraftId, action.payload.aircraft);
       return newMap;
+    } case (ActionType.DELETE_AIRCRAFT): {
+      let newMap = new Map(state);
+      newMap.delete(action.payload.aircraft.aircraftId);
+      return newMap;
     }
     default:
       return state;

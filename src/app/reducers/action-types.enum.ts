@@ -6,5 +6,7 @@ export const enum ActionType {
   ADD_UPDATE_POINT = "addPoint",
   SET_AIRCRAFT_TYPES = "setAircraftTypes",
   ADD_AIRCRAFT_TYPE = "addAircraftType",
-  ADD_UPDATE_MATAS_METADATA = "addUpdateMatasMetadata"
+  ADD_UPDATE_MATAS_METADATA = "addUpdateMatasMetadata",
+  DELETE_POINT = "deletePoint",
+  DELETE_AIRCRAFT = "deleteAircraft"
 }

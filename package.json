@@ -24,7 +24,6 @@
     "@angular/router": "~7.2.0",
     "@ng-stack/contenteditable": "^1.0.1",
     "@ngrx/store": "^7.4.0",
-    "angular-azure-blob-service": "^1.1.0",
     "angular-inline-editors": "^2.0.4",
     "core-js": "^2.5.4",
     "izitoast": "^1.4.0",

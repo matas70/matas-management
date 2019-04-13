@@ -21,7 +21,7 @@ export class AppComponent {
   title = 'matas-management';
   matasMetadata: MatasMetadata;
 
-  constructor(private store: Store<any>, data: DataService, public dialog: MatDialog) {
+  constructor(private store: Store<any>, private data: DataService, public dialog: MatDialog) {
     data.loadData();
     store.select("aircraft").subscribe(aircraft => {
       console.log(aircraft);
@@ -33,6 +33,10 @@ export class AppComponent {
         this.matasMetadata = metaData;
       }
     });
+  }
+
+  saveClicked() {
+    this.data.tempSave();
   }
 
   openDialog(dataType: string): void {

@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
 import {DataService} from "../data/data.service";
 import {Store} from "@ngrx/store";
 import {combineLatest, forkJoin} from "rxjs";
@@ -6,9 +6,12 @@ import {Aircraft} from "../models/aircraft.model";
 import {Point} from "../models/point.model";
 import {MatDialog, MatSort, MatTableDataSource} from "@angular/material";
 import iziToast from "izitoast";
-import {AddUpdateAircraft} from "../reducers/aircraft.actions";
+import {AddUpdateAircraft, DeleteAircraft} from "../reducers/aircraft.actions";
 import {AircraftType} from "../models/aircraft-type.model";
 import {DataFormsPointComponent} from "../data-forms/data-forms-point/data-forms-point.component";
+import {ActionType} from "../reducers/action-types.enum";
+import {DeletePoint} from "../reducers/points.actions";
+import {DataFormsAircraftComponent} from "../data-forms/data-forms-aircraft/data-forms-aircraft.component";
 
 @Component({
   selector: 'app-management-table',
@@ -30,12 +33,11 @@ export class ManagementTableComponent implements OnInit {
     "N",
     "E"
   ]
+  public updatedAcs: { point: Point, aircraft: Aircraft}[] = [];
 
-  constructor(private store: Store<any>, private dialog: MatDialog) {
+  constructor(private store: Store<any>, private dialog: MatDialog, private changeRef: ChangeDetectorRef) {
     let aircraftObservable = this.store.select("aircraft");
-    aircraftObservable.subscribe(data => console.log(data));
     let pointsObservable = this.store.select("points");
-    pointsObservable.subscribe(data => console.log(data));
 
     combineLatest(aircraftObservable, pointsObservable).subscribe((data: any[]) => {
       this.aircraft = data[0];
@@ -45,7 +47,6 @@ export class ManagementTableComponent implements OnInit {
 
     store.select("aircraftTypes").subscribe((types: Map<number, AircraftType>) => {
       this.aircraftTypes = types;
-      console.log(types);
     });
   }
 
@@ -76,14 +77,32 @@ export class ManagementTableComponent implements OnInit {
     this.aircraftArray = Array.from(this.aircraft.values());
     setTimeout(() => {
       this.table.data = this._tableModel;
-    }, 1000);
+    }, 100);
+
+    // this.changeRef.detectChanges();
   }
 
   editPoint(point: { point: Point, aircrafts: { aircraft: Aircraft, time: string }[] }) {
     this.dialog.open(DataFormsPointComponent, {
       width: "300px",
       data: {...point.point}
-    })
+    });
+  }
+
+  deletePoint(point: {point: Point, aircrafts: {aircraft: Aircraft, time:String}[]}) {
+    this.store.dispatch(new DeletePoint({point: point.point}));
+  }
+
+  editAircraft(ac: Aircraft) {
+    this.dialog.open(DataFormsAircraftComponent, {
+      width: "300px",
+      data: {...ac}
+    });
+  }
+
+  deleteAircraft(ac: Aircraft) {
+    this.displayedColumns.splice(this.displayedColumns.findIndex((col) => col === "time-" + ac.aircraftId));
+    this.store.dispatch(new DeleteAircraft({aircraft: ac}));
   }
 
   getTimeOfAircraftOnPoint(aircraft: Aircraft, point: Point) {
@@ -113,20 +132,27 @@ export class ManagementTableComponent implements OnInit {
         if (foundTime.time !== newTime) {
           foundTime.time = newTime;
           this.store.dispatch(new AddUpdateAircraft({aircraft: aircraft}));
-          iziToast.success({
-            message: "הזמן עודכן בהצלחה!"
-          });
+          this.updatedAcs.push({point: point, aircraft: aircraft});
+          // iziToast.success({
+          //   message: "הזמן עודכן בהצלחה!"
+          // });
         }
       } else {
         aircraft.path.push({pointId: point.pointId, time: newTime});
         this.store.dispatch(new AddUpdateAircraft({aircraft: aircraft}));
-        iziToast.success({
-          message: "הזמן עודכן בהצלחה!"
-        });
+        this.updatedAcs.push({point: point, aircraft: aircraft});
+        // iziToast.success({
+        //   message: "הזמן עודכן בהצלחה!"
+        // });
       }
     } else {
 
     }
+  }
+
+  isAircraftPointUpdated(ac: Aircraft, point: Point) {
+    return this.updatedAcs.find((obj) => obj.point.pointId === point.pointId &&
+                                ac.aircraftId === obj.aircraft.aircraftId);
   }
 
   labelClicked(lbl) {
@@ -141,7 +167,6 @@ export class ManagementTableComponent implements OnInit {
       if (currentTarget.innerText == "" || !this.timeRegexp.test(currentTarget.innerText)) {
         currentTarget.blur();
       } else {
-        console.log("Should send that shit to whatever lol")
         event.preventDefault();
         currentTarget.blur();
       }
@@ -157,7 +182,6 @@ export class ManagementTableComponent implements OnInit {
         backgroundColor: "#FF502E"
       });
     } else {
-      console.log("Should send that shit to whatever lol")
     }
   }
 
@@ -179,5 +203,13 @@ export class ManagementTableComponent implements OnInit {
     let acId = columnName.split("-")[1];
     let obj = item.aircrafts.find((ac) => Number(acId) === ac.aircraft.aircraftId);
     return obj ? obj.time : "";
+  }
+
+  trackByIndex(i) {
+    return i;
+  }
+
+  getAircraftTypeName(ac: Aircraft) {
+    return this.aircraftTypes.get(ac.aircraftTypeId).name;
   }
 }

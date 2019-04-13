@@ -11,7 +11,6 @@ import {Store} from "@ngrx/store";
 import {AddAircraftType, SetAircraftTypes} from "../reducers/aircraft-type.actions";
 import {AddUpdateAircraft, SetAircraft} from "../reducers/aircraft.actions";
 //import {AddPoint} from "../reducers/points.actions";
-import { BlobService, UploadConfig, UploadParams } from 'angular-azure-blob-service';
 import {ActionType} from "../reducers/action-types.enum";
 import {AddUpdatePoint, SetPoints} from "../reducers/points.actions";
 import {MatasMetadata} from "../models/matas-metadata.model";
@@ -23,11 +22,6 @@ const AIRCRAFTS = "https://matasisrael.blob.core.windows.net/matas/aircrafts.jso
 const CATEGORIES = "https://matasisrael.blob.core.windows.net/matas/categories.json";
 const ROUTES = "https://matasisrael.blob.core.windows.net/matas/routes.json";
 
-const Config: UploadParams = {
-  sas: "?sv=2018-03-28&ss=bfqt&srt=sco&sp=rwdlacup&se=2022-05-09T14:25:14Z&st=2019-04-09T06:25:14Z&spr=https,http&sig=RWFsOZsw%2FsDavG2fS1lDm%2FnBNT1pilRcxk0UMWzNGXk%3D",
-  storageAccount: "matasisrael",
-  containerName: 'matas'
-};
 @Injectable({
   providedIn: 'root'
 })
@@ -37,11 +31,17 @@ export class DataService {
   public aircraftsTypes: AircraftType[] = [];
   public points: Point[] = [];
   public routes: Route[] = [];
-  private blob: BlobService;
-  private config: UploadConfig;
+
+  private currentAircrafts: Aircraft[];
+  private currentPoints: Point[];
+  private currentTypes: AircraftType[];
+  private currentMeta: MatasMetadata;
 
   constructor(private http: HttpClient, private store: Store<any>) {
-
+    this.store.select("aircraft").subscribe((acs) => this.currentAircrafts = Array.from(acs.values()));
+    this.store.select("points").subscribe((points: Map<number, Point>) => this.currentPoints = Array.from(points.values()));
+    this.store.select("aircraftTypes").subscribe((types: Map<number, AircraftType>) => this.currentTypes = Array.from(types.values()));
+    this.store.select("matasMetadata").subscribe((mets) => this.currentMeta = mets);
   }
 
 
@@ -102,6 +102,11 @@ export class DataService {
     return this.routes;
   }
 
+  public tempSave() {
+    this.currentMeta["aircrafts"] = this.currentAircrafts;
+    this.uploadSingleData("nir.json", JSON.stringify(this.currentMeta))
+  }
+
   public uploadData()
   {
     this.uploadSingleData("aircrafts.json",JSON.stringify(this.aircrafts));
@@ -110,8 +115,8 @@ export class DataService {
 
   }
   public uploadSingleData(name:string,content:string) {
-    let sasToken="?sv=2018-03-28&ss=bfqt&srt=sco&sp=rwdlacup&se=2019-04-10T19:36:12Z&st=2019-04-08T11:36:12Z&spr=https,http&sig=PCagW7Rpan7QdfH5plBfCYeFHUPb4bmUi3J7%2Fg4wKSI%3D"
-    let url = "https://matasisrael.blob.core.windows.net/matas/routesss.json" + sasToken;
+    let sasToken="?sp=rw&st=2019-04-12T23:40:37Z&se=2019-04-28T07:40:37Z&spr=https&sv=2018-03-28&sig=Bu3Lk7%2BlCcgqRLdjggGQNv%2BqMUn97I82b5k40vyH5lA%3D&sr=b"
+    let url = "https://matasisrael.blob.core.windows.net/matas/" + name + sasToken;
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json; charset=UTF-8',
@@ -121,9 +126,7 @@ export class DataService {
     };
     this.http.put(url, content, httpOptions).subscribe(data=> {
       console.log("BIGUS DICKUS")
-    })
-
-
+    });
   }
 
 }

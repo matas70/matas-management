@@ -14,4 +14,10 @@ export class AddUpdateAircraft implements Action {
   constructor(public payload: {aircraft: Aircraft}) {}
 }
 
+export class DeleteAircraft implements Action {
+  type: ActionType = ActionType.DELETE_AIRCRAFT;
+
+  constructor(public payload: {aircraft: Aircraft}) {}
+}
+
 export type AircraftActionsUnion = SetAircraft | AddUpdateAircraft;
