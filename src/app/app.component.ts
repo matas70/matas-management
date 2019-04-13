@@ -29,7 +29,9 @@ export class AppComponent {
 
     store.select("matasMetadata").subscribe((metaData) => {
       console.log(metaData);
-      this.matasMetadata = metaData;
+      if (metaData != undefined) {
+        this.matasMetadata = metaData;
+      }
     });
   }
 
