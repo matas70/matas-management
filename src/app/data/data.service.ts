@@ -11,7 +11,6 @@ import {Store} from "@ngrx/store";
 import {AddAircraftType, SetAircraftTypes} from "../reducers/aircraft-type.actions";
 import {AddUpdateAircraft, SetAircraft} from "../reducers/aircraft.actions";
 //import {AddPoint} from "../reducers/points.actions";
-import { BlobService, UploadConfig, UploadParams } from 'angular-azure-blob-service';
 import {ActionType} from "../reducers/action-types.enum";
 import {AddUpdatePoint, SetPoints} from "../reducers/points.actions";
 import {MatasMetadata} from "../models/matas-metadata.model";
@@ -23,11 +22,6 @@ const AIRCRAFTS = "https://matasisrael.blob.core.windows.net/matas/aircrafts.jso
 const CATEGORIES = "https://matasisrael.blob.core.windows.net/matas/categories.json";
 const ROUTES = "https://matasisrael.blob.core.windows.net/matas/routes.json";
 
-const Config: UploadParams = {
-  sas: "?sv=2018-03-28&ss=bfqt&srt=sco&sp=rwdlacup&se=2022-05-09T14:25:14Z&st=2019-04-09T06:25:14Z&spr=https,http&sig=RWFsOZsw%2FsDavG2fS1lDm%2FnBNT1pilRcxk0UMWzNGXk%3D",
-  storageAccount: "matasisrael",
-  containerName: 'matas'
-};
 @Injectable({
   providedIn: 'root'
 })
@@ -37,8 +31,6 @@ export class DataService {
   public aircraftsTypes: AircraftType[] = [];
   public points: Point[] = [];
   public routes: Route[] = [];
-  private blob: BlobService;
-  private config: UploadConfig;
 
   private currentAircrafts: Aircraft[];
   private currentPoints: Point[];
