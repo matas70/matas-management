@@ -37,9 +37,7 @@ export class ManagementTableComponent implements OnInit {
 
   constructor(private store: Store<any>, private dialog: MatDialog, private changeRef: ChangeDetectorRef) {
     let aircraftObservable = this.store.select("aircraft");
-    aircraftObservable.subscribe(data => console.log(data));
     let pointsObservable = this.store.select("points");
-    pointsObservable.subscribe(data => console.log(data));
 
     combineLatest(aircraftObservable, pointsObservable).subscribe((data: any[]) => {
       this.aircraft = data[0];
@@ -49,7 +47,6 @@ export class ManagementTableComponent implements OnInit {
 
     store.select("aircraftTypes").subscribe((types: Map<number, AircraftType>) => {
       this.aircraftTypes = types;
-      console.log(types);
     });
   }
 
@@ -170,7 +167,6 @@ export class ManagementTableComponent implements OnInit {
       if (currentTarget.innerText == "" || !this.timeRegexp.test(currentTarget.innerText)) {
         currentTarget.blur();
       } else {
-        console.log("Should send that shit to whatever lol")
         event.preventDefault();
         currentTarget.blur();
       }
@@ -186,7 +182,6 @@ export class ManagementTableComponent implements OnInit {
         backgroundColor: "#FF502E"
       });
     } else {
-      console.log("Should send that shit to whatever lol")
     }
   }
 
