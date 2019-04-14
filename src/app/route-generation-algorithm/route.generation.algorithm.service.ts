@@ -3,6 +3,8 @@ import {from} from 'rxjs';
 import {DataService} from "../data/data.service";
 import {Aircraft} from "../models/aircraft.model";
 import {Store} from '@ngrx/store';
+import {Point} from "../models/point.model";
+import {Route} from "../models/route.model";
 import {main} from "@angular/compiler-cli/src/main";
 import {el} from "@angular/platform-browser/testing/src/browser_util";
 
@@ -24,13 +26,23 @@ export class RouteGenerationAlgorithmService {
   private routes: IRoute[] = [];
   private aircrafts: Aircraft[];
 
+  private mapPointIdToIndex: Map<number, number> = new Map();
+
+  private mapIndexToPoint: Map<number, Point> = new Map();
+
+  private pointsMap: Map<number, Point> = new Map();
+
+  private routesColor: string[] = [];
+
+  private routesMap: Map<number, Route> = new Map();
+
   constructor(private dataService: DataService, private store: Store<any>) {
     this.graph = [[], []];
     store.select("aircraft").subscribe((aircraft: Map<number, Aircraft>) => {
       this.aircrafts = Array.from(aircraft.values());
-      if (this.aircrafts.length > 2) {
-        this.main1()
-      }
+    });
+    store.select("points").subscribe((points: Map<number, Point>) => {
+      this.pointsMap = points;
     });
   }
 
@@ -41,36 +53,38 @@ export class RouteGenerationAlgorithmService {
   //      2. find the maximal weight route
   //      3. delete edges, who found at level before
   // 3. write result to file
-  private main1() {
-    this.buildMapPointToIndex();
-    let numberOfPoint: number = this.mapPointToIndex.size;
+public main1() {
+    let routes: IRoute[] = [];
+    this.buildMapPointIdToIndex();
+    this.buildMapIndexToPointId();
+    let numberOfPoint: number = this.mapPointIdToIndex.size;
     this.graph = new Array(numberOfPoint).fill(0).map(() => new Array(numberOfPoint).fill(0));
     this.buildGraph();
     while (this.haveEdge(this.graph)) {
       // don't ask why i use the temp value but its not work
       // if i send the function, like: this.findSrc(this.findMaxEdge());
       let [x, y, z] = this.findMaxEdge();
-      if(z == 0){
-        break;
-      }
       let src = this.findSrc([x, y, z]);
       let dest = this.findDest([x, y, z]);
+      if (src == dest) {
+        break;
+      }
       let maximalRoute = this.findMaximalRoute1(this.graph, src, dest);
-      this.routes.push(maximalRoute);
+      routes.push(maximalRoute);
       this.removeMaximalRoute(this.graph, maximalRoute.routeNodes);
     }
-    let x = 5;
+    this.updateRoutes(routes)
   }
 
-  private buildMapPointToIndex() {
+  private buildMapPointIdToIndex() {
     // iterate over all aircrafts
     for (let i = 0; i < this.aircrafts.length; i++) {
       let currentAircraft = this.aircrafts[i];
       let points = currentAircraft.path;
       // iterate over all points to build map
       for (let j = 0; j < points.length; j++) {
-        if (!this.mapPointToIndex.has(points[j].pointId)) {
-          this.mapPointToIndex.set(points[j].pointId, j)
+        if (!this.mapPointIdToIndex.has(points[j].pointId)) {
+          this.mapPointIdToIndex.set(points[j].pointId, j)
         }
       }
     }
@@ -83,9 +97,9 @@ export class RouteGenerationAlgorithmService {
       let points = currentAircraft.path;
       for (let j = 0; j < points.length - 1; j++) {
         let sourcePoint = points[j];
-        let sourcePointIndex = this.mapPointToIndex.get(sourcePoint.pointId);
+        let sourcePointIndex = this.mapPointIdToIndex.get(sourcePoint.pointId);
         let destPoint = points[j + 1];
-        let destPointIndex = this.mapPointToIndex.get(destPoint.pointId);
+        let destPointIndex = this.mapPointIdToIndex.get(destPoint.pointId);
         this.graph[sourcePointIndex][destPointIndex]++;
       }
     }
@@ -107,17 +121,39 @@ export class RouteGenerationAlgorithmService {
 
   5
    */
-  private findSrc([srcMaxEdge, destMaxEdge, maxWeight]): number {
+  private findSrc([srcMaxEdge, destMaxEdge, maxWeight],deviationInPercent = 5 ): number {
     let candidateSrc = srcMaxEdge;
     for (let i = 0; i < this.graph[srcMaxEdge].length; i++) {
       let currentColumn = this.getColumn(this.graph, srcMaxEdge);
       if (i != destMaxEdge && maxWeight == currentColumn[i]) {
         return this.findSrc([i, srcMaxEdge, maxWeight]);
       }
+      else{
+        //  check for more edges with deviation of number's plan
+        if(i != destMaxEdge && this.isBetween(maxWeight, currentColumn[i])){
+          return this.findSrc([i, srcMaxEdge, maxWeight]);
+        }
+      }
     }
     return candidateSrc;
   }
 
+  private isBetween(weight: number, value:number, deviationInPercent: number = 6.5):boolean{
+    return ((weight < value && Math.ceil(weight + weight * deviationInPercent /100) > value)  ||
+      (weight > value && Math.floor( weight - weight * deviationInPercent /100) <value))
+  }
+
+  /*
+  1   2   3   4   5
+
+  2       10
+
+  3
+
+  4   10
+
+  5
+   */
   // the opposite of the findSrc
   private findDest([srcMaxEdge, destMaxEdge, maxWeight]): number {
     let candidateDest = destMaxEdge;
@@ -126,6 +162,11 @@ export class RouteGenerationAlgorithmService {
       let currentRow = this.graph[destMaxEdge];
       if (i != destMaxEdge && maxWeight == currentRow[i]) {
         return this.findDest([destMaxEdge, i, maxWeight]);
+      }
+      else{
+        if(i != destMaxEdge && this.isBetween(maxWeight, currentRow[i])){
+          return this.findDest([i, srcMaxEdge, maxWeight]);
+        }
       }
     }
     return candidateDest;
@@ -255,5 +296,44 @@ export class RouteGenerationAlgorithmService {
 
   private writeRoutesToJson(routes: IRoute[]) {
 
+  }
+
+  private static generateRandomColor(): string {
+    return Math.floor(Math.random() * 16777215).toString(16);
+  }
+
+
+  private updateRoutes(routes: IRoute[]) {
+    for (let i = 0; i < routes.length; i++) {
+      let route = this.buildRoute(routes[i], i);
+      this.routesMap.set(i, route);
+    }
+    let s = 5;
+  }
+
+  private buildRoute(route: IRoute, routeId: number,
+                     primaryTextColor: string = "ffffff", secondaryTextColor: string = "187aab", visible: boolean = true): Route {
+    let currentRoute: Route = new Route();
+    currentRoute.routeId = routeId;
+    currentRoute.color = RouteGenerationAlgorithmService.generateRandomColor();
+    currentRoute.primaryTextColor = primaryTextColor;
+    currentRoute.secondaryTextColor = secondaryTextColor;
+    currentRoute.visible = visible;
+    currentRoute.points = this.convertPointsIdToPoints(route.routeNodes);
+    return currentRoute;
+  }
+
+  private convertPointsIdToPoints(pointsIdsAsIndex: number[]): Point[] {
+    let result: Point[] = [];
+    pointsIdsAsIndex.forEach(pointIdAsIndex => {
+      result.push(this.mapIndexToPoint.get(pointIdAsIndex))
+    });
+    return result;
+  }
+
+  private buildMapIndexToPointId() {
+    this.mapPointIdToIndex.forEach((value: number, key: number) => {
+      this.mapIndexToPoint.set(value, this.pointsMap.get(key));
+    });
   }
 }

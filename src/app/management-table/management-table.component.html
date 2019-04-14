@@ -1,4 +1,8 @@
 <div class="example-container mat-elevation-z8">
+
+  <input type="button" value="Click" id="coolbutton">start alg<input>
+  <button (click)="myMethod($event)">start algorithm</button>
+
   <table mat-table [dataSource]="table" matSort>
     <ng-container matColumnDef="name" sticky>
       <th mat-header-cell *matHeaderCellDef mat-sort-header="">עיר</th>
