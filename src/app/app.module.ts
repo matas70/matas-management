@@ -15,6 +15,7 @@ import {HttpClientModule} from "@angular/common/http";
 import {ContenteditableModel} from "./management-table/content-editable.directive";
 import {FormsModule} from "@angular/forms";
 import {CdkTableModule} from "@angular/cdk/table";
+import {RouteGenerationAlgorithmService} from './route-generation-algorithm/route.generation.algorithm.service';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,7 @@ import {CdkTableModule} from "@angular/cdk/table";
     MatSortModule,
     MatButtonModule
   ],
-  providers: [DataService],
+  providers: [DataService, RouteGenerationAlgorithmService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

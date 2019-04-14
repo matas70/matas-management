@@ -11,6 +11,7 @@ import { AircraftType } from './models/aircraft-type.model';
 import { Point } from './models/point.model';
 import { DataFormsMetadataComponent } from './data-forms/data-forms-metadata/data-forms-metadada.component';
 import { MatasMetadata } from './models/matas-metadata.model';
+import {RouteGenerationAlgorithmService} from './route-generation-algorithm/route.generation.algorithm.service';
 
 @Component({
   selector: 'app-root',
@@ -21,7 +22,7 @@ export class AppComponent {
   title = 'matas-management';
   matasMetadata: MatasMetadata;
 
-  constructor(private store: Store<any>, private data: DataService, public dialog: MatDialog) {
+  constructor(private store: Store<any>, private routeGenerationAlgorithm:RouteGenerationAlgorithmService, private data: DataService, public dialog: MatDialog) {
     data.loadData();
     store.select("aircraft").subscribe(aircraft => {
       console.log(aircraft);
@@ -36,7 +37,8 @@ export class AppComponent {
   }
 
   saveClicked() {
-    this.data.tempSave();
+    console.debug(this.routeGenerationAlgorithm.generate_routes());
+    //this.data.tempSave();
   }
 
   openDialog(dataType: string): void {

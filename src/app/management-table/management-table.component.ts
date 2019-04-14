@@ -12,6 +12,7 @@ import {DataFormsPointComponent} from "../data-forms/data-forms-point/data-forms
 import {ActionType} from "../reducers/action-types.enum";
 import {DeletePoint} from "../reducers/points.actions";
 import {DataFormsAircraftComponent} from "../data-forms/data-forms-aircraft/data-forms-aircraft.component";
+import {RouteGenerationAlgorithmService} from '../route-generation-algorithm/route.generation.algorithm.service';
 
 @Component({
   selector: 'app-management-table',
