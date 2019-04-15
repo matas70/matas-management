@@ -205,26 +205,24 @@ public main1() {
     let maxWeightCurrent = 0;       // The current maximal route's total
     let maxWeightCurrentNodes = []; // The nodes for maxWeightCurrent
     let maxRoute: IRoute;           // The maximal route to return
+    let first = true;
+
+    if (src == dest) {
+      return {weight: 0, routeNodes: [src]};
+    }
 
     /* Iterate backwards, starting at the dest node, to find the
-       maximum route                                              */
-    for (let i = 0; i < graph[0].length; i++) {
-      if (graph[i][dest] == 0) {
+       maximum route. If both i and dest have already been visited, then
+       we found a circle, and therefore going to i again is pointless */
+    for (let i = 0; i < graph.length; i++) {
+      if (graph[i][dest] == 0 || 
+        (routeHavePassed.includes(dest) && routeHavePassed.includes(i)) ) {
         continue;
       }
 
       /* In both cases maxRoute.weight contains the weight from src to
          i, dest NOT included.                                        */
-      if (routeHavePassed.includes(i)) {
-        maxRoute = {weight: 0, routeNodes: [src]};
-      } else {
-        routeHavePassed.push(i);
-        if (i == src) {
-          maxRoute = {weight: 0, routeNodes: [src]};
-        } else {
-          maxRoute = this.findMaximalRoute(graph, src, i, routeHavePassed);
-        }
-      }
+      maxRoute = this.findMaximalRoute(graph, src, i);
 
 
       /* Add the weight of i-dest to the weight up to i, and see
@@ -233,8 +231,13 @@ public main1() {
       if (maxWeightCompare > maxWeightCurrent) {
         maxWeightCurrent = maxWeightCompare;    // Save the new max
         // Save the route with the maximum value (from src up to dest)
-        maxWeightCurrentNodes = maxRoute.routeNodes;
-        maxWeightCurrentNodes.push(dest);
+        for (let j = 0; j < maxRoute.routeNodes.length; j++)
+          maxWeightCurrentNodes[j] = maxRoute.routeNodes[j];
+        maxWeightCurrentNodes[maxRoute.routeNodes.length] = dest;
+        if (!first)
+          routeHavePassed.pop();
+        routeHavePassed.push(dest);
+        first = false;
       }
     }
 
