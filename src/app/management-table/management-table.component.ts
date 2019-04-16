@@ -9,8 +9,10 @@ import iziToast from "izitoast";
 import {AddUpdateAircraft, DeleteAircraft} from "../reducers/aircraft.actions";
 import {AircraftType} from "../models/aircraft-type.model";
 import {RouteGenerationAlgorithmService} from "../route-generation-algorithm/route.generation.algorithm.service";
-import {DataFormsPointComponent} from "../data-forms/data-forms-point/data-forms-point.component";
+import {ActionType} from "../reducers/action-types.enum";
+import {DeletePoint} from "../reducers/points.actions";
 import {DataFormsAircraftComponent} from "../data-forms/data-forms-aircraft/data-forms-aircraft.component";
+import {DataFormsPointComponent} from "../data-forms/data-forms-point/data-forms-point.component";
 
 @Component({
   selector: 'app-management-table',
@@ -34,11 +36,8 @@ export class ManagementTableComponent implements OnInit {
   ]
   public updatedAcs: { point: Point, aircraft: Aircraft}[] = [];
 
-
-  constructor(private store: Store<any>, private al:RouteGenerationAlgorithmService,private dialog: MatDialog, private changeRef: ChangeDetectorRef) {
+  constructor(private store: Store<any>,private al:RouteGenerationAlgorithmService, private dialog: MatDialog, private changeRef: ChangeDetectorRef) {
     let btn = document.getElementById("coolbutton");
-    //btn.addEventListener("click", (e:Event) => al.main1());
-
     let aircraftObservable = this.store.select("aircraft");
     let pointsObservable = this.store.select("points");
 
@@ -97,7 +96,7 @@ export class ManagementTableComponent implements OnInit {
   }
 
   deletePoint(point: {point: Point, aircrafts: {aircraft: Aircraft, time:String}[]}) {
-    //this.store.dispatch(new DeletePoint({point: point.point}));
+    this.store.dispatch(new DeletePoint({point: point.point}));
   }
 
   editAircraft(ac: Aircraft) {

@@ -1,7 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import {MatDialogRef} from '@angular/material';
+import { Component, Inject, OnInit } from '@angular/core';
+import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import {Store} from '@ngrx/store';
 
 import { AircraftType } from '../../models/aircraft-type.model';
+import { AddAircraftType } from 'src/app/reducers/aircraft-type.actions';
+import { DataService } from 'src/app/data/data.service';
 
 @Component({
   selector: 'app-data-forms-aircrafttype',
@@ -9,30 +12,40 @@ import { AircraftType } from '../../models/aircraft-type.model';
 })
 export class DataFormsAircraftTypeComponent implements OnInit {
 
-    aircraftTypeInput: AircraftType;
+    onOkClick() {
+      this.store.dispatch(new AddAircraftType({aircraftType: this.aircraftTypeData}));
+
+      this.dialogRef.close();
+    }
 
     onNoClick(): void {
         this.dialogRef.close();
       }
 
-    constructor(public dialogRef: MatDialogRef<DataFormsAircraftTypeComponent>) {
+    constructor(public dialogRef: MatDialogRef<DataFormsAircraftTypeComponent>,
+                @Inject(MAT_DIALOG_DATA) public aircraftTypeData: AircraftType,
+                public store: Store<any>, private dataService: DataService) {
      }
 
     ngOnInit() {
-        this.aircraftTypeInput = new AircraftType();
-        this.aircraftTypeInput.aircraftTypeId = 0;
-        this.aircraftTypeInput.name = "---";
-        this.aircraftTypeInput.category = "---";
-        this.aircraftTypeInput.type = "---";
-        this.aircraftTypeInput.icon = "---";
-        this.aircraftTypeInput.image = "---";
-        this.aircraftTypeInput.classification = "---";
-        this.aircraftTypeInput.description = "---";
-        this.aircraftTypeInput.manufactured = "---";
-        this.aircraftTypeInput.dimensions = "---";
-        this.aircraftTypeInput.performance = "---";
-        this.aircraftTypeInput.weight = "---";
-        this.aircraftTypeInput.engine = "---";
+      if (this.aircraftTypeData.name == undefined) {
+        this.aircraftTypeData = new AircraftType();
+        this.store.select("aircraftTypes").subscribe((types: Map<number, AircraftType>) => {
+          this.aircraftTypeData.aircraftTypeId = Array.from(types.values()).length + 1;
+        });
+        this.aircraftTypeData.name = "";
+        this.aircraftTypeData.category = "";
+        this.aircraftTypeData.type = "";
+        this.aircraftTypeData.icon = "";
+        this.aircraftTypeData.image = "";
+        this.aircraftTypeData.classification = "";
+        this.aircraftTypeData.description = "";
+        this.aircraftTypeData.manufactured = "";
+        this.aircraftTypeData.dimensions = "";
+        this.aircraftTypeData.performance = "";
+        this.aircraftTypeData.weight = "";
+        this.aircraftTypeData.engine = "";
+      }
     }
 
 }

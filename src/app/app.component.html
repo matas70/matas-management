@@ -1,8 +1,30 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <!--<div style="text-align:center">-->
-  <!--<app-data-forms></app-data-forms>-->
+<!--<app-data-forms></app-data-forms>-->
 <!--</div>-->
-
-<app-management-table></app-management-table>
-
-
+<div>
+  <mat-toolbar dir="rtl">
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button (click)="openDialog('aircraft')" mat-menu-item>
+        <span>הוסף כלי טיס חדש</span>
+      </button>
+      <button (click)="openDialog('aircrafttype')" mat-menu-item>
+        <span>הוסף סוג כלי טיס חדש</span>
+      </button>
+      <button (click)="openDialog('point')" mat-menu-item>
+        <span>הוסף עיר חדשה</span>
+      </button>
+      <button (click)="openDialog('metadata')" mat-menu-item>
+        <span>ערוך את פרטי המטס</span>
+      </button>
+      <button (click)="saveClicked()" mat-menu-item>
+        <span>שמור טבלה</span>
+      </button>
+    </mat-menu>
+    <span style="margin: 0 auto;">טבלת מטסים</span>
+  </mat-toolbar>
+  <app-management-table style="top: 70px; position: absolute;"></app-management-table>
+</div>

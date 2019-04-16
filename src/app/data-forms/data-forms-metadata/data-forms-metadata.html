@@ -1,0 +1,19 @@
+<h1 mat-dialog-title dir="rtl">הכנס עיר חדשה</h1>
+<div mat-dialog-content dir="rtl">
+  <mat-form-field>
+    <input matInput placeholder="תאריך התחלה" [(ngModel)]="metadataData.startDate">
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="זמן התחלה מתוכנן" [(ngModel)]="metadataData.plannedStartTime">
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="זמן התחלה בפועל" [(ngModel)]="metadataData.actualStartTime">
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="זמן סיום" [(ngModel)]="metadataData.plannedEndTime">
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onOkClick()">עדכן</button>
+  <button mat-button (click)="onNoClick()">בטל</button>
+</div>

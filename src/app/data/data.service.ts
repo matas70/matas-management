@@ -5,11 +5,16 @@ import {Point} from "../models/point.model";
 import {Route} from "../models/route.model";
 import {Aircraft} from "../models/aircraft.model";
 import {HttpClient} from "@angular/common/http";
+import {HttpHeaders} from "@angular/common/http";
 import {forEach} from "@angular/router/src/utils/collection";
 import {Store} from "@ngrx/store";
 import {AddAircraftType, SetAircraftTypes} from "../reducers/aircraft-type.actions";
 import {AddUpdateAircraft, SetAircraft} from "../reducers/aircraft.actions";
-import {AddPoint, SetPoints} from "../reducers/points.actions";
+//import {AddPoint} from "../reducers/points.actions";
+import {ActionType} from "../reducers/action-types.enum";
+import {AddUpdatePoint, SetPoints} from "../reducers/points.actions";
+import {MatasMetadata} from "../models/matas-metadata.model";
+import {AddUpdateMatasMetadata} from "../reducers/matas-metadata.actions";
 
 
 const AIRCRAFTS_INFO = "https://matasisrael.blob.core.windows.net/matas/aircrafts-info.json";
@@ -28,8 +33,16 @@ export class DataService {
   public points: Point[] = [];
   public routes: Route[] = [];
 
-  constructor(private http: HttpClient, private store: Store<any>) {
+  private currentAircrafts: Aircraft[];
+  private currentPoints: Point[];
+  private currentTypes: AircraftType[];
+  private currentMeta: MatasMetadata;
 
+  constructor(private http: HttpClient, private store: Store<any>) {
+    this.store.select("aircraft").subscribe((acs) => this.currentAircrafts = Array.from(acs.values()));
+    this.store.select("points").subscribe((points: Map<number, Point>) => this.currentPoints = Array.from(points.values()));
+    this.store.select("aircraftTypes").subscribe((types: Map<number, AircraftType>) => this.currentTypes = Array.from(types.values()));
+    this.store.select("matasMetadata").subscribe((mets) => this.currentMeta = mets);
   }
 
 
@@ -41,7 +54,7 @@ export class DataService {
     let obs4 = this.http.get(ROUTES);
     forkJoin(obs1, obs2, obs3, obs4).subscribe((response: any[]) => {
       let aircraftsinfoJSON = response[0].aircraftTypes;
-      let aircraftsJSON = response[1].aircrafts;
+      let aircraftsJSON = response[1];
       //need this?
       let categoriesJSON = response[2];
       let routesJSON = response[3].routes;
@@ -54,7 +67,7 @@ export class DataService {
       this.store.dispatch(action);
 
       let aircrafts: Map<number,Aircraft> = new Map();
-      for (let tuple of aircraftsJSON) {
+      for (let tuple of aircraftsJSON.aircrafts) {
         aircrafts.set(tuple.aircraftId, new Aircraft().setJson(tuple));
       }
       this.store.dispatch(new SetAircraft({aircraft: aircrafts}));
@@ -72,6 +85,9 @@ export class DataService {
       });
 
       this.store.dispatch(new SetPoints({points: pointsMap}));
+
+      let metadata = new MatasMetadata().setJson(aircraftsJSON);
+      this.store.dispatch(new AddUpdateMatasMetadata({matasMetadata: metadata}));
     });
   }
 
@@ -86,4 +102,32 @@ export class DataService {
   public getRoutes(): Route[] {
     return this.routes;
   }
+
+  public tempSave() {
+    this.currentMeta["aircrafts"] = this.currentAircrafts;
+    this.uploadSingleData("nir.json", JSON.stringify(this.currentMeta))
+  }
+
+  public uploadData()
+  {
+    this.uploadSingleData("aircrafts.json",JSON.stringify(this.aircrafts));
+    this.uploadSingleData("aircrafts-info.json",JSON.stringify(this.aircraftsTypes));
+    this.uploadSingleData("routes.json",JSON.stringify(this.routes));
+
+  }
+  public uploadSingleData(name:string,content:string) {
+    let sasToken="?sp=rw&st=2019-04-12T23:40:37Z&se=2019-04-28T07:40:37Z&spr=https&sv=2018-03-28&sig=Bu3Lk7%2BlCcgqRLdjggGQNv%2BqMUn97I82b5k40vyH5lA%3D&sr=b"
+    let url = "https://matasisrael.blob.core.windows.net/matas/" + name + sasToken;
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json; charset=UTF-8',
+        'x-ms-blob-type': 'BlockBlob',
+        'Content-Length': content.length.toString()
+      })
+    };
+    this.http.put(url, content, httpOptions).subscribe(data=> {
+      console.log("BIGUS DICKUS")
+    });
+  }
+
 }
