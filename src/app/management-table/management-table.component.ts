@@ -1,7 +1,7 @@
-import {ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, Input, OnInit, ViewChild} from '@angular/core';
 import {DataService} from "../data/data.service";
 import {Store} from "@ngrx/store";
-import {combineLatest, forkJoin} from "rxjs";
+import {combineLatest, forkJoin, Observable, Subject} from "rxjs";
 import {Aircraft} from "../models/aircraft.model";
 import {Point} from "../models/point.model";
 import {MatDialog, MatSort, MatTableDataSource} from "@angular/material";
@@ -19,7 +19,7 @@ import {RouteGenerationAlgorithmService} from '../route-generation-algorithm/rou
   templateUrl: './management-table.component.html',
   styleUrls: ['./management-table.component.less']
 })
-export class ManagementTableComponent implements OnInit {
+export class ManagementTableComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort) sort: MatSort;
   private timeRegexp: RegExp = new RegExp("(?:[01]\\d|2[0123]):(?:[012345]\\d):(?:[012345]\\d)");
   public table = new MatTableDataSource();
@@ -35,6 +35,9 @@ export class ManagementTableComponent implements OnInit {
     "E"
   ]
   public updatedAcs: { point: Point, aircraft: Aircraft}[] = [];
+
+  @Input()
+  savePerformed: Subject<any>;
 
   constructor(private store: Store<any>, private dialog: MatDialog, private changeRef: ChangeDetectorRef) {
     let aircraftObservable = this.store.select("aircraft");
@@ -212,5 +215,11 @@ export class ManagementTableComponent implements OnInit {
 
   getAircraftTypeName(ac: Aircraft) {
     return this.aircraftTypes.get(ac.aircraftTypeId).name;
+  }
+
+  ngAfterViewInit(): void {
+    this.savePerformed.subscribe(() => {
+      this.updatedAcs = [];
+    });
   }
 }

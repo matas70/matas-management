@@ -11,9 +11,14 @@ import { AddUpdatePoint } from 'src/app/reducers/points.actions';
 })
 export class DataFormsPointComponent implements OnInit {
 
+    private latestId: number = 1;
+
     constructor(public dialogRef: MatDialogRef<DataFormsPointComponent>,
                 @Inject(MAT_DIALOG_DATA) public pointData: Point,
                 public store: Store<any>) {
+      this.store.select("points").subscribe(points => {
+        this.latestId = Array.from(points.keys()).length + 1;
+      });
      }
 
     onOkClick() {
@@ -25,28 +30,17 @@ export class DataFormsPointComponent implements OnInit {
         this.dialogRef.close();
     }
 
-    setNextPointID(): void {
-      let pointsArray: any[];
-      this.store.select("points").subscribe(points => {
-        pointsArray = Array.from(points.keys());
-      });
-
-      this.pointData.pointId =
-        pointsArray.reduce(function(a, b) {
-          return Math.max(a, b);
-      }) + 1;
-    }
 
     ngOnInit() {
         if (this.pointData.pointName == undefined) {
           this.pointData = new Point();
-          this.setNextPointID();
+          this.pointData.pointId = this.latestId;
           this.pointData.E = 0;
           this.pointData.N = 0;
-          this.pointData.pointName = "---";
-          this.pointData.pointLocation = "---";
-          this.pointData.wazeLink = "---";
-          this.pointData.activeTimes = "---";
+          this.pointData.pointName = "";
+          this.pointData.pointLocation = "";
+          this.pointData.wazeLink = "";
+          this.pointData.activeTimes = "";
           this.pointData.hidden = false;
           this.pointData.hideAircrafts = false;
         }
