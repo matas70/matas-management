@@ -21,6 +21,7 @@ const AIRCRAFTS_INFO = "https://matasisrael.blob.core.windows.net/matas/aircraft
 const AIRCRAFTS = "https://matasisrael.blob.core.windows.net/matas/aircrafts.json";
 const CATEGORIES = "https://matasisrael.blob.core.windows.net/matas/categories.json";
 const ROUTES = "https://matasisrael.blob.core.windows.net/matas/routes.json";
+const POINTS = "https://matasisrael.blob.core.windows.net/matas/points.json";
 
 @Injectable({
   providedIn: 'root'
@@ -51,12 +52,14 @@ export class DataService {
     let obs2 = this.http.get(AIRCRAFTS);
     let obs3 = this.http.get(CATEGORIES);
     let obs4 = this.http.get(ROUTES);
-    forkJoin(obs1, obs2, obs3, obs4).subscribe((response: any[]) => {
+    let obs5 = this.http.get(POINTS);
+    forkJoin(obs1, obs2, obs3, obs4, obs5).subscribe((response: any[]) => {
       let aircraftsinfoJSON = response[0].aircraftTypes;
       let aircraftsJSON = response[1];
       //need this?
       let categoriesJSON = response[2];
       let routesJSON = response[3].routes;
+      let points = response[4];
 
       let aircraftTypes: Map<number, AircraftType> = new Map();
       for (let tuple of aircraftsinfoJSON) {
@@ -77,11 +80,16 @@ export class DataService {
       }
 
       let pointsMap: Map<number, Point> = new Map();
-      routes.forEach((route) => {
-        route.points.forEach((point) => {
-          pointsMap.set(point.pointId, point);
-        });
-      });
+      // routes.forEach((route) => {
+      //   route.points.forEach((point) => {
+      //     pointsMap.set(point.pointId, point);
+      //   });
+      // });
+
+      for (let point of points) {
+        let newp = new Point().setJson(point);
+        pointsMap.set(newp.pointId, newp);
+      }
 
       this.store.dispatch(new SetPoints({points: pointsMap}));
 
@@ -104,18 +112,21 @@ export class DataService {
 
   public tempSave() {
     this.currentMeta["aircrafts"] = this.currentAircrafts;
-    this.uploadSingleData("nir.json", JSON.stringify(this.currentMeta))
+    this.uploadSingleData("aircrafts.json", JSON.stringify(this.currentMeta),
+      "?sp=rw&st=2019-04-16T20:39:22Z&se=2019-05-30T04:39:22Z&spr=https&sv=2018-03-28&sig=t5lNTKtoCZnVUR32fl%2FW516xrS6pBVPxVxKzqkpQ%2BTM%3D&sr=b")
+    this.uploadSingleData("points.json", JSON.stringify(this.currentPoints),
+      "?sp=rw&st=2019-04-16T20:43:29Z&se=2019-05-30T04:43:29Z&spr=https&sv=2018-03-28&sig=DoW0m70i8qr7rvIogPM22OCCpa8uO%2BNP6hwqyqkbadw%3D&sr=b")
   }
 
   public uploadData()
   {
-    this.uploadSingleData("aircrafts.json",JSON.stringify(this.aircrafts));
-    this.uploadSingleData("aircrafts-info.json",JSON.stringify(this.aircraftsTypes));
-    this.uploadSingleData("routes.json",JSON.stringify(this.routes));
+    // this.uploadSingleData("aircrafts.json",JSON.stringify(this.aircrafts));
+    // this.uploadSingleData("aircrafts-info.json",JSON.stringify(this.aircraftsTypes));
+    // this.uploadSingleData("routes.json",JSON.stringify(this.routes));
 
   }
-  public uploadSingleData(name:string,content:string) {
-    let sasToken="?sp=rw&st=2019-04-12T23:40:37Z&se=2019-04-28T07:40:37Z&spr=https&sv=2018-03-28&sig=Bu3Lk7%2BlCcgqRLdjggGQNv%2BqMUn97I82b5k40vyH5lA%3D&sr=b"
+  public uploadSingleData(name:string,content:string, sas: string) {
+    let sasToken= sas;
     let url = "https://matasisrael.blob.core.windows.net/matas/" + name + sasToken;
     const httpOptions = {
       headers: new HttpHeaders({
