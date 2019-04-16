@@ -62,7 +62,8 @@ export class DataFormsAircraftComponent implements OnInit {
     let lastId: number;
 
     if (this.newValue) {
-      lastId = this.aircrafts[this.aircrafts.length - 1].aircraftId + 1;
+      let idd = this.aircrafts[this.aircrafts.length - 1];
+      lastId = idd ? idd.aircraftId + 1 : 1;
       this.aircraftData.aircraftId = lastId;
       this.aircraftData.path = [];
     }

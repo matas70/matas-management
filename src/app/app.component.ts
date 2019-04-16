@@ -11,6 +11,7 @@ import { AircraftType } from './models/aircraft-type.model';
 import { Point } from './models/point.model';
 import { DataFormsMetadataComponent } from './data-forms/data-forms-metadata/data-forms-metadada.component';
 import { MatasMetadata } from './models/matas-metadata.model';
+import {Subject} from "rxjs";
 
 @Component({
   selector: 'app-root',
@@ -20,6 +21,7 @@ import { MatasMetadata } from './models/matas-metadata.model';
 export class AppComponent {
   title = 'matas-management';
   matasMetadata: MatasMetadata;
+  public subject: Subject<any> = new Subject();
 
   constructor(private store: Store<any>, private data: DataService, public dialog: MatDialog) {
     data.loadData();
@@ -37,6 +39,7 @@ export class AppComponent {
 
   saveClicked() {
     this.data.tempSave();
+    this.subject.next();
   }
 
   openDialog(dataType: string): void {
