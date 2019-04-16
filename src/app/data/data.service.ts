@@ -14,6 +14,7 @@ import {AddPoint, SetPoints} from "../reducers/points.actions";
 
 const AIRCRAFTS_INFO = "https://matasisrael.blob.core.windows.net/matas/aircrafts-info.json";
 const AIRCRAFTS = "https://matasisrael.blob.core.windows.net/matas/aircrafts.json";
+//const AIRCRAFTS = "./../../assets/data/aircrafts.json";
 const CATEGORIES = "https://matasisrael.blob.core.windows.net/matas/categories.json";
 const ROUTES = "https://matasisrael.blob.core.windows.net/matas/routes.json";
 

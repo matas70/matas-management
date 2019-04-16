@@ -36,6 +36,9 @@ export class RouteGenerationAlgorithmService {
 
   private routesMap: Map<number, Route> = new Map();
 
+  private routeHavePassed: number[] = [];
+
+
   constructor(private dataService: DataService, private store: Store<any>) {
     this.graph = [[], []];
     store.select("aircraft").subscribe((aircraft: Map<number, Aircraft>) => {
@@ -55,6 +58,7 @@ export class RouteGenerationAlgorithmService {
   // 3. write result to file
 public main1() {
     let routes: IRoute[] = [];
+    this.routeHavePassed =[];
     this.buildMapPointIdToIndex();
     this.buildMapIndexToPointId();
     let numberOfPoint: number = this.mapPointIdToIndex.size;
@@ -63,14 +67,24 @@ public main1() {
     while (this.haveEdge(this.graph)) {
       // don't ask why i use the temp value but its not work
       // if i send the function, like: this.findSrc(this.findMaxEdge());
-      let [x, y, z] = this.findMaxEdge();
-      let src = this.findSrc([x, y, z]);
-      let dest = this.findDest([x, y, z]);
-      if (src == dest) {
+      let [startSource, startDest, z] = this.findMaxEdge();
+      //let dest = this.findDest([startDest ,startSource, z]);
+      //reflect graph
+      //let src = this.findSrc([startSource, startDest, z]);
+      if (startSource == startDest) {
         break;
       }
-      let maximalRoute = this.findMaximalRoute1(this.graph, src, dest);
+      //let maximalRoute = this.findMaximalRoute(this.graph, src, dest);
+      this.expandFromSource(startSource);
+      this.expandToSource(startSource);
+      let maximalRoute: IRoute;
+      if (!maximalRoute) {
+        maximalRoute = {weight: 0, routeNodes: []};
+      }
+      maximalRoute.routeNodes = this.routeHavePassed;
+      maximalRoute.weight = 5;
       routes.push(maximalRoute);
+      this.routeHavePassed =[];
       this.removeMaximalRoute(this.graph, maximalRoute.routeNodes);
     }
     this.updateRoutes(routes)
@@ -148,28 +162,33 @@ public main1() {
 
   2       10
 
-  3
+  3           7
 
-  4   10
+  4   8
 
   5
    */
   // the opposite of the findSrc
-  private findDest([srcMaxEdge, destMaxEdge, maxWeight]): number {
+  private findDest([srcMaxEdge, destMaxEdge, maxWeight], routeHavePassed1:number[] =[] ): number {
     let candidateDest = destMaxEdge;
-    //assume this.graph[srcMaxEdge] bring the column
-    for (let i = 0; i < this.graph[destMaxEdge].length; i++) {
-      let currentRow = this.graph[destMaxEdge];
-      if (i != destMaxEdge && maxWeight == currentRow[i]) {
-        return this.findDest([destMaxEdge, i, maxWeight]);
-      }
-      else{
-        if(i != destMaxEdge && this.isBetween(maxWeight, currentRow[i])){
-          return this.findDest([i, srcMaxEdge, maxWeight]);
-        }
-      }
+    if(routeHavePassed1.includes(srcMaxEdge) || srcMaxEdge ==  destMaxEdge){
+      return candidateDest;
     }
-    return candidateDest;
+    routeHavePassed1.push(destMaxEdge);
+    //assume this.graph[srcMaxEdge] bring the column
+    let currentRow = this.graph[destMaxEdge];
+    let maxIndex = this.findMaxIndex(currentRow);
+    if (maxIndex == -1){
+      return candidateDest;
+    }
+    candidateDest =  this.findDest([destMaxEdge, maxIndex, maxWeight],routeHavePassed1);
+    return candidateDest
+    /* else{
+       if(i != destMaxEdge && this.isBetween(maxWeight, currentRow[i])){
+         return this.findDest([i, srcMaxEdge, maxWeight]);
+       }
+     }*/
+    //return candidateDest;
   }
 
   private getColumn(matrix, col: number) {
@@ -338,5 +357,104 @@ public main1() {
     this.mapPointIdToIndex.forEach((value: number, key: number) => {
       this.mapIndexToPoint.set(value, this.pointsMap.get(key));
     });
+  }
+
+  private findMaxIndex(numbers:number[]): number
+  {
+    let maxIndex = -1;
+    let max = 0;
+    for(let i = 0; i< numbers.length; i++)
+    {
+      if (numbers[i] > max){
+        maxIndex = i;
+        max = numbers[i];
+      }
+    }
+    return maxIndex;
+  }
+  /*
+  1   2   3   4   5
+
+  2       10
+
+  3           7
+
+  4   8
+
+  5
+   */
+  private expandFromSource (source: number){
+    this.routeHavePassed.push(source);
+    if (!this.haveNextEdgeRow(source)) {
+      return source;
+    }
+    let maxIndex = this.getMaxIndexFromEdgesRow(source);
+    if (maxIndex == -1){
+      return source;
+    }
+    return this.expandFromSource(maxIndex);
+  }
+
+  private expandToSource (source: number){
+    if (!this.haveNextEdgeColumn(source)) {
+      return source;
+    }
+    let maxIndex = this.getMaxIndexFromEdgesColumn(source);
+    if (maxIndex == -1){
+      return source;
+    }
+    this.routeHavePassed.unshift(maxIndex);
+
+    return this.expandFromSource(maxIndex);
+  }
+
+  private haveNextEdgeRow(point:number):boolean{
+    let result: boolean = false;
+    let currentRowEdges = this.graph[point];
+    for (let i = 0; i< currentRowEdges.length; i++){
+      if (currentRowEdges[i] >0 && !this.routeHavePassed.includes(i)){
+        result = true;
+      }
+    }
+    return result
+  }
+
+  private haveNextEdgeColumn(point:number):boolean{
+    let result: boolean = false;
+    let currentColumnEdges = this.getColumn(this.graph,point);
+    for (let i = 0; i< currentColumnEdges.length; i++){
+      if (currentColumnEdges[i] > 0 &&!this.routeHavePassed.includes(i)){
+        result = true;
+      }
+    }
+    return result
+  }
+
+  private getMaxIndexFromEdgesRow(source: number){
+    let maxIndex = -1;
+    let max = 0;
+    let currentRowEdges = this.graph[source];
+    for(let i = 0; i< currentRowEdges.length; i++)
+    {
+      if ((!this.routeHavePassed.includes(i)) && currentRowEdges[i] > max){
+        maxIndex = i;
+        max = currentRowEdges[i];
+      }
+    }
+    return maxIndex;
+  }
+
+  private getMaxIndexFromEdgesColumn(source: number){
+    let maxIndex = -1;
+    let max = 0;
+    let currentColumnEdges = this.getColumn(this.graph,source);
+    for(let i = 0; i< currentColumnEdges.length; i++)
+    {
+      if ((!this.routeHavePassed.includes(i)) && currentColumnEdges[i] > max){
+        maxIndex = i;
+        max = currentColumnEdges[i];
+      }
+    }
+    return maxIndex;
   }
 }
