@@ -14,12 +14,12 @@ interface IRoute {
 }
 
 class AdjListNode {
-  constructor(private v: number, private weight: number) {
-    this.v = v;
-    this.weight = weight;
+  constructor(private pV: number, private pWeight: number) {
+    this.v = pV;
+    this.weight = pWeight;
   }
-  v: number;
-  weight: number;
+  public v: number;
+  public weight: number;
 }
 
 @Injectable({
@@ -73,37 +73,41 @@ export class RouteGenerationAlgorithmService {
     this.buildMapIndexToPointId();
     const numberOfPoint: number = this.mapPointIdToIndex.size;
 
-    this.edges = new Array<Array<AdjListNode>>(6);
-    for (let i = 0; i < 6; i++) {
-      this.edges[i] = new Array<AdjListNode>();
-    }
-    this.addEdge(0, 1, 5);
-    this.addEdge(0, 2, 3);
-    this.addEdge(1, 3, 6);
-    this.addEdge(1, 2, 2);
-    this.addEdge(2, 4, 4);
-    this.addEdge(2, 5, 2);
-    this.addEdge(2, 3, 7);
-    this.addEdge(3, 5, 1);
-    this.addEdge(3, 4, -1);
-    this.addEdge(4, 5, -2);
-
-    this.longestPath(1, 6);
-
     this.graph = new Array(numberOfPoint).fill(0).map(() => new Array(numberOfPoint).fill(0));
     this.buildGraph();
-    while (this.haveEdge(this.graph)) {
-      // don't ask why i use the temp value but its not work
-      // if i send the function, like: this.findSrc(this.findMaxEdge());
-      const [x, y, z] = this.findMaxEdge();
-      const src = this.findSrc([x, y, z]);
-      const dest = this.findDest([x, y, z]);
-      if (src == dest) {
-        break;
+
+    // build graph
+    this.edges = new Array<Array<AdjListNode>>(numberOfPoint);
+    for (let i = 0; i < numberOfPoint; i++) {
+      this.edges[i] = new Array<AdjListNode>();
+    }
+
+    // mark all points as starting points
+    const startPoints: Set<number> = new Set<number>();
+    for (let i = 0; i < numberOfPoint; i++) {
+      startPoints.add(i);
+    }
+
+    // add all edges
+    for (let i = 0; i < numberOfPoint; i++) {
+      for (let j = 0; j < numberOfPoint; j++) {
+        if (this.graph[i][j] > 0) {
+          this.addEdge(i, j, this.graph[i][j]);
+          if (startPoints.has(j)) {
+            startPoints.delete(j);
+          }
+        }
       }
-      const maximalRoute = this.findMaximalRoute1(this.graph, src, dest);
-      routes.push(maximalRoute);
-      this.removeMaximalRoute(this.graph, maximalRoute.routeNodes);
+    }
+
+    while (this.haveEdge(this.graph)) {
+      startPoints.forEach((startPoint) => {
+        console.log(startPoint);
+        const maximalRoute = this.longestPath(startPoint, numberOfPoint);
+        console.log(maximalRoute.routeNodes);
+        routes.push(maximalRoute);
+        this.removeMaximalRoute(this.graph, maximalRoute.routeNodes);
+      });
     }
     this.updateRoutes(routes);
 
@@ -388,10 +392,11 @@ export class RouteGenerationAlgorithmService {
     stack.push(v);
   }
 
-  private longestPath(startPoint: number, numOfPoints: number) {
+  private longestPath(startPoint: number, numOfPoints: number): IRoute {
     const NINF = -9999999;
     const stack: number[] = [];
     const dist: number[] = [];
+    const path: number[][] = [];
     const visited: boolean[] = [];
 
     //  Mark all the vertices as not visited
@@ -411,8 +416,10 @@ export class RouteGenerationAlgorithmService {
     // distance to source as 0
     for (let i = 0; i < numOfPoints; i++) {
       dist[i] = NINF;
+      path[i] = [];
     }
     dist[startPoint] = 0;
+    path[startPoint] = [startPoint];
 
     // Process vertices in topological order
     while (stack.length > 0) {
@@ -424,6 +431,7 @@ export class RouteGenerationAlgorithmService {
         for (const node of this.edges[u]) {
           if (dist[node.v] < dist[u] + node.weight) {
             dist[node.v] = dist[u] + node.weight;
+            path[node.v] = path[u].concat(node.v);
           }
         }
       }
@@ -439,7 +447,6 @@ export class RouteGenerationAlgorithmService {
         longestDistance = dist[i];
       }
     }
-
-
+    return {weight: longestDistance, routeNodes: path[targetNode]};
   }
 }
