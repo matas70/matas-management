@@ -119,6 +119,8 @@ export class DataService {
       "?sp=rw&st=2019-04-16T20:39:22Z&se=2019-05-30T04:39:22Z&spr=https&sv=2018-03-28&sig=t5lNTKtoCZnVUR32fl%2FW516xrS6pBVPxVxKzqkpQ%2BTM%3D&sr=b")
     this.uploadSingleData("points.json", JSON.stringify(this.currentPoints),
       "?sp=rw&st=2019-04-16T20:43:29Z&se=2019-05-30T04:43:29Z&spr=https&sv=2018-03-28&sig=DoW0m70i8qr7rvIogPM22OCCpa8uO%2BNP6hwqyqkbadw%3D&sr=b")
+    this.uploadSingleData("aircrafts-info.json", JSON.stringify(this.currentTypes),
+      "?sp=rw&st=2019-04-21T18:13:35Z&se=2019-05-30T02:13:35Z&spr=https&sv=2018-03-28&sig=8G73fFPT2i7rNCJeBAQMopaHhnzV4MdGxg4kps%2FhHZY%3D&sr=b")
   }
 
   public uploadData()
