@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {forkJoin, from, Observable, Subject} from "rxjs";
+import {BehaviorSubject, forkJoin, from, Observable, Subject} from "rxjs";
 import {AircraftType} from "../models/aircraft-type.model";
 import {Point} from "../models/point.model";
 import {Route} from "../models/route.model";
@@ -32,11 +32,13 @@ export class DataService {
   public aircraftsTypes: AircraftType[] = [];
   public points: Point[] = [];
   public routes: Route[] = [];
+  public cats: Subject<{category:string, special?:boolean}[]> = new BehaviorSubject([]);
 
   private currentAircrafts: Aircraft[];
   private currentPoints: Point[];
   private currentTypes: AircraftType[];
   private currentMeta: MatasMetadata;
+
 
   constructor(private http: HttpClient, private store: Store<any>) {
     this.store.select("aircraft").subscribe((acs) => this.currentAircrafts = Array.from(acs.values()));
@@ -58,6 +60,7 @@ export class DataService {
       let aircraftsJSON = response[1];
       //need this?
       let categoriesJSON = response[2];
+      this.cats.next(response[2]);
       let routesJSON = response[3].routes;
       let points = response[4];
 

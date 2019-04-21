@@ -19,12 +19,16 @@ export class DataFormsAircraftComponent implements OnInit {
   aircraftTypesSorted: any[];
   newValue: boolean;
   currentType: AircraftType;
+  categs: any[];
 
   constructor(public dialogRef: MatDialogRef<DataFormsAircraftComponent>,
               @Inject(MAT_DIALOG_DATA) public aircraftData: Aircraft,
               public store: Store<any>, private dataService: DataService) {
     // this.aircraftTypes = dataService.getAircraftTypes();
 
+    dataService.cats.subscribe((cats) => {
+      this.categs = cats.filter(cat => cat.special);
+    });
     store.select("aircraftTypes").subscribe((types: Map<number, AircraftType>) => {
       this.aircraftTypes = Array.from(types.values()).sort(function (type1, type2) {
         if (type1.name < type2.name) {

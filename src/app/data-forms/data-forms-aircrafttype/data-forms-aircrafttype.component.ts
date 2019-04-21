@@ -11,7 +11,8 @@ import { DataService } from 'src/app/data/data.service';
   templateUrl: './data-forms-aircrafttype.html'
 })
 export class DataFormsAircraftTypeComponent implements OnInit {
-
+    public types: AircraftType[];
+    public isEditing: boolean = false;
     onOkClick() {
       this.store.dispatch(new AddAircraftType({aircraftType: this.aircraftTypeData}));
 
@@ -25,9 +26,15 @@ export class DataFormsAircraftTypeComponent implements OnInit {
     constructor(public dialogRef: MatDialogRef<DataFormsAircraftTypeComponent>,
                 @Inject(MAT_DIALOG_DATA) public aircraftTypeData: AircraftType,
                 public store: Store<any>, private dataService: DataService) {
+      this.store.select("aircraftTypes").subscribe((types) => {
+        this.types = Array.from(types.values())
+      });
      }
 
     ngOnInit() {
+      if (this.aircraftTypeData.name == "new") {
+        this.isEditing = true;
+      }
       if (this.aircraftTypeData.name == undefined) {
         this.aircraftTypeData = new AircraftType();
         this.store.select("aircraftTypes").subscribe((types: Map<number, AircraftType>) => {
