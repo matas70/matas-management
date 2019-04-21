@@ -1,41 +1,48 @@
 <h1 mat-dialog-title dir="rtl">הכנס סוג כלי טיס חדש</h1>
-<div mat-dialog-content dir="rtl">
-  <mat-form-field>
-    <input matInput placeholder="שם" [(ngModel)]="aircraftTypeData.name">
+<div mat-dialog-content dir="rtl" style="display: flex; flex-direction: column;">
+  <mat-form-field *ngIf="isEditing">
+    <mat-select [(ngModel)]="aircraftTypeData">
+      <mat-option [value]="type" *ngFor="let type of types">{{type.name}}</mat-option>
+    </mat-select>
   </mat-form-field>
-  <mat-form-field>
-    <input matInput placeholder="קטגוריה" [(ngModel)]="aircraftTypeData.category">
-  </mat-form-field>
-  <mat-form-field>
-    <input matInput placeholder="קבוצה" [(ngModel)]="aircraftTypeData.type">
-  </mat-form-field>
-  <mat-form-field>
-    <input matInput placeholder="שם קובץ אייקון" [(ngModel)]="aircraftTypeData.icon">
-  </mat-form-field>
-  <mat-form-field>
-    <input matInput placeholder="שם קובץ תמונה" [(ngModel)]="aircraftTypeData.image">
-  </mat-form-field>
-  <mat-form-field>
-    <input matInput placeholder="סיווג" [(ngModel)]="aircraftTypeData.classification">
-  </mat-form-field>
-  <mat-form-field>
-    <textarea  matInput placeholder="תיאור" [(ngModel)]="aircraftTypeData.description"></textarea>
-  </mat-form-field>
-  <mat-form-field>
-    <input matInput placeholder="ארץ ייצור" [(ngModel)]="aircraftTypeData.manufactured">
-  </mat-form-field>
-  <mat-form-field>
-    <textarea  matInput placeholder="מימדים" [(ngModel)]="aircraftTypeData.dimensions"></textarea>
-  </mat-form-field>
-  <mat-form-field>
-    <textarea  matInput placeholder="ביצועים" [(ngModel)]="aircraftTypeData.performance"></textarea>
-  </mat-form-field>
-  <mat-form-field>
-    <textarea  matInput placeholder="משקל" [(ngModel)]="aircraftTypeData.weight"></textarea>
-  </mat-form-field>
-  <mat-form-field>
-    <textarea  matInput placeholder="מנוע" [(ngModel)]="aircraftTypeData.engine"></textarea>
-  </mat-form-field>
+  <div *ngIf="!(isEditing && aircraftTypeData.name === 'new')" style="display: flex; flex-direction: column;">
+    <mat-form-field>
+      <input matInput placeholder="שם" [(ngModel)]="aircraftTypeData.name">
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="קטגוריה" [(ngModel)]="aircraftTypeData.category">
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="קבוצה" [(ngModel)]="aircraftTypeData.type">
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="שם קובץ אייקון" [(ngModel)]="aircraftTypeData.icon">
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="שם קובץ תמונה" [(ngModel)]="aircraftTypeData.image">
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="סיווג" [(ngModel)]="aircraftTypeData.classification">
+    </mat-form-field>
+    <mat-form-field>
+      <textarea matInput placeholder="תיאור" [(ngModel)]="aircraftTypeData.description"></textarea>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="ארץ ייצור" [(ngModel)]="aircraftTypeData.manufactured">
+    </mat-form-field>
+    <mat-form-field>
+      <textarea matInput placeholder="מימדים" [(ngModel)]="aircraftTypeData.dimensions"></textarea>
+    </mat-form-field>
+    <mat-form-field>
+      <textarea matInput placeholder="ביצועים" [(ngModel)]="aircraftTypeData.performance"></textarea>
+    </mat-form-field>
+    <mat-form-field>
+      <textarea matInput placeholder="משקל" [(ngModel)]="aircraftTypeData.weight"></textarea>
+    </mat-form-field>
+    <mat-form-field>
+      <textarea matInput placeholder="מנוע" [(ngModel)]="aircraftTypeData.engine"></textarea>
+    </mat-form-field>
+  </div>
 </div>
 <div mat-dialog-actions>
   <button mat-button (click)="onOkClick()">הוסף</button>

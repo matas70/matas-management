@@ -3,7 +3,7 @@ import {ActionType} from "./action-types.enum";
 import * as AircraftActions from "./aircraft.actions";
 import {AircraftActionsUnion} from "./aircraft.actions";
 
-export function aircraftReducer(state = [], action: any) {
+export function aircraftReducer(state = new Map(), action: any) {
   switch (action.type) {
     case (ActionType.SET_AIRCRAFT): {
       return action.payload.aircraft;
@@ -12,8 +12,14 @@ export function aircraftReducer(state = [], action: any) {
       newMap.set(action.payload.aircraft.aircraftId, action.payload.aircraft);
       return newMap;
     } case (ActionType.DELETE_AIRCRAFT): {
-      let newMap = new Map(state);
-      newMap.delete(action.payload.aircraft.aircraftId);
+      let newMap = new Map();
+      let i = 1;
+      state.delete(action.payload.aircraft.aircraftId);
+      state.forEach((val, key) => {
+        val.aircraftId = i;
+        newMap.set(i, val);
+        i++;
+      });
       return newMap;
     }
     default:

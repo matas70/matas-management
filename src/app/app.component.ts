@@ -51,8 +51,13 @@ export class AppComponent {
         });
     else if (dataType == 'aircrafttype')
         dialogRefInput = this.dialog.open(DataFormsAircraftTypeComponent, {
-          width: '250px',
+          width: '450px',
           data: new AircraftType()
+        });
+    else if (dataType == 'aircrafttypeupdate')
+        dialogRefInput = this.dialog.open(DataFormsAircraftTypeComponent, {
+          width: '450px',
+          data: new AircraftType().setJson({name: "new"})
         });
     else if (dataType == 'point')
         dialogRefInput = this.dialog.open(DataFormsPointComponent, {

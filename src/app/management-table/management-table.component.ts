@@ -38,10 +38,14 @@ export class ManagementTableComponent implements OnInit, AfterViewInit {
   @Input()
   savePerformed: Subject<any>;
 
-  constructor(private store: Store<any>, private dialog: MatDialog, private changeRef: ChangeDetectorRef) {
+  public categs: any[];
+
+  constructor(private store: Store<any>, private dialog: MatDialog, private changeRef: ChangeDetectorRef, private data: DataService) {
     let aircraftObservable = this.store.select("aircraft");
     let pointsObservable = this.store.select("points");
-
+    data.cats.subscribe((cats) => {
+      this.categs = cats.filter(cat => cat.special);
+    });
     combineLatest(aircraftObservable, pointsObservable).subscribe((data: any[]) => {
       this.aircraft = data[0];
       this.points = data[1];
@@ -129,7 +133,12 @@ export class ManagementTableComponent implements OnInit, AfterViewInit {
   }
 
   aircraftTimeOnPointChanged(aircraft: Aircraft, point: Point, newTime: string) {
-    if (this.timeRegexp.test(newTime)) {
+    if (newTime === "") {
+      let pointIndex = aircraft.path.map((p) => p.pointId).indexOf(point.pointId);
+      aircraft.path.splice(pointIndex, 1);
+      this.store.dispatch(new AddUpdateAircraft({aircraft: aircraft}));
+      this.updatedAcs.push({point: point, aircraft: aircraft});
+    } else if (this.timeRegexp.test(newTime)) {
       let foundTime = aircraft.path.find((pathPoint) => pathPoint.pointId === point.pointId);
       if (foundTime) {
         if (foundTime.time !== newTime) {
@@ -153,6 +162,31 @@ export class ManagementTableComponent implements OnInit, AfterViewInit {
     }
   }
 
+  getDateOfAircraftOnPoint(aircraft, point) {
+    let foundPathPoint = aircraft.path.find(pathPoint => pathPoint.pointId === point.pointId);
+    return new Date(foundPathPoint.date);
+  }
+
+  aircraftDateChanged(date: any, aircraft: Aircraft, point: Point) {
+    let foundPathPoint = aircraft.path.find(pathPoint => pathPoint.pointId === point.pointId);
+    foundPathPoint.date = date.value.getDate() + "/" + (date.value.getMonth() + 1) + "/" + date.value.getFullYear().toString().substr(2, 2);
+    this.store.dispatch(new AddUpdateAircraft({aircraft: aircraft}));
+    this.updatedAcs.push({point: point, aircraft: aircraft});
+  }
+
+  getAircraftPointSpecial(aircraft: Aircraft, point: Point) {
+    let foundAc = aircraft.path.find(pathPoint => pathPoint.pointId === point.pointId);
+
+    return foundAc ? foundAc.special : '';
+  }
+
+  specialChanged(event, aircraft: Aircraft, point: Point) {
+    let foundAc = aircraft.path.find(pathPoint => pathPoint.pointId === point.pointId);
+    foundAc.special = event;
+    this.store.dispatch(new AddUpdateAircraft({aircraft: aircraft}));
+    this.updatedAcs.push({point: point, aircraft: aircraft});
+  }
+
   isAircraftPointUpdated(ac: Aircraft, point: Point) {
     return this.updatedAcs.find((obj) => obj.point.pointId === point.pointId &&
                                 ac.aircraftId === obj.aircraft.aircraftId);
@@ -167,7 +201,7 @@ export class ManagementTableComponent implements OnInit, AfterViewInit {
   labelKeyDown(event: KeyboardEvent, aircraft: Aircraft, point: Point) {
     if (event.key === "Enter") {
       let currentTarget: any = event.currentTarget;
-      if (currentTarget.innerText == "" || !this.timeRegexp.test(currentTarget.innerText)) {
+      if (!this.timeRegexp.test(currentTarget.innerText)) {
         currentTarget.blur();
       } else {
         event.preventDefault();
@@ -177,14 +211,15 @@ export class ManagementTableComponent implements OnInit, AfterViewInit {
   }
 
   labelBlurred(lbl, aircraft: Aircraft, point: Point) {
-    if (lbl.innerText == "" || !this.timeRegexp.test(lbl.innerText) ) {
+    if (!this.timeRegexp.test(lbl.innerText) && lbl.innerText != "") {
       lbl.innerText = this.getTimeOfAircraftOnPoint(aircraft, point);
       iziToast.error({
         title: "שגיאה",
         message: "אנא הזן זמן בפורמט HH:MM:SS",
         backgroundColor: "#FF502E"
       });
-    } else {
+    } else if (lbl.innerText === "") {
+      lbl.innerText = "--";
     }
   }
 

@@ -3,13 +3,19 @@
   <mat-form-field>
     <!--<mat-label *ngIf="aircraftData.aircraftTypeId == 0">לחץ כדי לבחור</mat-label>-->
     <!--<mat-label *ngIf="aircraftData.aircraftTypeId != 0">-->
-      <!--{{this.aircraftTypes[aircraftData.aircraftTypeId - 1].name}}-->
+    <!--{{this.aircraftTypes[aircraftData.aircraftTypeId - 1].name}}-->
     <!--</mat-label>-->
     <mat-select placeholder="סוג המטוס" [(ngModel)]="currentType">
       <mat-option *ngFor="let aircraftType of aircraftTypes"
                   [value]="aircraftType">
         {{aircraftType.name}}
       </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select placeholder="מיוחד" [(ngModel)]="aircraftData.special">
+      <mat-option [value]="cat.category" *ngFor="let cat of categs">{{cat.category}}</mat-option>
+      <mat-option [value]="''"></mat-option>
     </mat-select>
   </mat-form-field>
 </div>

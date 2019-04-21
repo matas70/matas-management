@@ -5,8 +5,16 @@ import { AppComponent } from './app.component';
 import { ManagementTableComponent } from './management-table/management-table.component';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {
-  MatTableModule, MatToolbarModule, MatIconModule,
-  MatMenuModule, MatSortModule, MatButtonModule
+  MatTableModule,
+  MatToolbarModule,
+  MatIconModule,
+  MatMenuModule,
+  MatSortModule,
+  MatButtonModule,
+  MatSelectModule,
+  MatFormFieldModule,
+  MatDatepickerModule,
+  MatNativeDateModule, MatInputModule
 } from "@angular/material";
 import {StoreModule} from '@ngrx/store';
 import { reducers, metaReducers } from './reducers';
@@ -35,7 +43,12 @@ import {CdkTableModule} from "@angular/cdk/table";
     MatIconModule,
     MatMenuModule,
     MatSortModule,
-    MatButtonModule
+    MatButtonModule,
+    MatSelectModule,
+    MatFormFieldModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatInputModule
   ],
   providers: [DataService],
   bootstrap: [AppComponent]
