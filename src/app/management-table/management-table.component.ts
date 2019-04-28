@@ -124,6 +124,18 @@ export class ManagementTableComponent implements OnInit, AfterViewInit {
     return foundAc ? foundAc.time : "--";
   }
 
+  getFromOfAircraftOnPoint(aircraft: Aircraft, point: Point) {
+    // let loc = this.points.get(point.pointId);
+    // let foundAircraftFromLoc = this._tableModel.
+    // return foundAircraftFromLoc ? foundAircraftFromLoc.time : "";
+
+    // let foundAc = this.table.data.find(model => model.point.pointId === point.pointId).aircrafts
+    //   .find((ac) => ac.aircraft.aircraftId === aircraft.aircraftId);
+    let foundAc = aircraft.path.find(pathPoint => pathPoint.pointId === point.pointId);
+
+    return foundAc ? (foundAc.from ? foundAc.from : "--") : "--";
+  }
+
   addColumn() {
     // Do we need this?
     // this.aircrafts.push({id: this.aircrafts.length + 1, name: "מטוס חדש"});
@@ -162,6 +174,29 @@ export class ManagementTableComponent implements OnInit, AfterViewInit {
     }
   }
 
+  aircraftFromOnPointChanged(aircraft: Aircraft, point: Point, newTime: string) {
+    if (newTime === "") {
+      let pointIndex = aircraft.path.map((p) => p.pointId).indexOf(point.pointId);
+      aircraft.path.splice(pointIndex, 1);
+      this.store.dispatch(new AddUpdateAircraft({aircraft: aircraft}));
+      this.updatedAcs.push({point: point, aircraft: aircraft});
+    } else if (this.timeRegexp.test(newTime)) {
+      let foundTime = aircraft.path.find((pathPoint) => pathPoint.pointId === point.pointId);
+      if (foundTime) {
+        if (foundTime.from !== newTime) {
+          foundTime.from = newTime;
+          this.store.dispatch(new AddUpdateAircraft({aircraft: aircraft}));
+          this.updatedAcs.push({point: point, aircraft: aircraft});
+          // iziToast.success({
+          //   message: "הזמן עודכן בהצלחה!"
+          // });
+        }
+      }
+    } else {
+
+    }
+  }
+
   getDateOfAircraftOnPoint(aircraft, point) {
     let foundPathPoint = aircraft.path.find(pathPoint => pathPoint.pointId === point.pointId);
     return new Date(foundPathPoint.date);
@@ -169,7 +204,7 @@ export class ManagementTableComponent implements OnInit, AfterViewInit {
 
   aircraftDateChanged(date: any, aircraft: Aircraft, point: Point) {
     let foundPathPoint = aircraft.path.find(pathPoint => pathPoint.pointId === point.pointId);
-    foundPathPoint.date = date.value.getDate() + "/" + (date.value.getMonth() + 1) + "/" + date.value.getFullYear().toString().substr(2, 2);
+    foundPathPoint.date = date.value.getFullYear() + "-" + (date.value.getMonth() + 1) + "-" + date.value.getDate();
     this.store.dispatch(new AddUpdateAircraft({aircraft: aircraft}));
     this.updatedAcs.push({point: point, aircraft: aircraft});
   }
@@ -183,6 +218,7 @@ export class ManagementTableComponent implements OnInit, AfterViewInit {
   specialChanged(event, aircraft: Aircraft, point: Point) {
     let foundAc = aircraft.path.find(pathPoint => pathPoint.pointId === point.pointId);
     foundAc.special = event;
+    foundAc.from = undefined;
     this.store.dispatch(new AddUpdateAircraft({aircraft: aircraft}));
     this.updatedAcs.push({point: point, aircraft: aircraft});
   }
@@ -210,9 +246,12 @@ export class ManagementTableComponent implements OnInit, AfterViewInit {
     }
   }
 
-  labelBlurred(lbl, aircraft: Aircraft, point: Point) {
+  labelBlurred(lbl, aircraft: Aircraft, point: Point, isFrom: boolean = false) {
     if (!this.timeRegexp.test(lbl.innerText) && lbl.innerText != "") {
-      lbl.innerText = this.getTimeOfAircraftOnPoint(aircraft, point);
+      if (!isFrom )
+        lbl.innerText = this.getTimeOfAircraftOnPoint(aircraft, point);
+      else
+        lbl.innerText = this.getFromOfAircraftOnPoint(aircraft, point);
       iziToast.error({
         title: "שגיאה",
         message: "אנא הזן זמן בפורמט HH:MM:SS",

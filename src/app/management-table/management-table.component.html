@@ -43,6 +43,15 @@
             <mat-option [value]="cat.category" *ngFor="let cat of categs">{{cat.category}}</mat-option>
             <mat-option [value]="undefined"></mat-option>
           </mat-select>
+          <div *ngIf="getAircraftPointSpecial(aircraft, model.point)  || aircraft.special">
+            <label [class.updated-time]="isAircraftPointUpdated(aircraft, model.point)"
+                   (keydown)="labelKeyDown($event, aircraft, model.point)" #lbl contenteditable="true"
+                   (focus)="labelClicked(lbl, aircraft, model.point)" (click)="labelClicked(lbl)"
+                   (blur)="labelBlurred(lbl, aircraft, model.point, true)"
+                   [contenteditableModel]="getFromOfAircraftOnPoint(aircraft, model.point)"
+                   (contenteditableModelChange)="aircraftFromOnPointChanged(aircraft, model.point, $event)">
+            </label>
+          </div>
           <div style="width: 85px;" *ngIf="getAircraftPointSpecial(aircraft, model.point) === 'חזרות'">
             <!--<input style="width: 85px;" placeholder="dd/mm/yy">-->
             <mat-form-field style="width: 85px;">
