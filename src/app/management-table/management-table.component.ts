@@ -204,7 +204,7 @@ export class ManagementTableComponent implements OnInit, AfterViewInit {
 
   aircraftDateChanged(date: any, aircraft: Aircraft, point: Point) {
     let foundPathPoint = aircraft.path.find(pathPoint => pathPoint.pointId === point.pointId);
-    foundPathPoint.date = date.value.getDate() + "/" + (date.value.getMonth() + 1) + "/" + date.value.getFullYear().toString().substr(2, 2);
+    foundPathPoint.date = date.value.getFullYear() + "-" + (date.value.getMonth() + 1) + "-" + date.value.getDate();
     this.store.dispatch(new AddUpdateAircraft({aircraft: aircraft}));
     this.updatedAcs.push({point: point, aircraft: aircraft});
   }
