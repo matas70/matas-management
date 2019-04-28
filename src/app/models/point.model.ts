@@ -8,6 +8,7 @@ export class Point {
   pointLocation: string;
   wazeLink: string;
   activeTimes: string;
+  exhibitions: string;
   hidden: boolean = false;
   hideAircrafts: boolean = false;
 
@@ -21,12 +22,13 @@ export class Point {
     this.pointLocation = obj.pointLocation;
     this.wazeLink = obj.wazeLink;
     this.activeTimes = obj.activeTimes;
+    this.exhibitions = obj.exhibitions;
 
     return this;
   }
 
   constructor(pointId?: number, E?: number, N?: number, pointName?: string,
-              pointLocation?: string, wazeLink?:string, activeTimes?: string, hidden?: boolean, hideAircrafts?: boolean) {
+              pointLocation?: string, wazeLink?:string, activeTimes?: string, hidden?: boolean, hideAircrafts?: boolean, exhibitions?: string) {
     this.pointId = pointId;
     this.E = E;
     this.N = N;
@@ -36,6 +38,7 @@ export class Point {
     this.activeTimes = activeTimes;
     this.hidden = hidden;
     this.hideAircrafts = hideAircrafts;
+    this.exhibitions = exhibitions;
   }
 
   /* constructor(pointId: number, E: number, N: number, pointName: string, hidden?: boolean, hideAircrafts?: boolean) {

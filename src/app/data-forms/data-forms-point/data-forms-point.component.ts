@@ -43,6 +43,7 @@ export class DataFormsPointComponent implements OnInit {
           this.pointData.activeTimes = "";
           this.pointData.hidden = false;
           this.pointData.hideAircrafts = false;
+          this.pointData.exhibitions = "";
         }
     }
 

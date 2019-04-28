@@ -15,6 +15,7 @@ import {ActionType} from "../reducers/action-types.enum";
 import {AddUpdatePoint, SetPoints} from "../reducers/points.actions";
 import {MatasMetadata} from "../models/matas-metadata.model";
 import {AddUpdateMatasMetadata} from "../reducers/matas-metadata.actions";
+import {map} from "rxjs/operators";
 
 
 const AIRCRAFTS_INFO = "https://matasisrael.blob.core.windows.net/matas/aircrafts-info.json";
@@ -41,7 +42,17 @@ export class DataService {
 
 
   constructor(private http: HttpClient, private store: Store<any>) {
-    this.store.select("aircraft").subscribe((acs) => this.currentAircrafts = Array.from(acs.values()));
+    this.store.select("aircraft").pipe(map((acss : Map<number, Aircraft>) => {
+      return Array.from(acss.values()).map((acIn : Aircraft) => {
+        if (acIn.special === "מופעים אווירובטיים" || acIn.special === "מופעים אוויריים") {
+          acIn["aerobatic"] = true;
+        }
+
+        return acIn;
+      })
+    })).subscribe((acs : any[]) => {
+      this.currentAircrafts = acs;
+    });
     this.store.select("points").subscribe((points: Map<number, Point>) => this.currentPoints = Array.from(points.values()));
     this.store.select("aircraftTypes").subscribe((types: Map<number, AircraftType>) => this.currentTypes = Array.from(types.values()));
     this.store.select("matasMetadata").subscribe((mets) => this.currentMeta = mets);
