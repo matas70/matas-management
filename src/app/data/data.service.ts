@@ -76,15 +76,20 @@ export class DataService {
       let points = response[4];
 
       let aircraftTypes: Map<number, AircraftType> = new Map();
-      for (let tuple of aircraftsinfoJSON) {
-        aircraftTypes.set(tuple.aircraftTypeId, new AircraftType().setJson(tuple));
+
+      if (aircraftsinfoJSON) {
+        for (let tuple of aircraftsinfoJSON) {
+          aircraftTypes.set(tuple.aircraftTypeId, new AircraftType().setJson(tuple));
+        }
       }
       let action = new SetAircraftTypes({aircraftTypes: aircraftTypes});
       this.store.dispatch(action);
 
       let aircrafts: Map<number,Aircraft> = new Map();
-      for (let tuple of aircraftsJSON.aircrafts) {
-        aircrafts.set(tuple.aircraftId, new Aircraft().setJson(tuple));
+      if (aircraftsJSON && aircraftsJSON.aircrafts) {
+        for (let tuple of aircraftsJSON.aircrafts) {
+          aircrafts.set(tuple.aircraftId, new Aircraft().setJson(tuple));
+        }
       }
       this.store.dispatch(new SetAircraft({aircraft: aircrafts}));
 
@@ -100,9 +105,11 @@ export class DataService {
       //   });
       // });
 
-      for (let point of points) {
-        let newp = new Point().setJson(point);
-        pointsMap.set(newp.pointId, newp);
+      if (points) {
+        for (let point of points) {
+          let newp = new Point().setJson(point);
+          pointsMap.set(newp.pointId, newp);
+        }
       }
 
       this.store.dispatch(new SetPoints({points: pointsMap}));
