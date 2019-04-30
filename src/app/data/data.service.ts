@@ -37,7 +37,7 @@ export class DataService {
 
   private currentAircrafts: Aircraft[];
   private currentPoints: Point[];
-  private currentTypes: AircraftType[];
+  private currentTypes: {aircraftTypes: AircraftType[]};
   private currentMeta: MatasMetadata;
 
 
@@ -54,7 +54,7 @@ export class DataService {
       this.currentAircrafts = acs;
     });
     this.store.select("points").subscribe((points: Map<number, Point>) => this.currentPoints = Array.from(points.values()));
-    this.store.select("aircraftTypes").subscribe((types: Map<number, AircraftType>) => this.currentTypes = Array.from(types.values()));
+    this.store.select("aircraftTypes").subscribe((types: Map<number, AircraftType>) => this.currentTypes = {aircraftTypes: Array.from(types.values())});
     this.store.select("matasMetadata").subscribe((mets) => this.currentMeta = mets);
   }
 
