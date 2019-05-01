@@ -17,7 +17,7 @@ export class DataFormsPointComponent implements OnInit {
                 @Inject(MAT_DIALOG_DATA) public pointData: Point,
                 public store: Store<any>) {
       this.store.select("points").subscribe(points => {
-        this.latestId = Math.max.apply(Math, Array.from(points.keys()));
+        this.latestId = Math.max.apply(Math, Array.from(points.keys())) + 1;
       });
      }
 
