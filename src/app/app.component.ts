@@ -12,6 +12,7 @@ import { Point } from './models/point.model';
 import { DataFormsMetadataComponent } from './data-forms/data-forms-metadata/data-forms-metadada.component';
 import { MatasMetadata } from './models/matas-metadata.model';
 import {Subject} from "rxjs";
+import {DataFormsNotificationComponent} from "./data-forms/data-forms-notification/data-forms-notification.component";
 
 @Component({
   selector: 'app-root',
@@ -64,6 +65,10 @@ export class AppComponent {
           width: '250px',
           data: new Point()
         });
+    else if (dataType == 'notification')
+      dialogRefInput = this.dialog.open(DataFormsNotificationComponent, {
+        width: '350px'
+      });
     else {
         dialogRefInput = this.dialog.open(DataFormsMetadataComponent, {
           width: '250px',

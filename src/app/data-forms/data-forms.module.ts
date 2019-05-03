@@ -8,6 +8,7 @@ import { DataFormsAircraftComponent } from './data-forms-aircraft/data-forms-air
 import { DataFormsAircraftTypeComponent } from './data-forms-aircrafttype/data-forms-aircrafttype.component';
 import { DataFormsPointComponent } from './data-forms-point/data-forms-point.component';
 import { DataFormsMetadataComponent } from './data-forms-metadata/data-forms-metadada.component';
+import { DataFormsNotificationComponent } from './data-forms-notification/data-forms-notification.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { DataFormsMetadataComponent } from './data-forms-metadata/data-forms-met
     DataFormsAircraftComponent,
     DataFormsAircraftTypeComponent,
     DataFormsPointComponent,
-    DataFormsMetadataComponent
+    DataFormsMetadataComponent,
+    DataFormsNotificationComponent
   ],
   imports: [
     BrowserModule,
@@ -30,7 +32,8 @@ import { DataFormsMetadataComponent } from './data-forms-metadata/data-forms-met
     DataFormsAircraftComponent,
     DataFormsAircraftTypeComponent,
     DataFormsPointComponent,
-    DataFormsMetadataComponent
+    DataFormsMetadataComponent,
+    DataFormsNotificationComponent
   ]
 })
 export class DataFormsModule { }

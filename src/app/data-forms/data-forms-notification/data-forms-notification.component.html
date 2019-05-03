@@ -1,0 +1,23 @@
+<h1 dir="rtl" mat-dialog-title>שליחת התראה</h1>
+<div mat-dialog-content dir="rtl" style="display: flex;flex-direction: column">
+  <mat-form-field>
+    <input matInput placeholder="כותרת" [(ngModel)]="title">
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select [(ngModel)]="selectedIconPath">
+      <mat-option [value]="icon.src" *ngFor="let icon of icons">
+        {{icon.name}}
+        <img [src]="icon.src" style="width: 20px; height: 20px;">
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <textarea matInput placeholder="תוכן" [(ngModel)]="content"></textarea>
+  </mat-form-field>
+  <mat-form-field>
+    <input type="password" matInput placeholder="סיסמא" [(ngModel)]="password">
+  </mat-form-field>
+</div>
+<div mat-dialog-actions dir="rtl">
+  <button mat-button (click)="sendNotification()">שלח התראה</button>
+</div>
