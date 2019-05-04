@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
+import {AngularFireFunctions} from "@angular/fire/functions";
 
 @Component({
   selector: 'app-data-forms-notification',
@@ -28,12 +29,20 @@ export class DataFormsNotificationComponent implements OnInit {
     }
   ]
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private fns: AngularFireFunctions) { }
 
   ngOnInit() {
   }
 
   sendNotification() {
-    this.http.post("yadayada.com", {title: this.title, content: this.content, password: this.password, icon: this.selectedIconPath});
+    let callable = this.fns.httpsCallable("sendTopic");
+    callable({
+      "title": this.title,
+      "body": this.content,
+      "topic": "users",
+      "icon": this.selectedIconPath,
+      "password": this.password
+    })
   }
 }
+
