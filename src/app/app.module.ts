@@ -23,6 +23,9 @@ import {HttpClientModule} from "@angular/common/http";
 import {ContenteditableModel} from "./management-table/content-editable.directive";
 import {FormsModule} from "@angular/forms";
 import {CdkTableModule} from "@angular/cdk/table";
+import {AngularFireFunctionsModule, FunctionsRegionToken} from "@angular/fire/functions";
+import {environment} from "../environments/environment";
+import {AngularFireModule} from "@angular/fire";
 
 @NgModule({
   declarations: [
@@ -48,9 +51,13 @@ import {CdkTableModule} from "@angular/cdk/table";
     MatFormFieldModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatInputModule
+    MatInputModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireFunctionsModule,
   ],
-  providers: [DataService],
+  providers: [DataService,
+    { provide: FunctionsRegionToken, useValue: 'europe-west1' }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
