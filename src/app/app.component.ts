@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {DataService} from './data/data.service';
-import {MatDialog} from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 
 import { DataFormsAircraftComponent } from './data-forms/data-forms-aircraft/data-forms-aircraft.component';
 import { DataFormsAircraftTypeComponent } from './data-forms/data-forms-aircrafttype/data-forms-aircrafttype.component';
