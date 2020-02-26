@@ -12,12 +12,13 @@ export class RoutesManagementComponent implements OnInit {
   public routes: Map<number, Route>;
 
   constructor(private _store: Store<any>) {
-    this._store.select('routes').subscribe((routes: Map<number, Route>) => {
-      this.routes = routes
-    });
+
   }
 
   ngOnInit() {
+    this._store.select('routes').subscribe((routes: Map<number, Route>) => {
+      this.routes = routes
+    });
   }
 
 }

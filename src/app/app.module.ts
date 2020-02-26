@@ -27,6 +27,7 @@ import {environment} from '../environments/environment';
 import {AngularFireModule} from '@angular/fire';
 import {MatTabsModule} from "@angular/material/tabs";
 import { RoutesManagementComponent } from './routes-management/routes-management.component';
+import {DragDropModule} from "@angular/cdk/drag-drop";
 
 @NgModule({
   declarations: [
@@ -55,6 +56,7 @@ import { RoutesManagementComponent } from './routes-management/routes-management
     MatNativeDateModule,
     MatInputModule,
     MatTabsModule,
+    DragDropModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireFunctionsModule,
   ],

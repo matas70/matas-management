@@ -6,7 +6,6 @@ import {Route} from '../models/route.model';
 import {Aircraft} from '../models/aircraft.model';
 import {HttpClient} from '@angular/common/http';
 import {HttpHeaders} from '@angular/common/http';
-import {forEach} from '@angular/router/src/utils/collection';
 import {Store} from '@ngrx/store';
 import {AddAircraftType, SetAircraftTypes} from '../reducers/aircraft-type.actions';
 import {AddUpdateAircraft, SetAircraft} from '../reducers/aircraft.actions';

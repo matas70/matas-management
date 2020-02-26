@@ -1,3 +1,7 @@
-<div *ngFor="let routeKeyValue of routes | keyvalue">
-  {{routeKeyValue.value.name}}
+<div class="routes-container">
+  <div *ngFor="let route of routes.values()">
+    <div cdkDropList class="example-list">
+      <div class="example-box" *ngFor="let point of route.points" cdkDrag>{{point.pointName}}</div>
+    </div>
+  </div>
 </div>

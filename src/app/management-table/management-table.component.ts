@@ -5,8 +5,6 @@ import {combineLatest, forkJoin, Observable, Subject} from 'rxjs';
 import {Aircraft} from '../models/aircraft.model';
 import {Point} from '../models/point.model';
 import { MatDialog } from '@angular/material/dialog';
-import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
 import iziToast from 'izitoast';
 import {AddUpdateAircraft, DeleteAircraft} from '../reducers/aircraft.actions';
 import {AircraftType} from '../models/aircraft-type.model';
@@ -14,6 +12,8 @@ import {DataFormsPointComponent} from '../data-forms/data-forms-point/data-forms
 import {ActionType} from '../reducers/action-types.enum';
 import {DeletePoint} from '../reducers/points.actions';
 import {DataFormsAircraftComponent} from '../data-forms/data-forms-aircraft/data-forms-aircraft.component';
+import {MatTableDataSource} from "@angular/material/table";
+import {MatSort} from "@angular/material/sort";
 
 @Component({
   selector: 'app-management-table',
