@@ -29,7 +29,7 @@ export class DataFormsAircraftComponent implements OnInit {
     dataService.cats.subscribe((cats) => {
       this.categs = cats.filter(cat => cat.special);
     });
-    store.select("aircraftTypes").subscribe((types: Map<number, AircraftType>) => {
+    store.select('aircraftTypes').subscribe((types: Map<number, AircraftType>) => {
       this.aircraftTypes = Array.from(types.values()).sort(function (type1, type2) {
         if (type1.name < type2.name) {
           return -1;
@@ -43,7 +43,7 @@ export class DataFormsAircraftComponent implements OnInit {
     });
 
 
-    store.select("aircraft").subscribe((aircraft: Map<number, Aircraft>) => {
+    store.select('aircraft').subscribe((aircraft: Map<number, Aircraft>) => {
       this.aircrafts = Array.from(aircraft.values());
     });
     this.aircraftTypeInput = new AircraftType();

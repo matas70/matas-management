@@ -16,7 +16,7 @@ export class DataFormsPointComponent implements OnInit {
     constructor(public dialogRef: MatDialogRef<DataFormsPointComponent>,
                 @Inject(MAT_DIALOG_DATA) public pointData: Point,
                 public store: Store<any>) {
-      this.store.select("points").subscribe(points => {
+      this.store.select('points').subscribe(points => {
         this.latestId = Math.max.apply(Math, Array.from(points.keys())) + 1;
       });
      }
@@ -37,13 +37,13 @@ export class DataFormsPointComponent implements OnInit {
           this.pointData.pointId = this.latestId;
           this.pointData.E = 0;
           this.pointData.N = 0;
-          this.pointData.pointName = "";
-          this.pointData.pointLocation = "";
-          this.pointData.wazeLink = "";
-          this.pointData.activeTimes = "";
+          this.pointData.pointName = '';
+          this.pointData.pointLocation = '';
+          this.pointData.wazeLink = '';
+          this.pointData.activeTimes = '';
           this.pointData.hidden = false;
           this.pointData.hideAircrafts = false;
-          this.pointData.exhibitions = "";
+          this.pointData.exhibitions = '';
         }
     }
 

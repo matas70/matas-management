@@ -1,7 +1,7 @@
-import {Action} from "@ngrx/store";
-import {ActionType} from "./action-types.enum";
-import * as AircraftActions from "./aircraft.actions";
-import {AircraftActionsUnion} from "./aircraft.actions";
+import {Action} from '@ngrx/store';
+import {ActionType} from './action-types.enum';
+import * as AircraftActions from './aircraft.actions';
+import {AircraftActionsUnion} from './aircraft.actions';
 
 export function aircraftReducer(state = new Map(), action: any) {
   switch (action.type) {

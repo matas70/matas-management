@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {AngularFireFunctions} from "@angular/fire/functions";
+import {HttpClient} from '@angular/common/http';
+import {AngularFireFunctions} from '@angular/fire/functions';
 
 @Component({
   selector: 'app-data-forms-notification',
@@ -12,20 +12,20 @@ export class DataFormsNotificationComponent implements OnInit {
   public title: string;
   public content: string;
   public password: string;
-  public selectedIconPath: string = "https://www.matas-iaf.com/icons/logo192x192.png";
+  public selectedIconPath: string = 'https://www.matas-iaf.com/icons/logo192x192.png';
 
   public icons: any[] = [
     {
-      name: "logo192x192",
-      src: "https://www.matas-iaf.com/icons/logo192x192.png"
+      name: 'logo192x192',
+      src: 'https://www.matas-iaf.com/icons/logo192x192.png'
     },
     {
-      name: "aerobatic",
-      src: "https://www.matas-iaf.com/icons/aerobatic.png"
+      name: 'aerobatic',
+      src: 'https://www.matas-iaf.com/icons/aerobatic.png'
     },
     {
-      name: "genericAircraft",
-      src: "https://www.matas-iaf.com/icons/genericAircraft.svg"
+      name: 'genericAircraft',
+      src: 'https://www.matas-iaf.com/icons/genericAircraft.svg'
     }
   ]
 
@@ -35,13 +35,13 @@ export class DataFormsNotificationComponent implements OnInit {
   }
 
   sendNotification() {
-    let callable = this.fns.httpsCallable("sendTopic");
+    let callable = this.fns.httpsCallable('sendTopic');
     callable({
-      "title": this.title,
-      "body": this.content,
-      "topic": "users",
-      "icon": this.selectedIconPath,
-      "password": this.password
+      'title': this.title,
+      'body': this.content,
+      'topic': 'users',
+      'icon': this.selectedIconPath,
+      'password': this.password
     })
   }
 }

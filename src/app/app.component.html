@@ -32,5 +32,12 @@
     </mat-menu>
     <span style="margin: 0 auto;">טבלת מטסים</span>
   </mat-toolbar>
-  <app-management-table style="top: 70px; position: absolute;" [savePerformed]="subject"></app-management-table>
+  <mat-tab-group>
+    <mat-tab label="ניהול מטוסים">
+<!--      <app-management-table [savePerformed]="subject"></app-management-table>-->
+    </mat-tab>
+    <mat-tab label="ניהול נתיבים">
+      <routes-management></routes-management>
+    </mat-tab>
+  </mat-tab-group>
 </div>

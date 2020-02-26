@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import {DataFormsModule} from './data-forms/data-forms.module';
 import { AppComponent } from './app.component';
 import { ManagementTableComponent } from './management-table/management-table.component';
-import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {
   MatTableModule,
   MatToolbarModule,
@@ -15,23 +15,26 @@ import {
   MatFormFieldModule,
   MatDatepickerModule,
   MatNativeDateModule, MatInputModule
-} from "@angular/material";
+} from '@angular/material';
 import {StoreModule} from '@ngrx/store';
 import { reducers, metaReducers } from './reducers';
-import {DataService} from "./data/data.service";
-import {HttpClientModule} from "@angular/common/http";
-import {ContenteditableModel} from "./management-table/content-editable.directive";
-import {FormsModule} from "@angular/forms";
-import {CdkTableModule} from "@angular/cdk/table";
-import {AngularFireFunctionsModule, FunctionsRegionToken} from "@angular/fire/functions";
-import {environment} from "../environments/environment";
-import {AngularFireModule} from "@angular/fire";
+import {DataService} from './data/data.service';
+import {HttpClientModule} from '@angular/common/http';
+import {ContenteditableModel} from './management-table/content-editable.directive';
+import {FormsModule} from '@angular/forms';
+import {CdkTableModule} from '@angular/cdk/table';
+import {AngularFireFunctionsModule, FunctionsRegionToken} from '@angular/fire/functions';
+import {environment} from '../environments/environment';
+import {AngularFireModule} from '@angular/fire';
+import {MatTabsModule} from "@angular/material/tabs";
+import { RoutesManagementComponent } from './routes-management/routes-management.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ContenteditableModel,
-    ManagementTableComponent
+    ManagementTableComponent,
+    RoutesManagementComponent
   ],
   imports: [
     DataFormsModule,
@@ -52,6 +55,7 @@ import {AngularFireModule} from "@angular/fire";
     MatDatepickerModule,
     MatNativeDateModule,
     MatInputModule,
+    MatTabsModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireFunctionsModule,
   ],
