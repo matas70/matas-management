@@ -24,7 +24,7 @@
     "@angular/platform-browser-dynamic": "~8.2.14",
     "@angular/router": "~8.2.14",
     "@ng-stack/contenteditable": "^1.0.1",
-    "@ngrx/store": "^7.4.0",
+    "@ngrx/store": "^8.6.0",
     "angular-inline-editors": "^2.0.4",
     "core-js": "^2.5.4",
     "firebase": "^5.11.1",
