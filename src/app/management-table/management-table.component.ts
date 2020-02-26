@@ -19,7 +19,7 @@ import {DataFormsAircraftComponent} from '../data-forms/data-forms-aircraft/data
   styleUrls: ['./management-table.component.less']
 })
 export class ManagementTableComponent implements OnInit, AfterViewInit {
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
   private timeRegexp: RegExp = new RegExp('(?:[01]\\d|2[0123]):(?:[012345]\\d):(?:[012345]\\d)');
   public table = new MatTableDataSource();
   private _tableModel: { point: Point, aircrafts: { aircraft: Aircraft, time: string }[] }[] = [];
