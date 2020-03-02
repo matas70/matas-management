@@ -90,7 +90,7 @@ export class RoutesManagementComponent implements OnInit {
 
   removeRoute(routeIndex: number) {
     this.routes.splice(routeIndex, 1);
-    this._store.dispatch(new Delete)
+    // this._store.dispatch(new Delete)
   }
 
   changeVisibilityOfPointInRoute($event: boolean, routeIndex: number, pointInRouteIndex: number) {
