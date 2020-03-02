@@ -1,0 +1,6 @@
+<mat-form-field>
+  <mat-label>ישוב</mat-label>
+  <select matNativeControl [formControl]="currentPointControl">
+    <option *ngFor="let point of availablePoints" [value]="point.pointId">{{point.pointName}}</option>
+  </select>
+</mat-form-field>

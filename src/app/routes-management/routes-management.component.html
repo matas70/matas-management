@@ -1,7 +1,10 @@
 <div class="routes-container">
-  <div *ngFor="let route of routes.values()">
-    <div cdkDropList class="example-list">
-      <div class="example-box" *ngFor="let point of route.points" cdkDrag>{{point.pointName}}</div>
+  <div *ngFor="let route of routes; index as routeIndex">
+    <div cdkDropList class="example-list" (cdkDropListDropped)="drop($event, routeIndex)">
+      <div class="example-box" *ngFor="let point of route.points; index as pointInRouteIndex" cdkDrag>
+        <route-point-selector [currentPoint]="point" (currentPointChange)="changePointOfRoute($event, routeIndex, pointInRouteIndex)"
+                              [availablePoints]="getAvailablePointsForRoute(route)"></route-point-selector>
+      </div>
     </div>
   </div>
 </div>

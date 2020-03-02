@@ -20,7 +20,7 @@ import { reducers, metaReducers } from './reducers';
 import {DataService} from './data/data.service';
 import {HttpClientModule} from '@angular/common/http';
 import {ContenteditableModel} from './management-table/content-editable.directive';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {CdkTableModule} from '@angular/cdk/table';
 import {AngularFireFunctionsModule, FunctionsRegionToken} from '@angular/fire/functions';
 import {environment} from '../environments/environment';
@@ -28,13 +28,15 @@ import {AngularFireModule} from '@angular/fire';
 import {MatTabsModule} from "@angular/material/tabs";
 import { RoutesManagementComponent } from './routes-management/routes-management.component';
 import {DragDropModule} from "@angular/cdk/drag-drop";
+import { RoutePointSelectorComponent } from './routes-management/route-point-selector/route-point-selector.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ContenteditableModel,
     ManagementTableComponent,
-    RoutesManagementComponent
+    RoutesManagementComponent,
+    RoutePointSelectorComponent
   ],
   imports: [
     DataFormsModule,
@@ -57,6 +59,7 @@ import {DragDropModule} from "@angular/cdk/drag-drop";
     MatInputModule,
     MatTabsModule,
     DragDropModule,
+    ReactiveFormsModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireFunctionsModule,
   ],
