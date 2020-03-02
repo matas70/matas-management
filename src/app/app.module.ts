@@ -29,6 +29,8 @@ import {MatTabsModule} from "@angular/material/tabs";
 import { RoutesManagementComponent } from './routes-management/routes-management.component';
 import {DragDropModule} from "@angular/cdk/drag-drop";
 import { RoutePointSelectorComponent } from './routes-management/route-point-selector/route-point-selector.component';
+import {ColorPickerModule} from "ngx-color-picker";
+import {MatCheckboxModule} from "@angular/material/checkbox";
 
 @NgModule({
   declarations: [
@@ -45,7 +47,7 @@ import { RoutePointSelectorComponent } from './routes-management/route-point-sel
     BrowserModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    StoreModule.forRoot(reducers, { metaReducers }),
+    StoreModule.forRoot(reducers, {metaReducers}),
     MatTableModule,
     MatToolbarModule,
     MatIconModule,
@@ -60,8 +62,10 @@ import { RoutePointSelectorComponent } from './routes-management/route-point-sel
     MatTabsModule,
     DragDropModule,
     ReactiveFormsModule,
+    ColorPickerModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireFunctionsModule,
+    MatCheckboxModule,
   ],
   providers: [DataService,
     { provide: FunctionsRegionToken, useValue: 'europe-west1' }

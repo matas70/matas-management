@@ -17,9 +17,13 @@ export class RoutePointSelectorComponent implements OnInit {
   @Input()
   availablePoints: Point[] = [];
   @Input()
-  currentPoint: Point;
-
   currentPointId: number;
+  @Output()
+  pointRemoved: EventEmitter<any> = new EventEmitter<any>();
+  @Output()
+  pointVisibilityChange: EventEmitter<boolean> = new EventEmitter<boolean>();
+
+  currentPoint: Point;
 
   constructor(private cdr: ChangeDetectorRef) {
   }
@@ -29,13 +33,15 @@ export class RoutePointSelectorComponent implements OnInit {
     //   this.currentPoint = this.availablePoints[0];
     // }
     // console.log(this.currentPoint);
-    this.currentPointControl.setValue(this.currentPoint.pointId);
-    this.currentPointId = this.currentPoint.pointId;
+    let point = this.availablePoints.find((point: Point) => point.pointId === this.currentPointId);
+    this.currentPoint = point;
+    this.currentPointControl.setValue(point);
+    this.currentPointControl.valueChanges.subscribe((newVal: Point) => this.currentPointChange.emit(newVal));
   }
 
   currentPointChanged(event: MatSelectChange) {
-    // this.currentPoint = event.value;
-    // this.currentPointChange.emit(this.currentPoint);
+    this.currentPointChange.emit(event.value);
+    this.currentPoint = event.value;
   }
 
   comparePoints(point1: Point, point2: Point) {

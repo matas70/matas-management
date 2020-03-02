@@ -8,10 +8,10 @@ export class SetRoutes implements Action {
   constructor(public payload: {routes: Map<number, Route>}) {}
 }
 
-export class AddRoute implements Action {
+export class AddUpdateRoute implements Action {
   readonly type: ActionType = ActionType.ADD_UPDATE_ROUTE;
 
-  constructor(public payload: {routes: Route}) {}
+  constructor(public payload: {route: Route}) {}
 }
 
-export type RoutesActionUnion = SetRoutes | AddRoute;
+export type RoutesActionUnion = SetRoutes | AddUpdateRoute;
