@@ -3,7 +3,7 @@ import {Store} from "@ngrx/store";
 import {Route} from "../models/route.model";
 import {CdkDragDrop, moveItemInArray} from "@angular/cdk/drag-drop";
 import {Point} from "../models/point.model";
-import {AddUpdateRoute} from "../reducers/routes.actions";
+import {AddUpdateRoute, DeleteRoute} from "../reducers/routes.actions";
 
 @Component({
   selector: 'routes-management',
@@ -22,15 +22,27 @@ export class RoutesManagementComponent implements OnInit {
   ngOnInit() {
     this._store.select('routes').subscribe((routes: Map<number, Route>) => {
       this.routes = Array.from(routes.values());
-      this.routes.forEach((route: Route) => {
-        route.color = `#${route.color}`;
-        route.primaryTextColor = `#${route.primaryTextColor}`;
-        route.secondaryTextColor = `#${route.secondaryTextColor}`;
-      });
+      this.fixRouteColors();
     });
 
     this._store.select('points').subscribe((points: Map<number, Point>) => {
       this.points = Array.from(points.values());
+    });
+  }
+
+  private fixRouteColors() {
+    this.routes.forEach((route: Route) => {
+      if (route.color && !route.color.startsWith('#')) {
+        route.color = `#${route.color}`;
+      }
+
+      if (route.primaryTextColor && !route.primaryTextColor.startsWith('#')) {
+        route.primaryTextColor = `#${route.primaryTextColor}`;
+      }
+
+      if (route.secondaryTextColor && !route.secondaryTextColor.startsWith('#')) {
+        route.secondaryTextColor = `#${route.secondaryTextColor}`;
+      }
     });
   }
 
@@ -83,17 +95,18 @@ export class RoutesManagementComponent implements OnInit {
   }
 
   addRoute() {
-    let route = new Route(this.routes.length, `מסלול ${this.routes.length}`, "#FF0000");
+    let route = new Route(this.routes.length + 1, `מסלול ${this.routes.length + 1}`, "#FF0000");
     this.routes.push(route);
     this.updateRoute(route);
   }
 
   removeRoute(routeIndex: number) {
-    this.routes.splice(routeIndex, 1);
-    // this._store.dispatch(new Delete)
+    this._store.dispatch(new DeleteRoute({route: this.routes[routeIndex]}))
+    // this.routes.splice(routeIndex, 1);
   }
 
   changeVisibilityOfPointInRoute($event: boolean, routeIndex: number, pointInRouteIndex: number) {
     this.routes[routeIndex].points[pointInRouteIndex].hidden = $event;
+    this.updateRoute(this.routes[routeIndex]);
   }
 }

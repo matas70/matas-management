@@ -14,4 +14,11 @@ export class AddUpdateRoute implements Action {
   constructor(public payload: {route: Route}) {}
 }
 
-export type RoutesActionUnion = SetRoutes | AddUpdateRoute;
+export class DeleteRoute implements Action {
+  type: ActionType = ActionType.DELETE_ROUTE;
+
+
+  constructor(public payload: {route: Route}) {}
+}
+
+export type RoutesActionUnion = SetRoutes | AddUpdateRoute | DeleteRoute;

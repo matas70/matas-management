@@ -10,5 +10,6 @@ export const enum ActionType {
   DELETE_POINT = 'deletePoint',
   DELETE_AIRCRAFT = 'deleteAircraft',
   SET_ROUTES = 'setRoutes',
-  ADD_UPDATE_ROUTE = 'addUpdateRoute'
+  ADD_UPDATE_ROUTE = 'addUpdateRoute',
+  DELETE_ROUTE = 'deleteRoute'
 }

@@ -43,6 +43,10 @@ export class AppComponent {
     this.subject.next();
   }
 
+  saveRoutesClicked() {
+    this.data.saveRoutes();
+  }
+
   openDialog(dataType: string): void {
     let dialogRefInput;
     if (dataType == 'aircraft')

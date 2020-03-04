@@ -32,7 +32,7 @@ export class DataService {
   public aircrafts: Aircraft[] = [];
   public aircraftsTypes: AircraftType[] = [];
   public points: Point[] = [];
-  public routes: Route[] = [];
+  public routes: {routes: Route[]};
   public cats: Subject<{ category: string, special?: boolean }[]> = new BehaviorSubject([]);
 
   private currentAircrafts: Aircraft[];
@@ -56,6 +56,7 @@ export class DataService {
     this.store.select('points').subscribe((points: Map<number, Point>) => this.currentPoints = Array.from(points.values()));
     this.store.select('aircraftTypes').subscribe((types: Map<number, AircraftType>) => this.currentTypes = {aircraftTypes: Array.from(types.values())});
     this.store.select('matasMetadata').subscribe((mets) => this.currentMeta = mets);
+    this.store.select('routes').subscribe((routes: Map<number, Route>) => this.routes = {routes: Array.from(routes.values())});
   }
 
 
@@ -129,7 +130,7 @@ export class DataService {
     return this.points;
   }
 
-  public getRoutes(): Route[] {
+  public getRoutes(): { routes: Route[] } {
     return this.routes;
   }
 
@@ -141,6 +142,11 @@ export class DataService {
       '?sp=rw&st=2019-04-16T20:43:29Z&se=2019-05-30T04:43:29Z&spr=https&sv=2018-03-28&sig=DoW0m70i8qr7rvIogPM22OCCpa8uO%2BNP6hwqyqkbadw%3D&sr=b');
     this.uploadSingleData('aircrafts-info.json', JSON.stringify(this.currentTypes),
       '?sp=racwdl&st=2020-02-26T12:59:56Z&se=2020-02-27T12:59:56Z&sv=2019-02-02&sr=b&sig=UlOcDwI5vDlo0QZlqvTnK7YiU6aRAlxoSqQ4wcSJYT0%3D');
+  }
+
+  public saveRoutes() {
+    this.uploadSingleData('routes.json', JSON.stringify(this.routes),
+      '?sp=racwdl&st=2020-03-04T17:04:59Z&se=2020-06-05T21:04:00Z&sv=2019-02-02&sr=b&sig=iignx59ZI14PWVPssfx1kevvIfOHkcOzSElD4F1QcLY%3D')
   }
 
   public uploadData() {
