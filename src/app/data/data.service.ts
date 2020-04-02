@@ -18,11 +18,11 @@ import {map} from 'rxjs/operators';
 import {SetRoutes} from "../reducers/routes.actions";
 
 
-const AIRCRAFTS_INFO = 'https://matasstorage.blob.core.windows.net/matas/aircrafts-info.json';
-const AIRCRAFTS = 'https://matasstorage.blob.core.windows.net/matas/aircrafts.json';
-const CATEGORIES = 'https://matasstorage.blob.core.windows.net/matas/categories.json';
-const ROUTES = 'https://matasstorage.blob.core.windows.net/matas/routes.json';
-const POINTS = 'https://matasstorage.blob.core.windows.net/matas/points.json';
+const AIRCRAFTS_INFO = 'https://matasstorage.blob.core.windows.net/matas-dev/aircrafts-info.json';
+const AIRCRAFTS = 'https://matasstorage.blob.core.windows.net/matas-dev/aircrafts.json';
+const CATEGORIES = 'https://matasstorage.blob.core.windows.net/matas-dev/categories.json';
+const ROUTES = 'https://matasstorage.blob.core.windows.net/matas-dev/routes.json';
+const POINTS = 'https://matasstorage.blob.core.windows.net/matas-dev/points.json';
 
 @Injectable({
   providedIn: 'root'

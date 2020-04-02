@@ -5,22 +5,19 @@
         {{route.name}}
       </span>
       <div>
-        <label>צבע מסלול:</label>
-        <div [(colorPicker)]="route.color" style="width: 10px; height: 10px; border: 1px solid black; display: inline-block;"
-             [style.background-color]="route.color">
-        </div>
-      </div>
-      <div>
-        <label>צבע טקסט עיקרי:</label>
-        <span [(colorPicker)]="route.primaryTextColor" style="width: 10px; height: 10px;  border: 1px solid black; display: inline-block;"
-             [style.background-color]="route.primaryTextColor">
-        </span>
-      </div>
-      <div>
-        <label>צבע טקסט משני:</label>
-        <span [(colorPicker)]="route.secondaryTextColor" style="width: 10px; height: 10px;  border: 1px solid black; display: inline-block;"
-             [style.background-color]="route.secondaryTextColor">
-        </span>
+<!--        <label>צבע מסלול:</label>-->
+<!--        <div [(colorPicker)]="route.color" style="width: 10px; height: 10px; border: 1px solid black; display: inline-block;"-->
+<!--             [style.background-color]="route.color">-->
+<!--        </div>-->
+        <mat-form-field>
+          <mat-label>צבע מסלול</mat-label>
+          <mat-select (valueChange)="changeColorOfRoute(routeIndex, $event)" [value]="getColorOfRoute(route)">
+            <mat-option *ngFor="let color of colors" [value]="color" [style.color]="color.color">
+              {{color.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
       </div>
       <img src="/assets/Delete.png" (click)="removeRoute(routeIndex)"
            style="position: absolute; top: 5px; left: 15px; width: 15px; height: 15px; cursor: pointer;">

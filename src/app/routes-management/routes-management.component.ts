@@ -12,6 +12,39 @@ import {AddUpdateRoute, DeleteRoute} from "../reducers/routes.actions";
 })
 export class RoutesManagementComponent implements OnInit {
 
+  public colors: {name: string, color: string, primaryTextColor: string, secondaryTextColor: string}[] = [
+    {
+      "name": "כחול",
+      "color": "#3bb5f2",
+      "primaryTextColor": "ffffff",
+      "secondaryTextColor": "187aab"
+    },
+    {
+      "name": "סגול",
+      "color": "#bb7aff",
+      "primaryTextColor": "ffffff",
+      "secondaryTextColor": "bb7aff"
+    },
+    {
+      "name": "ירוק",
+      "color": "#64e1a5",
+      "primaryTextColor": "ffffff",
+      "secondaryTextColor": "64e1a5",
+    },
+    {
+      "name": "אדום",
+      "color": "#f64b58",
+      "primaryTextColor": "ffffff",
+      "secondaryTextColor": "64e1a5",
+    },
+    {
+      "name": "סגול 2",
+      "color": "#bb7aff",
+      "primaryTextColor": "ffffff",
+      "secondaryTextColor": "187aab",
+    }
+  ];
+
   public routes: Route[];
   public points: Point[];
 
@@ -22,7 +55,7 @@ export class RoutesManagementComponent implements OnInit {
   ngOnInit() {
     this._store.select('routes').subscribe((routes: Map<number, Route>) => {
       this.routes = Array.from(routes.values());
-      this.fixRouteColors();
+      // this.fixRouteColors();
     });
 
     this._store.select('points').subscribe((points: Map<number, Point>) => {
@@ -108,5 +141,19 @@ export class RoutesManagementComponent implements OnInit {
   changeVisibilityOfPointInRoute($event: boolean, routeIndex: number, pointInRouteIndex: number) {
     this.routes[routeIndex].points[pointInRouteIndex].hidden = $event;
     this.updateRoute(this.routes[routeIndex]);
+  }
+
+  changeColorOfRoute(routeIndex: number, color: {name: string, color: string, primaryTextColor: string, secondaryTextColor: string}) {
+    this.routes[routeIndex].color = color.color.replace('#', '');
+    this.routes[routeIndex].primaryTextColor = color.primaryTextColor;
+    this.routes[routeIndex].secondaryTextColor = color.secondaryTextColor;
+    this.updateRoute(this.routes[routeIndex]);
+  }
+
+  getColorOfRoute(route: Route) {
+    let find = this.colors.find((color: {name: string, color: string, primaryTextColor: string, secondaryTextColor: string}) => {
+      return color.color.includes(route.color);
+    });
+    return find;
   }
 }
