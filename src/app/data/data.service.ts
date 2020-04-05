@@ -137,16 +137,16 @@ export class DataService {
   public tempSave() {
     (this.currentMeta as any).aircrafts = this.currentAircrafts;
     this.uploadSingleData('aircrafts.json', JSON.stringify(this.currentMeta),
-      '?sp=rw&st=2019-04-16T20:39:22Z&se=2019-05-30T04:39:22Z&spr=https&sv=2018-03-28&sig=t5lNTKtoCZnVUR32fl%2FW516xrS6pBVPxVxKzqkpQ%2BTM%3D&sr=b');
+      '?sp=racwl&st=2020-04-02T17:33:35Z&se=2020-06-03T17:33:00Z&sv=2019-02-02&sr=b&sig=vWdGAtxpdxje3FerSv7Wk1mwZJirTzx83zgPEylkyn4%3D');
     this.uploadSingleData('points.json', JSON.stringify(this.currentPoints),
-      '?sp=rw&st=2019-04-16T20:43:29Z&se=2019-05-30T04:43:29Z&spr=https&sv=2018-03-28&sig=DoW0m70i8qr7rvIogPM22OCCpa8uO%2BNP6hwqyqkbadw%3D&sr=b');
+      '?sp=racwl&st=2020-04-02T17:34:14Z&se=2020-06-03T17:34:00Z&sv=2019-02-02&sr=b&sig=LlmmzW0nvLOgpfIVYPZmYoCEJ4A2HjxnYJdwiBeka7I%3D');
     this.uploadSingleData('aircrafts-info.json', JSON.stringify(this.currentTypes),
-      '?sp=racwdl&st=2020-02-26T12:59:56Z&se=2020-02-27T12:59:56Z&sv=2019-02-02&sr=b&sig=UlOcDwI5vDlo0QZlqvTnK7YiU6aRAlxoSqQ4wcSJYT0%3D');
+      '?sp=racwl&st=2020-04-02T17:32:49Z&se=2020-06-03T17:32:00Z&sv=2019-02-02&sr=b&sig=7R4rN%2B0VgqpK1OUPDRblxcAQ4er%2BHzulz5IicR7Qa0E%3D');
   }
 
   public saveRoutes() {
     this.uploadSingleData('routes.json', JSON.stringify(this.routes),
-      '?sp=racwdl&st=2020-03-04T17:04:59Z&se=2020-06-05T21:04:00Z&sv=2019-02-02&sr=b&sig=iignx59ZI14PWVPssfx1kevvIfOHkcOzSElD4F1QcLY%3D')
+      '?sp=racwl&st=2020-04-02T17:34:41Z&se=2020-06-03T17:34:00Z&sv=2019-02-02&sr=b&sig=dKX1I5WZpjE%2FtCS6bySjJ0WlugQrXNN16uq6t0043Rg%3D')
   }
 
   public uploadData() {
@@ -158,7 +158,7 @@ export class DataService {
 
   public uploadSingleData(name: string, content: string, sas: string) {
     const sasToken = sas;
-    const url = 'https://matasstorage.blob.core.windows.net/matas/' + name + sasToken;
+    const url = 'https://matasstorage.blob.core.windows.net/matas-dev/' + name + sasToken;
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json; charset=UTF-8',
