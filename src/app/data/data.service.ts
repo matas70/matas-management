@@ -18,9 +18,9 @@ import {AddUpdateMatasMetadata} from "../reducers/matas-metadata.actions";
 import {map} from "rxjs/operators";
 
 
-const AIRCRAFTS_INFO = "https://matasisrael.blob.core.windows.net/matas/aircrafts-info.json";
-const AIRCRAFTS = "https://matasisrael.blob.core.windows.net/matas/aircrafts.json";
-const CATEGORIES = "https://matasisrael.blob.core.windows.net/matas/categories.json";
+const AIRCRAFTS_INFO = "https://matasisrael.blob.core.windows.net/matas-dev/aircrafts-info.json";
+const AIRCRAFTS = "https://matasisrael.blob.core.windows.net/matas-dev/aircrafts.json";
+const CATEGORIES = "https://matasisrael.blob.core.windows.net/matas-dev/categories.json";
 const ROUTES = "https://matasisrael.blob.core.windows.net/matas/routes.json";
 const POINTS = "https://matasisrael.blob.core.windows.net/matas/points.json";
 
