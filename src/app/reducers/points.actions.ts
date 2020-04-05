@@ -1,6 +1,6 @@
-import {Action} from "@ngrx/store";
-import {ActionType} from "./action-types.enum";
-import {Point} from "../models/point.model";
+import {Action} from '@ngrx/store';
+import {ActionType} from './action-types.enum';
+import {Point} from '../models/point.model';
 
 export class SetPoints implements Action {
   type: ActionType = ActionType.SET_POINTS;

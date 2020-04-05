@@ -6,7 +6,7 @@ import {
   OnChanges,
   Output,
   ɵlooseIdentical as looseIdentical
-} from "@angular/core";
+} from '@angular/core';
 
 @Directive({
   selector: '[contenteditableModel]',

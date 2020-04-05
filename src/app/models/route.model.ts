@@ -1,4 +1,4 @@
-import {Point} from "./point.model";
+import {Point} from './point.model';
 
 export class Route {
   routeId: number;
@@ -7,9 +7,9 @@ export class Route {
   primaryTextColor: string;
   secondaryTextColor: string;
   visible: boolean;
-  points: Point[]=[];
+  points: Point[] = [];
 
-  //should be a json object
+  // should be a json object
   setJson(obj: any) {
     this.routeId = obj.routeId;
     this.name = obj.name;
@@ -17,7 +17,7 @@ export class Route {
     this.primaryTextColor = obj.primaryTextColor;
     this.secondaryTextColor = obj.secondaryTextColor;
     this.visible = obj.visible;
-    for( let tuple of obj.points){
+    for (let tuple of obj.points) {
       this.points.push(new Point().setJson(tuple))
     }
 

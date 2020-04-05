@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import {Store} from '@ngrx/store';
 
 import { AircraftType } from '../../models/aircraft-type.model';
@@ -26,32 +26,32 @@ export class DataFormsAircraftTypeComponent implements OnInit {
     constructor(public dialogRef: MatDialogRef<DataFormsAircraftTypeComponent>,
                 @Inject(MAT_DIALOG_DATA) public aircraftTypeData: AircraftType,
                 public store: Store<any>, private dataService: DataService) {
-      this.store.select("aircraftTypes").subscribe((types) => {
+      this.store.select('aircraftTypes').subscribe((types) => {
         this.types = Array.from(types.values())
       });
      }
 
     ngOnInit() {
-      if (this.aircraftTypeData.name == "new") {
+      if (this.aircraftTypeData.name == 'new') {
         this.isEditing = true;
       }
       if (this.aircraftTypeData.name == undefined) {
         this.aircraftTypeData = new AircraftType();
-        this.store.select("aircraftTypes").subscribe((types: Map<number, AircraftType>) => {
+        this.store.select('aircraftTypes').subscribe((types: Map<number, AircraftType>) => {
           this.aircraftTypeData.aircraftTypeId = Array.from(types.values()).length + 1;
         });
-        this.aircraftTypeData.name = "";
-        this.aircraftTypeData.category = "";
-        this.aircraftTypeData.type = "";
-        this.aircraftTypeData.icon = "";
-        this.aircraftTypeData.image = "";
-        this.aircraftTypeData.classification = "";
-        this.aircraftTypeData.description = "";
-        this.aircraftTypeData.manufactured = "";
-        this.aircraftTypeData.dimensions = "";
-        this.aircraftTypeData.performance = "";
-        this.aircraftTypeData.weight = "";
-        this.aircraftTypeData.engine = "";
+        this.aircraftTypeData.name = '';
+        this.aircraftTypeData.category = '';
+        this.aircraftTypeData.type = '';
+        this.aircraftTypeData.icon = '';
+        this.aircraftTypeData.image = '';
+        this.aircraftTypeData.classification = '';
+        this.aircraftTypeData.description = '';
+        this.aircraftTypeData.manufactured = '';
+        this.aircraftTypeData.dimensions = '';
+        this.aircraftTypeData.performance = '';
+        this.aircraftTypeData.weight = '';
+        this.aircraftTypeData.engine = '';
       }
     }
 

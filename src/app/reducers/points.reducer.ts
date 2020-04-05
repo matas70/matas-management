@@ -1,6 +1,6 @@
-import {PointsActionsUnion} from "./points.actions";
-import {ActionType} from "./action-types.enum";
-import {Point} from "../models/point.model";
+import {PointsActionsUnion} from './points.actions';
+import {ActionType} from './action-types.enum';
+import {Point} from '../models/point.model';
 
 export function pointsReducer(state = new Map<number, Point>(), action: any) {
   switch (action.type) {

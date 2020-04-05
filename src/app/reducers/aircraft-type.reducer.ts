@@ -1,5 +1,5 @@
-import {ActionType} from "./action-types.enum";
-import {AircraftType} from "../models/aircraft-type.model";
+import {ActionType} from './action-types.enum';
+import {AircraftType} from '../models/aircraft-type.model';
 
 export function aircraftTypesReducer(state: Map<number, AircraftType> = new Map(), action: any) {
   switch (action.type) {

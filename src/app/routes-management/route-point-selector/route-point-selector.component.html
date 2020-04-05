@@ -1,0 +1,8 @@
+<img  style="width: 15px; height: 15px; cursor: pointer;" src="/assets/Delete.png" (click)="pointRemoved.emit()">
+<mat-form-field>
+  <mat-label>ישוב</mat-label>
+  <mat-select [formControl]="currentPointControl" (valueChange)="currentPointChanged($event)">
+    <mat-option *ngFor="let point of availablePoints" [value]="point">{{point.pointName}}</mat-option>
+  </mat-select>
+</mat-form-field>
+<mat-checkbox [checked]="this.currentPoint?.hidden" (change)="pointVisibilityChange.emit($event.checked)">הסתר נקודה</mat-checkbox>

@@ -1,6 +1,6 @@
-import {Action} from "@ngrx/store";
-import {ActionType} from "./action-types.enum";
-import {Aircraft} from "../models/aircraft.model";
+import {Action} from '@ngrx/store';
+import {ActionType} from './action-types.enum';
+import {Aircraft} from '../models/aircraft.model';
 
 export class SetAircraft implements Action {
   type: ActionType = ActionType.SET_AIRCRAFT;

@@ -1,4 +1,4 @@
-import {Aircraft, TableAircraft} from "./aircraft.model";
+import {Aircraft, TableAircraft} from './aircraft.model';
 
 export class Point {
   pointId: number;
