@@ -12,6 +12,7 @@ import { AddUpdatePoint } from 'src/app/reducers/points.actions';
 export class DataFormsPointComponent implements OnInit {
 
     private latestId: number = 1;
+    public types = [{displayName: "ללא", value: ""}, {displayName: "בסיס", value: "base"}, {displayName: "בית חולים", value: "hospital"}];
 
     constructor(public dialogRef: MatDialogRef<DataFormsPointComponent>,
                 @Inject(MAT_DIALOG_DATA) public pointData: Point,
@@ -44,6 +45,7 @@ export class DataFormsPointComponent implements OnInit {
           this.pointData.hidden = false;
           this.pointData.hideAircrafts = false;
           this.pointData.exhibitions = "";
+          this.pointData.type = "";
         }
     }
 
