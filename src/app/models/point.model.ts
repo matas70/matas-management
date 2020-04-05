@@ -11,6 +11,7 @@ export class Point {
   exhibitions: string;
   hidden: boolean = false;
   hideAircrafts: boolean = false;
+  type: string;
 
   setJson(obj: any) {
     this.pointId = obj.pointId;
@@ -23,12 +24,13 @@ export class Point {
     this.wazeLink = obj.wazeLink;
     this.activeTimes = obj.activeTimes;
     this.exhibitions = obj.exhibitions;
+    this.type = obj.type;
 
     return this;
   }
 
   constructor(pointId?: number, E?: number, N?: number, pointName?: string,
-              pointLocation?: string, wazeLink?:string, activeTimes?: string, hidden?: boolean, hideAircrafts?: boolean, exhibitions?: string) {
+              pointLocation?: string, wazeLink?: string, activeTimes?: string, hidden?: boolean, hideAircrafts?: boolean, exhibitions?: string, type?: string) {
     this.pointId = pointId;
     this.E = E;
     this.N = N;
@@ -39,6 +41,7 @@ export class Point {
     this.hidden = hidden;
     this.hideAircrafts = hideAircrafts;
     this.exhibitions = exhibitions;
+    this.type = type;
   }
 
   /* constructor(pointId: number, E: number, N: number, pointName: string, hidden?: boolean, hideAircrafts?: boolean) {
