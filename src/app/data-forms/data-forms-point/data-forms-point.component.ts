@@ -52,6 +52,7 @@ export class DataFormsPointComponent implements OnInit {
           this.pointData.hideAircrafts = false;
           this.pointData.type = "";
           this.pointData.exhibitions = '';
+          this.pointData.youtubeLink = undefined;
         }
     }
 

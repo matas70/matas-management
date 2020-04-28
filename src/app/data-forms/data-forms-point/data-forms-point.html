@@ -22,6 +22,9 @@
     <input matInput placeholder="תערוכות" [(ngModel)]="pointData.exhibitions">
   </mat-form-field>
   <mat-form-field>
+    <input matInput placeholder="לינק ל-YouTube" [(ngModel)]="pointData.youtubeLink">
+  </mat-form-field>
+  <mat-form-field>
     <mat-select placeholder="סוג" [(ngModel)]="pointData.type" [value]="types[0]">
       <mat-option [value]="type.value" *ngFor="let type of types">{{type.displayName}}</mat-option>
     </mat-select>

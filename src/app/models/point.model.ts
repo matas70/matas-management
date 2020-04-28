@@ -12,6 +12,7 @@ export class Point {
   hidden: boolean = false;
   hideAircrafts: boolean = false;
   type: string;
+  youtubeLink: string;
 
   setJson(obj: any) {
     this.pointId = obj.pointId;
