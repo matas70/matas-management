@@ -92,6 +92,7 @@ export class ManagementTableComponent implements OnInit, AfterViewInit {
   }
 
   editPoint(point: { point: Point, aircrafts: { aircraft: Aircraft, time: string }[] }) {
+    
     this.dialog.open(DataFormsPointComponent, {
       width: '300px',
       data: {...point.point}
@@ -103,6 +104,7 @@ export class ManagementTableComponent implements OnInit, AfterViewInit {
   }
 
   editAircraft(ac: Aircraft) {
+    
     this.dialog.open(DataFormsAircraftComponent, {
       width: '300px',
       data: {...ac}

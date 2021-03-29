@@ -1,0 +1,20 @@
+mat-toolbar {
+    padding: 0;
+    background-color: white;
+    margin: auto;
+}
+
+.save-indicator {
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+    background-color: rgb(255, 19, 98);
+    position: absolute;
+    left: 32px;
+    top: 29px;
+    animation: .5s indicator cubic-bezier(0.17, 1.74, 0.58, 1);
+}
+
+@keyframes indicator {
+    from { transform: scale(0); }
+}

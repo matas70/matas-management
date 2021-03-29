@@ -2,7 +2,8 @@
 <!--<div style="text-align:center">-->
 <!--<app-data-forms></app-data-forms>-->
 <!--</div>-->
-<div>
+
+<div class="container">
   <mat-toolbar dir="rtl">
     <button mat-icon-button [matMenuTriggerFor]="menu">
       <mat-icon>menu</mat-icon>
@@ -33,7 +34,9 @@
         <span>שמור נתיבים</span>
       </button>
     </mat-menu>
-    <span style="margin: 0 auto;">טבלת מטסים</span>
+    <img style="margin: 0 auto;" src="./assets/headerLogo.svg" height="35px">
+    <img style="margin: 8px; cursor: pointer;" src="./assets/save.svg" (click)="saveAll()" >
+    <div *ngIf="unsavedChanged" class="save-indicator"></div>
   </mat-toolbar>
   <mat-tab-group>
     <mat-tab label="ניהול מטוסים">
