@@ -25,6 +25,7 @@ export class AppComponent {
   public subject: Subject<any> = new Subject();
 
   constructor(private store: Store<any>, private data: DataService, public dialog: MatDialog) {
+  public unsavedChanged = false;
     data.loadData();
     store.select('aircraft').subscribe(aircraft => {
       console.log(aircraft);
@@ -36,6 +37,11 @@ export class AppComponent {
         this.matasMetadata = metaData;
       }
     });
+  }
+
+  saveAll() {
+    this.saveClicked();
+    this.saveRoutesClicked();
   }
 
   saveClicked() {
