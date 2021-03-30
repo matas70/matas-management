@@ -1,4 +1,4 @@
-<img  style="width: 15px; height: 15px; cursor: pointer;" src="/assets/Delete.png" (click)="pointRemoved.emit()">
+<img  class="actionButton" src="/assets/trash.svg" (click)="pointRemoved.emit()">
 <mat-form-field>
   <mat-label>ישוב</mat-label>
   <mat-select [formControl]="currentPointControl" (valueChange)="currentPointChanged($event)">
