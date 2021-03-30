@@ -55,12 +55,22 @@ export class RoutesManagementComponent implements OnInit {
   ngOnInit() {
     this._store.select('routes').subscribe((routes: Map<number, Route>) => {
       this.routes = Array.from(routes.values());
+      
       // this.fixRouteColors();
     });
 
     this._store.select('points').subscribe((points: Map<number, Point>) => {
-      this.points = Array.from(points.values());
+      console.log(this.compare(points));
     });
+  }
+
+  private async compare(points) {
+    const tempPoints = this.points;
+    this.points = await Array.from(points.values());
+
+    for (let i in tempPoints) {
+      console.log(JSON.stringify(this.points).includes(`"pointId":${tempPoints[i].pointId}`))
+    }
   }
 
   private fixRouteColors() {

@@ -2,7 +2,24 @@
 <!--<div style="text-align:center">-->
 <!--<app-data-forms></app-data-forms>-->
 <!--</div>-->
-<div>
+
+<style>
+  .loader {
+    animation: loadingUp .5s cubic-bezier(0.075, 0.82, 0.165, 1);
+  }
+  @keyframes loadingUp {
+    from { transform: translateY(50px); }
+  }
+</style>
+
+<div class="loader" style="width: 100vw; height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; position: absolute; background-color: rgba(255, 255, 255, 0.486); backdrop-filter: blur(10px); z-index: 9999;" *ngIf="!readyState">
+  <img src="../assets/headerLogo.svg" height="100px">
+  
+  <br>
+  רק רגע
+</div>
+
+<div class="container">
   <mat-toolbar dir="rtl">
     <button mat-icon-button [matMenuTriggerFor]="menu">
       <mat-icon>menu</mat-icon>
@@ -33,11 +50,13 @@
         <span>שמור נתיבים</span>
       </button>
     </mat-menu>
-    <span style="margin: 0 auto;">טבלת מטסים</span>
+    <img style="margin: 0 auto;" src="./assets/headerLogo.svg" height="35px">
+    <img style="margin: 8px; cursor: pointer;" src="./assets/save.svg" (click)="saveAll()" >
+    <div *ngIf="unsavedChanged" class="save-indicator"></div>
   </mat-toolbar>
   <mat-tab-group>
     <mat-tab label="ניהול מטוסים">
-            <app-management-table [savePerformed]="subject"></app-management-table>
+      <app-management-table [savePerformed]="subject"></app-management-table>
     </mat-tab>
     <mat-tab label="ניהול נתיבים">
       <routes-management></routes-management>

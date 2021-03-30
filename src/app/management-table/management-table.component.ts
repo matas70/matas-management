@@ -14,6 +14,7 @@ import {DeletePoint} from '../reducers/points.actions';
 import {DataFormsAircraftComponent} from '../data-forms/data-forms-aircraft/data-forms-aircraft.component';
 import {MatTableDataSource} from "@angular/material/table";
 import {MatSort} from "@angular/material/sort";
+import { DataFormsTimeOffsetComponent } from '../data-forms/time-offset/data-forms-offset.component';
 
 @Component({
   selector: 'app-management-table',
@@ -92,6 +93,7 @@ export class ManagementTableComponent implements OnInit, AfterViewInit {
   }
 
   editPoint(point: { point: Point, aircrafts: { aircraft: Aircraft, time: string }[] }) {
+    
     this.dialog.open(DataFormsPointComponent, {
       width: '300px',
       data: {...point.point}
@@ -103,6 +105,7 @@ export class ManagementTableComponent implements OnInit, AfterViewInit {
   }
 
   editAircraft(ac: Aircraft) {
+    
     this.dialog.open(DataFormsAircraftComponent, {
       width: '300px',
       data: {...ac}
@@ -112,6 +115,13 @@ export class ManagementTableComponent implements OnInit, AfterViewInit {
   deleteAircraft(ac: Aircraft) {
     this.displayedColumns.splice(this.displayedColumns.findIndex((col) => col === 'time-' + ac.aircraftId));
     this.store.dispatch(new DeleteAircraft({aircraft: ac}));
+  }
+
+  offsetAircraftTime(ac: Aircraft) {
+    this.dialog.open(DataFormsTimeOffsetComponent, {
+      width: '300px',
+      data: {...ac}
+    });
   }
 
   getTimeOfAircraftOnPoint(aircraft: Aircraft, point: Point) {

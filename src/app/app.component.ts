@@ -13,6 +13,7 @@ import { DataFormsMetadataComponent } from './data-forms/data-forms-metadata/dat
 import { MatasMetadata } from './models/matas-metadata.model';
 import {Subject} from 'rxjs';
 import {DataFormsNotificationComponent} from './data-forms/data-forms-notification/data-forms-notification.component';
+import { ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: 'app-root',
@@ -21,21 +22,62 @@ import {DataFormsNotificationComponent} from './data-forms/data-forms-notificati
 })
 export class AppComponent {
   title = 'matas-management';
-  matasMetadata: MatasMetadata;
-  public subject: Subject<any> = new Subject();
+  matasMetadata: MatasMetadata = undefined;
 
+  public subject: Subject<any> = new Subject();
+  dataPulse = 0;
+  public unsavedChanged = false;
+
+  readyState = false;
+  
   constructor(private store: Store<any>, private data: DataService, public dialog: MatDialog) {
     data.loadData();
+
+    
+
     store.select('aircraft').subscribe(aircraft => {
+      this.dataPulse++;
+      if (this.dataPulse > 10) this.unsavedChanged = true;
+      if (this.dataPulse > 9) this.readyState = true;
       console.log(aircraft);
     });
 
     store.select('matasMetadata').subscribe((metaData) => {
-      console.log(metaData);
+      this.dataPulse++;
+      if (this.dataPulse > 10) this.unsavedChanged = true;
+      if (this.dataPulse > 9) this.readyState = true;
+      console.log(this.matasMetadata);
       if (metaData != undefined) {
         this.matasMetadata = metaData;
       }
     });
+
+    this.store.select('points').subscribe(data => {
+      console.log(data);
+      this.dataPulse++;
+      if (this.dataPulse > 10) this.unsavedChanged = true;
+      if (this.dataPulse > 9) this.readyState = true;
+    });
+
+    this.store.select('aircraftTypes').subscribe(data => {
+      console.log(data);
+      this.dataPulse++;
+      if (this.dataPulse > 10) this.unsavedChanged = true;
+      if (this.dataPulse > 9) this.readyState = true;
+    });
+
+    this.store.select('routes').subscribe(data => {
+      console.log(data);
+      this.dataPulse++;
+      if (this.dataPulse > 10) this.unsavedChanged = true;
+      if (this.dataPulse > 9) this.readyState = true;
+    });
+  }
+
+  saveAll() {
+    this.saveClicked();
+    this.saveRoutesClicked();
+    this.unsavedChanged = false;
   }
 
   saveClicked() {
