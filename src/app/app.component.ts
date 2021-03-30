@@ -25,15 +25,17 @@ export class AppComponent {
   matasMetadata: MatasMetadata = undefined;
 
   public subject: Subject<any> = new Subject();
-  dataPulse = 0;
+  private dataPulse = 0;
   public unsavedChanged = false;
-
-  readyState = false;
+  public readyState = false;
   
   constructor(private store: Store<any>, private data: DataService, public dialog: MatDialog) {
-    data.loadData();
 
-    
+    data.activatedRoute.queryParams.subscribe(params => {
+      if (params['_x']?.length > 10) {
+        data.loadData();
+      }
+    });
 
     store.select('aircraft').subscribe(aircraft => {
       this.dataPulse++;

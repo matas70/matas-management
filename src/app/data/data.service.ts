@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Injectable, OnInit} from '@angular/core';
 import {BehaviorSubject, forkJoin, from, Observable, Subject} from 'rxjs';
 import {AircraftType} from '../models/aircraft-type.model';
 import {Point} from '../models/point.model';
@@ -16,6 +16,7 @@ import {MatasMetadata} from '../models/matas-metadata.model';
 import {AddUpdateMatasMetadata} from '../reducers/matas-metadata.actions';
 import {map} from 'rxjs/operators';
 import {SetRoutes} from "../reducers/routes.actions";
+import { ActivatedRoute } from '@angular/router';
 
 
 const AIRCRAFTS_INFO = 'https://matasstorage.blob.core.windows.net/matas-dev/aircrafts-info.json';
@@ -40,8 +41,9 @@ export class DataService {
   private currentTypes: { aircraftTypes: AircraftType[] };
   private currentMeta: MatasMetadata;
 
+  private key: String;
 
-  constructor(private http: HttpClient, private store: Store<any>) {
+  constructor(public activatedRoute: ActivatedRoute, private http: HttpClient, private store: Store<any>) {
     this.store.select('aircraft').pipe(map((acss: Map<number, Aircraft>) => {
       return Array.from(acss.values()).map((acIn: Aircraft) => {
         if (acIn.special === 'מופעים אווירובטיים' || acIn.special === 'מופעים אוויריים') {
@@ -57,8 +59,11 @@ export class DataService {
     this.store.select('aircraftTypes').subscribe((types: Map<number, AircraftType>) => this.currentTypes = {aircraftTypes: Array.from(types.values())});
     this.store.select('matasMetadata').subscribe((mets) => this.currentMeta = mets);
     this.store.select('routes').subscribe((routes: Map<number, Route>) => this.routes = {routes: Array.from(routes.values())});
-  }
 
+    this.activatedRoute.queryParams.subscribe(params => {
+      this.key = params['_x'];
+    });
+  }
 
   public loadData() {
 
@@ -158,7 +163,7 @@ export class DataService {
 
   public uploadSingleData(name: string, content: string, sas: string) {
     const sasToken = sas;
-    const url = 'https://matasstorage.blob.core.windows.net/matas-dev/' + name + '?sp=rwl&st=2021-03-30T10:34:00Z&se=2022-12-30T12:34:00Z&sv=2020-02-10&sr=c&sig=da8KeVAmqo%2BNOfS8sHOm5MecDsSluGi7kZcmIKKYHec%3D';
+    const url = 'https://matasstorage.blob.core.windows.net/matas-dev/' + name + `?sp=rwl&st=2021-03-30T10:34:00Z&se=2022-12-30T12:34:00Z&sv=2020-02-10&sr=c&sig=da8KeVAmqo%2B${this.key}%3D`;
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json; charset=UTF-8',
