@@ -28,6 +28,7 @@ export class AppComponent {
   private dataPulse = 0;
   public unsavedChanged = false;
   public readyState = false;
+  public loadingText = "רק רגע"
   
   constructor(private store: Store<any>, private data: DataService, public dialog: MatDialog) {
 
@@ -35,6 +36,12 @@ export class AppComponent {
       if (params['_x']?.length > 10) {
         data.loadData();
       }
+
+      setTimeout(() => {
+        if (params['_x']?.length < 10) {
+          this.loadingText = "יש מצב שאתם.. אפילו אם בטעות, לא במקום הנכון?"
+        }
+      }, 2000);
     });
 
     store.select('aircraft').subscribe(aircraft => {
