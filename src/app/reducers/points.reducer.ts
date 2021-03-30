@@ -15,6 +15,7 @@ export function pointsReducer(state = new Map<number, Point>(), action: any) {
     case (ActionType.DELETE_POINT): {
       let newMap = new Map(state);
       newMap.delete(action.payload.point.pointId);
+      
       return newMap;
     }
     default:

@@ -62,11 +62,11 @@ export class DataService {
 
   public loadData() {
 
-    const obs1 = this.http.get(AIRCRAFTS_INFO);
-    const obs2 = this.http.get(AIRCRAFTS);
-    const obs3 = this.http.get(CATEGORIES);
-    const obs4 = this.http.get(ROUTES);
-    const obs5 = this.http.get(POINTS);
+    const obs1 = this.http.get(AIRCRAFTS_INFO + `?_v=${Date.now()}`);
+    const obs2 = this.http.get(AIRCRAFTS + `?_v=${Date.now()}`);
+    const obs3 = this.http.get(CATEGORIES + `?_v=${Date.now()}`);
+    const obs4 = this.http.get(ROUTES + `?_v=${Date.now()}`);
+    const obs5 = this.http.get(POINTS + `?_v=${Date.now()}`);
     forkJoin(obs1, obs2, obs3, obs4, obs5).subscribe((response: any[]) => {
       const aircraftsinfoJSON = response[0].aircraftTypes;
       const aircraftsJSON = response[1];
@@ -158,7 +158,7 @@ export class DataService {
 
   public uploadSingleData(name: string, content: string, sas: string) {
     const sasToken = sas;
-    const url = 'https://matasstorage.blob.core.windows.net/matas-dev/' + name + sasToken;
+    const url = 'https://matasstorage.blob.core.windows.net/matas-dev/' + name + '?sp=rwl&st=2021-03-30T10:34:00Z&se=2022-12-30T12:34:00Z&sv=2020-02-10&sr=c&sig=da8KeVAmqo%2BNOfS8sHOm5MecDsSluGi7kZcmIKKYHec%3D';
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json; charset=UTF-8',

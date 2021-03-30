@@ -28,7 +28,7 @@ export class AppComponent {
   dataPulse = 0;
   public unsavedChanged = false;
   
-  constructor(private route: ActivatedRoute, private store: Store<any>, private data: DataService, public dialog: MatDialog) {
+  constructor(private store: Store<any>, private data: DataService, public dialog: MatDialog) {
     data.loadData();
 
     
@@ -65,8 +65,6 @@ export class AppComponent {
       this.dataPulse++;
       if (this.dataPulse > 10) this.unsavedChanged = true;
     });
-  }
-
   }
 
   saveAll() {
