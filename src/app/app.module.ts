@@ -31,6 +31,7 @@ import {DragDropModule} from "@angular/cdk/drag-drop";
 import { RoutePointSelectorComponent } from './routes-management/route-point-selector/route-point-selector.component';
 import {ColorPickerModule} from "ngx-color-picker";
 import {MatCheckboxModule} from "@angular/material/checkbox";
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -66,6 +67,7 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireFunctionsModule,
     MatCheckboxModule,
+    RouterModule.forRoot([])
   ],
   providers: [DataService,
     { provide: FunctionsRegionToken, useValue: 'europe-west1' }

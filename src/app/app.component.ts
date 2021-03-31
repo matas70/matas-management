@@ -25,15 +25,24 @@ export class AppComponent {
   matasMetadata: MatasMetadata = undefined;
 
   public subject: Subject<any> = new Subject();
-  dataPulse = 0;
+  private dataPulse = 0;
   public unsavedChanged = false;
-
-  readyState = false;
+  public readyState = false;
+  public loadingText = "רק רגע"
   
   constructor(private store: Store<any>, private data: DataService, public dialog: MatDialog) {
-    data.loadData();
 
-    
+    data.activatedRoute.queryParams.subscribe(params => {
+      if (params['_x']?.length > 10) {
+        data.loadData();
+      }
+
+      setTimeout(() => {
+        if (params['_x']?.length < 10) {
+          this.loadingText = "יש מצב שאתם.. אפילו אם בטעות, לא במקום הנכון?"
+        }
+      }, 2000);
+    });
 
     store.select('aircraft').subscribe(aircraft => {
       this.dataPulse++;
