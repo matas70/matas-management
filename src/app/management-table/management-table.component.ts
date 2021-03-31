@@ -111,7 +111,7 @@ export class ManagementTableComponent implements OnInit, AfterViewInit {
  
     for (let i of this.routes) {
       const pointIndex = i[1].points.map(point => point.pointId).indexOf(point.point.pointId);
-      i[1].points.splice(pointIndex, 1);
+      if (pointIndex != -1) i[1].points.splice(pointIndex, 1);
       this.store.dispatch(new AddUpdateRoute({route: i[1]}));
     }
     
