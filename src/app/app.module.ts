@@ -32,6 +32,7 @@ import { RoutePointSelectorComponent } from './routes-management/route-point-sel
 import {ColorPickerModule} from "ngx-color-picker";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import { RouterModule } from '@angular/router';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -67,7 +68,8 @@ import { RouterModule } from '@angular/router';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireFunctionsModule,
     MatCheckboxModule,
-    RouterModule.forRoot([])
+    RouterModule.forRoot([]),
+    MatTooltipModule
   ],
   providers: [DataService,
     { provide: FunctionsRegionToken, useValue: 'europe-west1' }

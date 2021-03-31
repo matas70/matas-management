@@ -19,7 +19,12 @@
       <th mat-header-cell *matHeaderCellDef>פעולות</th>
       <td mat-cell *matCellDef="let model">
         <img src="/assets/edit.svg" class="actionButton" (click)="editPoint(model)">
-        <img src="/assets/trash.svg" class="actionButton" (click)="deletePoint(model)">
+        <button
+          matTooltip="פעולה זו תמחק את העיר מכלל הנתיבים, מסוכן"
+          matTooltipPosition="left"
+          matTooltipClass="tooltip">
+          <img src="/assets/trash.svg" class="actionButton dangerousDelete" (click)="deletePoint(model)">
+        </button>
       </td>
     </ng-container>
 
