@@ -5,6 +5,7 @@ import {combineLatest, forkJoin, Observable, Subject} from 'rxjs';
 import {Aircraft} from '../models/aircraft.model';
 import {Point} from '../models/point.model';
 import { MatDialog } from '@angular/material/dialog';
+import { MatTooltipModule } from '@angular/material/tooltip'
 import iziToast from 'izitoast';
 import {AddUpdateAircraft, DeleteAircraft} from '../reducers/aircraft.actions';
 import {AircraftType} from '../models/aircraft-type.model';
@@ -15,6 +16,8 @@ import {DataFormsAircraftComponent} from '../data-forms/data-forms-aircraft/data
 import {MatTableDataSource} from "@angular/material/table";
 import {MatSort} from "@angular/material/sort";
 import { DataFormsTimeOffsetComponent } from '../data-forms/time-offset/data-forms-offset.component';
+import { Route } from '../models/route.model';
+import { AddUpdateRoute } from '../reducers/routes.actions';
 
 @Component({
   selector: 'app-management-table',
@@ -28,6 +31,7 @@ export class ManagementTableComponent implements OnInit, AfterViewInit {
   private _tableModel: { point: Point, aircrafts: { aircraft: Aircraft, time: string }[] }[] = [];
   private aircraft: Map<number, Aircraft>;
   private points: Map<number, Point>;
+  private routes: Map<number, Route>;
   public aircraftArray: Aircraft[];
   public aircraftTypes: Map<number, AircraftType>;
   public displayedColumns: any[] = [
@@ -46,12 +50,15 @@ export class ManagementTableComponent implements OnInit, AfterViewInit {
   constructor(private store: Store<any>, private dialog: MatDialog, private changeRef: ChangeDetectorRef, private data: DataService) {
     let aircraftObservable = this.store.select('aircraft');
     let pointsObservable = this.store.select('points');
+    let routesObservable = this.store.select('routes');
     data.cats.subscribe((cats) => {
       this.categs = cats.filter(cat => cat.special);
     });
-    combineLatest(aircraftObservable, pointsObservable).subscribe((data: any[]) => {
+    combineLatest(aircraftObservable, pointsObservable, routesObservable).subscribe((data: any[]) => {
       this.aircraft = data[0];
       this.points = data[1];
+      this.routes = data[2];
+      
       this.initTable()
     });
 
@@ -101,11 +108,18 @@ export class ManagementTableComponent implements OnInit, AfterViewInit {
   }
 
   deletePoint(point: {point: Point, aircrafts: {aircraft: Aircraft, time:String}[]}) {
+ 
+    for (let i of this.routes) {
+      const pointIndex = i[1].points.map(point => point.pointId).indexOf(point.point.pointId);
+      i[1].points.splice(pointIndex, 1);
+      this.store.dispatch(new AddUpdateRoute({route: i[1]}));
+    }
+    
     this.store.dispatch(new DeletePoint({point: point.point}));
+    
   }
 
   editAircraft(ac: Aircraft) {
-    
     this.dialog.open(DataFormsAircraftComponent, {
       width: '300px',
       data: {...ac}

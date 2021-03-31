@@ -48,35 +48,30 @@ export class AppComponent {
       this.dataPulse++;
       if (this.dataPulse > 10) this.unsavedChanged = true;
       if (this.dataPulse > 9) this.readyState = true;
-      console.log(aircraft);
     });
 
     store.select('matasMetadata').subscribe((metaData) => {
       this.dataPulse++;
       if (this.dataPulse > 10) this.unsavedChanged = true;
       if (this.dataPulse > 9) this.readyState = true;
-      console.log(this.matasMetadata);
       if (metaData != undefined) {
         this.matasMetadata = metaData;
       }
     });
 
     this.store.select('points').subscribe(data => {
-      console.log(data);
       this.dataPulse++;
       if (this.dataPulse > 10) this.unsavedChanged = true;
       if (this.dataPulse > 9) this.readyState = true;
     });
 
     this.store.select('aircraftTypes').subscribe(data => {
-      console.log(data);
       this.dataPulse++;
       if (this.dataPulse > 10) this.unsavedChanged = true;
       if (this.dataPulse > 9) this.readyState = true;
     });
 
     this.store.select('routes').subscribe(data => {
-      console.log(data);
       this.dataPulse++;
       if (this.dataPulse > 10) this.unsavedChanged = true;
       if (this.dataPulse > 9) this.readyState = true;
