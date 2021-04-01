@@ -27,6 +27,7 @@ export class AppComponent {
   public subject: Subject<any> = new Subject();
   private dataPulse = 0;
   public unsavedChanged = false;
+  public productionPush = false;
   public readyState = false;
   public loadingText = "רק רגע"
   
@@ -38,7 +39,7 @@ export class AppComponent {
       }
 
       setTimeout(() => {
-        if (params['_x']?.length < 10) {
+        if (params['_x']?.length < 10 || !params['_x']) {
           this.loadingText = "יש מצב שאתם.. אפילו אם בטעות, לא במקום הנכון?"
         }
       }, 2000);
@@ -46,13 +47,13 @@ export class AppComponent {
 
     store.select('aircraft').subscribe(aircraft => {
       this.dataPulse++;
-      if (this.dataPulse > 10) this.unsavedChanged = true;
+      if (this.dataPulse > 10) this.unsavedChanges();
       if (this.dataPulse > 9) this.readyState = true;
     });
 
     store.select('matasMetadata').subscribe((metaData) => {
       this.dataPulse++;
-      if (this.dataPulse > 10) this.unsavedChanged = true;
+      if (this.dataPulse > 10) this.unsavedChanges();
       if (this.dataPulse > 9) this.readyState = true;
       if (metaData != undefined) {
         this.matasMetadata = metaData;
@@ -61,36 +62,48 @@ export class AppComponent {
 
     this.store.select('points').subscribe(data => {
       this.dataPulse++;
-      if (this.dataPulse > 10) this.unsavedChanged = true;
+      if (this.dataPulse > 10) this.unsavedChanges();
       if (this.dataPulse > 9) this.readyState = true;
     });
 
     this.store.select('aircraftTypes').subscribe(data => {
       this.dataPulse++;
-      if (this.dataPulse > 10) this.unsavedChanged = true;
+      if (this.dataPulse > 10) this.unsavedChanges();
       if (this.dataPulse > 9) this.readyState = true;
     });
 
     this.store.select('routes').subscribe(data => {
       this.dataPulse++;
-      if (this.dataPulse > 10) this.unsavedChanged = true;
+      if (this.dataPulse > 10) this.unsavedChanges();
       if (this.dataPulse > 9) this.readyState = true;
     });
+  }
+
+  unsavedChanges() {
+    this.unsavedChanged = true;
+    this.productionPush = false;
   }
 
   saveAll() {
     this.saveClicked();
     this.saveRoutesClicked();
     this.unsavedChanged = false;
+    this.productionPush = true;
+  }
+
+  publishProduction() {
+    this.productionPush = false;
+    this.data.tempSave('matas');
+    this.data.saveRoutes('matas');
   }
 
   saveClicked() {
-    this.data.tempSave();
+    this.data.tempSave('matas-dev');
     this.subject.next();
   }
 
   saveRoutesClicked() {
-    this.data.saveRoutes();
+    this.data.saveRoutes('matas-dev');
   }
 
   openDialog(dataType: string): void {

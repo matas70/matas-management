@@ -4,7 +4,7 @@
 <!--</div>-->
 
 <style>
-  .loader {
+  .loader span, img {
     animation: loadingUp .5s cubic-bezier(0.075, 0.82, 0.165, 1);
   }
   @keyframes loadingUp {
@@ -50,7 +50,13 @@
       </button>
     </mat-menu>
     <img style="margin: 0 auto;" src="./assets/headerLogo.svg" height="35px">
-    <img style="margin: 8px; cursor: pointer;" src="./assets/save.svg" (click)="saveAll()" >
+
+    <div [class.disabled]="!productionPush" style="display: flex; align-items: center; cursor: pointer; margin: 8px;" (click)="publishProduction()">
+      <span style="font-size: 14px; font-weight: 600;"> פרסום</span>
+      <img class="save prod" style="width: 24px;" src="./assets/save-production.svg" >
+    </div>
+    
+    <img class="save" src="./assets/save.svg" style="margin-left: 8px;" (click)="saveAll()" >
     <div *ngIf="unsavedChanged" class="save-indicator"></div>
   </mat-toolbar>
   <mat-tab-group>

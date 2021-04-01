@@ -139,19 +139,15 @@ export class DataService {
     return this.routes;
   }
 
-  public tempSave() {
+  public tempSave(env) {
     (this.currentMeta as any).aircrafts = this.currentAircrafts;
-    this.uploadSingleData('aircrafts.json', JSON.stringify(this.currentMeta),
-      '?sp=racwl&st=2020-04-02T17:33:35Z&se=2020-06-03T17:33:00Z&sv=2019-02-02&sr=b&sig=vWdGAtxpdxje3FerSv7Wk1mwZJirTzx83zgPEylkyn4%3D');
-    this.uploadSingleData('points.json', JSON.stringify(this.currentPoints),
-      '?sp=racwl&st=2020-04-02T17:34:14Z&se=2020-06-03T17:34:00Z&sv=2019-02-02&sr=b&sig=LlmmzW0nvLOgpfIVYPZmYoCEJ4A2HjxnYJdwiBeka7I%3D');
-    this.uploadSingleData('aircrafts-info.json', JSON.stringify(this.currentTypes),
-      '?sp=racwl&st=2020-04-02T17:32:49Z&se=2020-06-03T17:32:00Z&sv=2019-02-02&sr=b&sig=7R4rN%2B0VgqpK1OUPDRblxcAQ4er%2BHzulz5IicR7Qa0E%3D');
+    this.uploadSingleData('aircrafts.json', JSON.stringify(this.currentMeta), '', env);
+    this.uploadSingleData('points.json', JSON.stringify(this.currentPoints), '', env);
+    this.uploadSingleData('aircrafts-info.json', JSON.stringify(this.currentTypes), '', env);
   }
 
-  public saveRoutes() {
-    this.uploadSingleData('routes.json', JSON.stringify(this.routes),
-      '?sp=racwl&st=2020-04-02T17:34:41Z&se=2020-06-03T17:34:00Z&sv=2019-02-02&sr=b&sig=dKX1I5WZpjE%2FtCS6bySjJ0WlugQrXNN16uq6t0043Rg%3D')
+  public saveRoutes(env) {
+    this.uploadSingleData('routes.json', JSON.stringify(this.routes), '', env);
   }
 
   public uploadData() {
@@ -161,9 +157,9 @@ export class DataService {
 
   }
 
-  public uploadSingleData(name: string, content: string, sas: string) {
+  public uploadSingleData(name: string, content: string, sas: string, env: string) {
     const sasToken = sas;
-    const url = 'https://matasstorage.blob.core.windows.net/matas-dev/' + name + `?sp=rwl&st=2021-03-30T10:34:00Z&se=2022-12-30T12:34:00Z&sv=2020-02-10&sr=c&sig=da8KeVAmqo%2B${this.key}%3D`;
+    const url = `https://matasstorage.blob.core.windows.net/${env}/` + name + `?sp=rwl&st=2021-03-30T10:34:00Z&se=2022-12-30T12:34:00Z&sv=2020-02-10&sr=c&sig=da8KeVAmqo%2B${this.key}%3D`;
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json; charset=UTF-8',
@@ -172,7 +168,7 @@ export class DataService {
       })
     };
     this.http.put(url, content, httpOptions).subscribe(data => {
-      console.log('BIGUS DICKUS');
+      console.log('UPDATEDUS.');
     });
   }
 

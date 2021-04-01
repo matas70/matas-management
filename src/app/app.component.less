@@ -2,16 +2,31 @@ mat-toolbar {
     padding: 0;
     background-color: white;
     margin: auto;
-}
 
+    .save {
+        
+        border-radius: 4px;
+        padding: 4px;
+        &.prod {
+        }
+        &:hover {
+            cursor: pointer;
+            background-color: #f1f1f1;
+        }
+    }
+}
+.disabled {
+    opacity: .2;
+    pointer-events: none;
+}
 .save-indicator {
     width: 10px;
     height: 10px;
     border-radius: 5px;
     background-color: rgb(255, 19, 98);
     position: absolute;
-    left: 32px;
-    top: 29px;
+    left: 28px;
+    top: 19px;
     animation: .5s indicator cubic-bezier(0.17, 1.74, 0.58, 1);
 }
 
