@@ -11,7 +11,7 @@ import {AddUpdateAircraft, DeleteAircraft} from '../reducers/aircraft.actions';
 import {AircraftType} from '../models/aircraft-type.model';
 import {DataFormsPointComponent} from '../data-forms/data-forms-point/data-forms-point.component';
 import {ActionType} from '../reducers/action-types.enum';
-import {DeletePoint} from '../reducers/points.actions';
+import {AddUpdatePoint, DeletePoint} from '../reducers/points.actions';
 import {DataFormsAircraftComponent} from '../data-forms/data-forms-aircraft/data-forms-aircraft.component';
 import {MatTableDataSource} from "@angular/material/table";
 import {MatSort} from "@angular/material/sort";
@@ -141,7 +141,9 @@ export class ManagementTableComponent implements OnInit, AfterViewInit {
   copyAircraft(ac: Aircraft) {
     let newAC: Aircraft = new Aircraft();
     newAC.aircraftId = this.aircraft.size + 1;
-    newAC.path = ac.path;
+
+    newAC.path = JSON.parse(JSON.stringify(ac.path));
+
     newAC.aircraftTypeId = ac.aircraftTypeId;
     newAC.hide = ac.hide;
     newAC.special = ac.special;
