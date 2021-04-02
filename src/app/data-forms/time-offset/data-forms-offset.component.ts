@@ -37,7 +37,10 @@ export class DataFormsTimeOffsetComponent implements OnInit {
   onOkClick(): void {
     for (let t in this.ac.path) {
       const msWithOffset = Date.parse("05/29/2000 " + this.ac.path[t].time) + parseInt(this.offset)*(60*1000);
-      this.ac.path[t].time = `${new Date(msWithOffset).getHours()}:${new Date(msWithOffset).getMinutes()}:${new Date(msWithOffset).getSeconds()}`;
+      const hrs = new Date(msWithOffset).getHours(),
+            min = new Date(msWithOffset).getMinutes(),
+            sec = new Date(msWithOffset).getSeconds()
+      this.ac.path[t].time = `${("0" + hrs).slice(-2)}:${("0" + min).slice(-2)}:${("0" + sec).slice(-2)}`;
     }
 
     this.store.dispatch(new AddUpdateAircraft({ aircraft: this.ac }));
