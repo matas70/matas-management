@@ -60,17 +60,8 @@ export class RoutesManagementComponent implements OnInit {
     });
 
     this._store.select('points').subscribe((points: Map<number, Point>) => {
-      console.log(this.compare(points));
+      this.points = Array.from(points.values());
     });
-  }
-
-  private async compare(points) {
-    const tempPoints = this.points;
-    this.points = await Array.from(points.values());
-
-    for (let i in tempPoints) {
-      console.log(JSON.stringify(this.points).includes(`"pointId":${tempPoints[i].pointId}`))
-    }
   }
 
   private fixRouteColors() {
