@@ -138,6 +138,16 @@ export class ManagementTableComponent implements OnInit, AfterViewInit {
     });
   }
 
+  copyAircraft(ac: Aircraft) {
+    let newAC: Aircraft = new Aircraft();
+    newAC.aircraftId = this.aircraft.size + 1;
+    newAC.path = ac.path;
+    newAC.aircraftTypeId = ac.aircraftTypeId;
+    newAC.hide = ac.hide;
+    newAC.special = ac.special;
+    this.store.dispatch(new AddUpdateAircraft({ aircraft: newAC }));
+  }
+
   getTimeOfAircraftOnPoint(aircraft: Aircraft, point: Point) {
     // let loc = this.points.get(point.pointId);
     // let foundAircraftFromLoc = this._tableModel.

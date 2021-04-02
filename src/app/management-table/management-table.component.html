@@ -34,6 +34,7 @@
         <img src="/assets/edit.svg" class="actionButton" (click)="editAircraft(aircraft)">
         <img src="/assets/trash.svg" class="actionButton" (click)="deleteAircraft(aircraft)">
         <img src="/assets/clock.svg" class="actionButton" (click)="offsetAircraftTime(aircraft)">
+        <img src="/assets/copy.svg" class="actionButton" (click)="copyAircraft(aircraft)">
 
         <label mat-sort-header="" style="text-align: center;">{{getAircraftTypeName(aircraft) + ' ' + aircraft.aircraftId}}</label>
       </th>
