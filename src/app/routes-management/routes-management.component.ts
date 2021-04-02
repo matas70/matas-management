@@ -20,6 +20,12 @@ export class RoutesManagementComponent implements OnInit {
       "secondaryTextColor": "187aab"
     },
     {
+      "name": "כחול בהיר",
+      "color": "#40e3ff",
+      "primaryTextColor": "ffffff",
+      "secondaryTextColor": "187aab",
+    },
+    {
       "name": "סגול",
       "color": "#bb7aff",
       "primaryTextColor": "ffffff",
@@ -38,8 +44,20 @@ export class RoutesManagementComponent implements OnInit {
       "secondaryTextColor": "64e1a5",
     },
     {
-      "name": "סגול 2",
-      "color": "#bb7aff",
+      "name": "כתום",
+      "color": "#ff7f40",
+      "primaryTextColor": "ffffff",
+      "secondaryTextColor": "187aab",
+    },
+    {
+      "name": "וורוד",
+      "color": "#ff407c",
+      "primaryTextColor": "ffffff",
+      "secondaryTextColor": "187aab",
+    },
+    {
+      "name": "צהוב",
+      "color": "#ffeb3b",
       "primaryTextColor": "ffffff",
       "secondaryTextColor": "187aab",
     }
