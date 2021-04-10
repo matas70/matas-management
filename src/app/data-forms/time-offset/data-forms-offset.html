@@ -22,10 +22,11 @@
 </style>
 
 <div class="container">
-  <input placeholder="0" class="input" type="text" (keyup)="offsetMinutes($event)">
+  <input value="00:00:00" class="input" type="text" (keyup)="offsetMinutes($event)">
 </div>
 
 <div class="buttons">
-  <button mat-button (click)="onOkClick()">עדכן מטוס</button>
+  <button mat-button (click)="onOkClick(true)">הוסף זמן</button>
+  <button mat-button (click)="onOkClick(false)">החסר זמן</button>
   <button mat-button (click)="onNoClick()">בטל</button>
 </div>

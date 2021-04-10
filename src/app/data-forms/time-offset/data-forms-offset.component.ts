@@ -25,7 +25,7 @@ export class DataFormsTimeOffsetComponent implements OnInit {
 
   }
 
-  offset = "0";
+  offset = "00:00:00";
   offsetMinutes(e) {
     this.offset = e.target.value;
   }
@@ -34,9 +34,12 @@ export class DataFormsTimeOffsetComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  onOkClick(): void {
+  onOkClick(addToTime): void {
     for (let t in this.ac.path) {
-      const msWithOffset = Date.parse("05/29/2000 " + this.ac.path[t].time) + parseInt(this.offset)*(60*1000);
+      const offsetTimes = this.offset.split(":");
+      let msToAdd = parseInt(offsetTimes[0])*(60*60*1000) + parseInt(offsetTimes[1])*(60*1000) + parseInt(offsetTimes[2])*1000;
+      if (addToTime === false) msToAdd *= -1;
+      const msWithOffset = Date.parse("05/29/2000 " + this.ac.path[t].time) + msToAdd;
       const hrs = new Date(msWithOffset).getHours(),
             min = new Date(msWithOffset).getMinutes(),
             sec = new Date(msWithOffset).getSeconds()
