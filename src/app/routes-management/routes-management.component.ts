@@ -147,7 +147,7 @@ export class RoutesManagementComponent implements OnInit {
   }
 
   addRoute() {
-    let route = new Route(this.routes.length + 2, `מסלול ${this.routes.length + 2}`, "#FF0000");
+    let route = new Route(this.routes[this.routes.length-1].routeId + 1, `מסלול ${this.routes[this.routes.length-1].routeId + 1}`, "#FF0000");
     this.routes.push(route);
     this.updateRoute(route);
   }
