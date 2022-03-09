@@ -60,6 +60,18 @@ export class RoutesManagementComponent implements OnInit {
       "color": "#ffeb3b",
       "primaryTextColor": "ffffff",
       "secondaryTextColor": "187aab",
+    },
+    {
+      "name": "תצפית - שקוף",
+      "color": "#ffffff00",
+      "primaryTextColor": "ffffff",
+      "secondaryTextColor": "187aab",
+    },
+    {
+      "name": "בסיס - שקוף",
+      "color": "#00000000",
+      "primaryTextColor": "ffffff",
+      "secondaryTextColor": "187aab",
     }
   ];
 
