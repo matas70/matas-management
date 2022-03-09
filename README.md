@@ -1,5 +1,8 @@
 # MatasManagement
 
+# Important Information For Development ⚡✋
+Please make sure you are using the correct version of NodeJS. This will not work on the latest versions and requires us to use Node Version Manager (nvm) in order to select a prior version of NodeJS.
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.8.
 
 ## Development server
