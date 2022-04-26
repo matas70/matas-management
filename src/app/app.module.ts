@@ -22,7 +22,7 @@ import {HttpClientModule} from '@angular/common/http';
 import {ContenteditableModel} from './management-table/content-editable.directive';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {CdkTableModule} from '@angular/cdk/table';
-import {AngularFireFunctionsModule, FunctionsRegionToken} from '@angular/fire/functions';
+import {AngularFireFunctionsModule, REGION} from '@angular/fire/functions';
 import {environment} from '../environments/environment';
 import {AngularFireModule} from '@angular/fire';
 import {MatTabsModule} from "@angular/material/tabs";
@@ -72,7 +72,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatTooltipModule
   ],
   providers: [DataService,
-    { provide: FunctionsRegionToken, useValue: 'europe-west1' }
+    { provide: REGION, useValue: 'europe-west1' }
   ],
   bootstrap: [AppComponent]
 })
